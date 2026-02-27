@@ -294,6 +294,19 @@ img {
   pointer-events: none;
 }
 
+.reveal-section {
+  opacity: 0;
+  transform: translateY(4rem);
+  filter: blur(6px);
+  transition: opacity 700ms ease, transform 700ms ease, filter 700ms ease;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 /* Cintillo */
 .cintillo {
   background-color: var(--color-secundario);
