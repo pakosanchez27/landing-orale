@@ -19,6 +19,8 @@ jobs:
             cd ~/domains/oraleweb.com/laravel_app
             git pull origin master
             composer install --no-dev --optimize-autoloader
+            rm -rf ~/domains/oraleweb.com/public_html/build
+            cp -r ~/domains/oraleweb.com/laravel_app/public/build ~/domains/oraleweb.com/public_html/build
             php artisan config:cache
             php artisan route:cache
             php artisan migrate --force
