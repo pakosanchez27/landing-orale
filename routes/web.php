@@ -14,3 +14,7 @@ Route::get('/nosotros', function () {
     return view('pages.nosotros');
 });
 
+Route::get('/demos', function () {
+    return view('pages.demos');
+});
+
