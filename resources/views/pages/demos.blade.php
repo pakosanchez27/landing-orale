@@ -3,8 +3,7 @@
 @section('titulo', 'Demos')
 
 @push('page-styles')
-    @vite(['resources/css/home.css'])
-    @vite(['resources/css/demos.css'])
+    @vite(['resources/css/home.css', 'resources/css/demos.css'])
 @endpush
 
 @section('content')
