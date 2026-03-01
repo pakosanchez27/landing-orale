@@ -8,7 +8,7 @@
 
 @section('content')
     <section class="hero section contenido-centrado nosotros-hero flex flex-col items-center text-center">
-        <p class="badge badge-morado inline font-bold">Sobre nosotros</p>
+        <p class="badge badge-morado inline font-bold">Sobre nosotros 2222</p>
         <h1 class="font-bold nosotros-hero__title">Nuestra <span class="text-gradient">Historia</span></h1>
         <p class="nosotros-hero__lead">En &iexcl;&Oacute;rale Web! somos una agencia mexicana de desarrollo web especializada en emprendedores, negocios
             locales y
