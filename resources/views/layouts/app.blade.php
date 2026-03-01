@@ -27,12 +27,12 @@
             </a>
             <nav class="hidden lg:flex">
                 <ul class="menu flex space-x-8 text-white">
-                    <li><a href="/" class="font-bold active">Inicio</a></li>
-                    <li><a href="/nosotros" class="font-bold">Nosotros</a></li>
-                    <li><a href="/demos" class="font-bold">Demos</a></li>
-                    <li><a href="/blog" class="font-bold">Blog</a></li>
-                    <li><a href="/faq" class="font-bold">FAQ'S</a></li>
-                    <li><a href="/contacto" class="font-bold">Contacto</a></li>
+                    <li><a href="/" class="font-bold {{ request()->is('/') || request()->is('') ? 'active' : '' }}">Inicio</a></li>
+                    <li><a href="/nosotros" class="font-bold {{ request()->is('nosotros*') ? 'active' : '' }}">Nosotros</a></li>
+                    <li><a href="/demos" class="font-bold {{ request()->is('demos*') ? 'active' : '' }}">Demos</a></li>
+                    <li><a href="/blog" class="font-bold {{ request()->is('blog*') ? 'active' : '' }}">Blog</a></li>
+                    <li><a href="/faq" class="font-bold {{ request()->is('faq*') ? 'active' : '' }}">FAQ'S</a></li>
+                    <li><a href="/contacto" class="font-bold {{ request()->is('contacto*') ? 'active' : '' }}">Contacto</a></li>
                 </ul>
             </nav>
             <a href="#" class="btn-primario hidden lg:flex uppercase">
