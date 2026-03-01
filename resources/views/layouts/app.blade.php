@@ -7,11 +7,9 @@
     <title>¡Órale Web! | @yield('titulo')</title>
 
 
-    @vite(['resources/css/normalize.css'])
-    @vite(['resources/css/app.css'])
     @vite(['resources/js/app.js'])
-    @stack('page-styles')
 
+    @stack('page-styles')
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
