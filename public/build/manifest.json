@@ -8,6 +8,15 @@
       "app.css"
     ]
   },
+  "resources/css/demos.css": {
+    "file": "assets/demos-ByUD2jaM.css",
+    "src": "resources/css/demos.css",
+    "isEntry": true,
+    "name": "demos",
+    "names": [
+      "demos.css"
+    ]
+  },
   "resources/css/home.css": {
     "file": "assets/home-MQ1da-Qs.css",
     "src": "resources/css/home.css",
