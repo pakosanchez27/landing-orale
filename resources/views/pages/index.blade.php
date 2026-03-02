@@ -96,7 +96,7 @@
     </section>
 
     <section class="section contenido-centrado">
-        <h2 class="text-center font-bold mb-12 w-3/6 m-auto">
+        <h2 class="text-center font-bold mb-12 w-full md:w-3/6 m-auto flex flex-col justify-center items-center text-center ">
             Lo que obtienes con una
             <span class="text-gradient">página web profesional</span>
         </h2>
@@ -302,7 +302,7 @@
     </section>
 
     <section class="section text-center contenido-centrado">
-        <h2 class="w-3/6 mx-auto">
+        <h2 class="w-full md:w-3/6 mx-auto flex flex-col justify-center items-center text-center font-bold mb-12">
             Selecciona el plan que se
             <span class="text-gradient">adapte a tu negocio</span>
         </h2>

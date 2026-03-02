@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <header class="header section contenido-centrado">
+    <header class="header  contenido-centrado">
         <div class="navegacion flex items-center justify-between">
             <a href="#" class="logo">
                 <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="w-48 object-contain" />
