@@ -40,10 +40,26 @@
             <a href="#" class="btn-primario hidden lg:flex uppercase">
                 Cotizar Ahora
             </a>
-            <a href="" class="mobile lg:hidden">
-                <img src="{{ asset('img/menuMobile.png') }} " alt="" />
-            </a>
+            <button type="button" class="mobile-menu-btn lg:hidden" id="mobile-menu-btn" aria-label="Abrir menu"
+                aria-expanded="false" aria-controls="mobile-menu-panel">
+                <span class="mobile-menu-btn__line"></span>
+                <span class="mobile-menu-btn__line"></span>
+                <span class="mobile-menu-btn__line"></span>
+            </button>
         </div>
+
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay" hidden></div>
+        <nav class="mobile-menu-panel lg:hidden" id="mobile-menu-panel" aria-label="Menu movil" hidden>
+            <ul class="mobile-menu-list">
+                <li><a href="/" class="{{ request()->is('/') || request()->is('') ? 'active' : '' }}">Inicio</a></li>
+                <li><a href="/nosotros" class="{{ request()->is('nosotros*') ? 'active' : '' }}">Nosotros</a></li>
+                <li><a href="/demos" class="{{ request()->is('demos*') ? 'active' : '' }}">Demos</a></li>
+                <li><a href="/blog" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a></li>
+                <li><a href="/faq" class="{{ request()->is('faq*') ? 'active' : '' }}">FAQ'S</a></li>
+                <li><a href="/contacto" class="{{ request()->is('contacto*') ? 'active' : '' }}">Contacto</a></li>
+            </ul>
+            <a href="#" class="btn-primario mobile-menu-cta uppercase">Cotizar Ahora</a>
+        </nav>
     </header>
 
 
