@@ -1,11 +1,29 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-B2t13bAX.css",
+    "file": "assets/app-hm0t89Gc.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
     "names": [
       "app.css"
+    ]
+  },
+  "resources/css/blog-post.css": {
+    "file": "assets/blog-post-BztubN6d.css",
+    "src": "resources/css/blog-post.css",
+    "isEntry": true,
+    "name": "blog-post",
+    "names": [
+      "blog-post.css"
+    ]
+  },
+  "resources/css/blog.css": {
+    "file": "assets/blog-BM3E6EEa.css",
+    "src": "resources/css/blog.css",
+    "isEntry": true,
+    "name": "blog",
+    "names": [
+      "blog.css"
     ]
   },
   "resources/css/demos.css": {
@@ -18,7 +36,7 @@
     ]
   },
   "resources/css/home.css": {
-    "file": "assets/home-MQ1da-Qs.css",
+    "file": "assets/home-D4zqmEwO.css",
     "src": "resources/css/home.css",
     "isEntry": true,
     "name": "home",
@@ -45,12 +63,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DiuXRxCm.js",
+    "file": "assets/app-DYmfiuqm.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-B2t13bAX.css"
+      "assets/app-hm0t89Gc.css"
     ]
   }
 }

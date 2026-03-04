@@ -13,6 +13,8 @@ export default defineConfig({
                 'resources/css/normalize.css',
                 'resources/css/demos.css',
                 'resources/js/app.js',
+                'resources/css/blog.css',
+                'resources/css/blog-post.css'
             ],
             refresh: true,
         }),

@@ -371,7 +371,29 @@ img {
   z-index: 1;
 }
 
+.fondo-secundario{
+  background-color: var(--color-fondo-secundario);
+}
+.fondo-morado{
+  background-color: var(--color-primario);
+}
+.fondo-morado-claro{
+  background-color: var(--color-secundario);
+}
+.fondo-azul{
+  background-color: var(--acento);
+}
 
+.text-morado{
+    color: var(--color-primario);
+}
+
+.text-morado-claro{
+    color: var(--color-secundario);
+}
+.text-azul{
+    color: var(--acento);
+}
 
 .footer {
   border-top: 1px solid rgba(255, 255, 255, 0.12);

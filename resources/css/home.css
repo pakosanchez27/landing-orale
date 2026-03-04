@@ -230,29 +230,7 @@
   letter-spacing: 0.1em;
 }
 
-.fondo-secundario{
-  background-color: var(--color-fondo-secundario);
-}
-.fondo-morado{
-  background-color: var(--color-primario);
-}
-.fondo-morado-claro{
-  background-color: var(--color-secundario);
-}
-.fondo-azul{
-  background-color: var(--acento);
-}
 
-.text-morado{
-    color: var(--color-primario);
-}
-
-.text-morado-claro{
-    color: var(--color-secundario);
-}
-.text-azul{
-    color: var(--acento);
-}
 .card-profesional{
   background-color: var(--color-fondo-secundario);
   padding: 2rem 3rem 0rem 3rem;

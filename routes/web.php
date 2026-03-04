@@ -18,3 +18,10 @@ Route::get('/demos', function () {
     return view('pages.demos');
 });
 
+Route::get('/blog', function () {
+    return view('pages.blog');
+});
+
+Route::get('/blog-post', function () {
+    return view('pages.blog-post');
+})->name('blog.post');
