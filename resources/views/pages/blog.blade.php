@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-    <section class="section blog-recientes">
+    <section class="section ">
         <h1 class="blog-recientes__titulo">Blogs Recientes</h1>
 
         <div class="blog-grid">
