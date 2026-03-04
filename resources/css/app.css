@@ -425,6 +425,14 @@ body.mobile-menu-open {
   overflow: hidden;
 }
 
+@media (min-width: 1024px) {
+  .mobile-menu-btn,
+  .mobile-menu-overlay,
+  .mobile-menu-panel {
+    display: none !important;
+  }
+}
+
 .menu li a:hover {
   color: var(--color-secundario);
 }
