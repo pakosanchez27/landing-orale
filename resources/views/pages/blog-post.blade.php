@@ -49,10 +49,8 @@
             </div>
 
             <section class="blog-post__interaccion" aria-label="Like and comment">
-                <h2>Participa en la conversacion</h2>
-                <div class="blog-post__acciones">
-                    <button type="button" class="post-btn-like" id="show-comment-form">Comentar</button>
-                </div>
+                <h2>Comentarios</h2>
+                <p class="blog-post__hint">Presiona el icono de comentario para escribir.</p>
                 <form class="blog-post__comentario is-hidden" id="comment-form" action="#" method="post">
                     <div class="blog-post__comentario-identidad">
                         <div class="blog-post__campo">
@@ -177,7 +175,6 @@
             const likeTrigger = document.getElementById('like-trigger');
             const likeCount = document.getElementById('like-count');
             const commentTrigger = document.getElementById('comment-trigger');
-            const showCommentFormBtn = document.getElementById('show-comment-form');
             const commentForm = document.getElementById('comment-form');
 
             if (likeTrigger && likeCount) {
@@ -212,7 +209,6 @@
                 if (textarea) textarea.focus();
             };
 
-            if (showCommentFormBtn) showCommentFormBtn.addEventListener('click', openCommentForm);
             if (commentTrigger) commentTrigger.addEventListener('click', openCommentForm);
         })();
     </script>
