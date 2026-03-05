@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="hero-demos section" style="--hero-demos-bg: url('{{ asset('img/demos-hero.png') }}');">
+    <div class="hero-demos section shadow-lg" style="--hero-demos-bg: url('{{ asset('img/demos-hero.png') }}');">
         <section class="section contenido-centrado flex flex-col items-center text-center gap-6 justify-end h-full mt-32">
 
             <h1 class="w-full lg:w-4/6 mx-auto text-center">Explora cómo se vería <span class="text-gradient">tu negocio en
