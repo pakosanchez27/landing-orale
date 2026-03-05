@@ -25,3 +25,11 @@ Route::get('/blog', function () {
 Route::get('/blog-post', function () {
     return view('pages.blog-post');
 })->name('blog.post');
+
+Route::get('/faq', function () {
+    return view('pages.faqs');
+});
+
+Route::get('/contacto', function () {
+    return view('pages.contacto');
+});
