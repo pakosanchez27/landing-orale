@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-C-FN8YBY.css",
+    "file": "assets/app-D8eY3tBY.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -26,6 +26,15 @@
       "blog.css"
     ]
   },
+  "resources/css/contacto.css": {
+    "file": "assets/contacto-DvpNuhgz.css",
+    "src": "resources/css/contacto.css",
+    "isEntry": true,
+    "name": "contacto",
+    "names": [
+      "contacto.css"
+    ]
+  },
   "resources/css/demos.css": {
     "file": "assets/demos-ByUD2jaM.css",
     "src": "resources/css/demos.css",
@@ -33,6 +42,15 @@
     "name": "demos",
     "names": [
       "demos.css"
+    ]
+  },
+  "resources/css/faqs.css": {
+    "file": "assets/faqs-AD0ucFWO.css",
+    "src": "resources/css/faqs.css",
+    "isEntry": true,
+    "name": "faqs",
+    "names": [
+      "faqs.css"
     ]
   },
   "resources/css/home.css": {
@@ -63,12 +81,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-B39kZt-V.js",
+    "file": "assets/app-CN7THb03.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-C-FN8YBY.css"
+      "assets/app-D8eY3tBY.css"
     ]
   }
 }

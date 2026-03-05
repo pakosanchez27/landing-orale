@@ -14,7 +14,9 @@ export default defineConfig({
                 'resources/css/demos.css',
                 'resources/js/app.js',
                 'resources/css/blog.css',
-                'resources/css/blog-post.css'
+                'resources/css/blog-post.css',
+                'resources/css/faqs.css',
+                'resources/css/contacto.css',
             ],
             refresh: true,
         }),
