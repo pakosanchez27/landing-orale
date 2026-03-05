@@ -21,9 +21,9 @@
                 r&aacute;pidos y estrat&eacute;gicos que convierten visitas en
                 oportunidades reales de venta.
             </p>
-            <button class="btn-primario text-2xl uppercase flex m-auto lg:m-0 mb-7">
+            <a href="/contacto" class="btn-primario text-2xl uppercase flex m-auto lg:m-0 mb-7">
                 Quiero mi Web
-            </button>
+            </a>
         </div>
         <div class="hero_imagen flex justify-center">
             <img src="{{ asset('img/hero.png') }}" alt="Imagen de presentaci&oacute;n de &Oacute;rale Web" />
@@ -61,7 +61,7 @@
                 <p>Crecimiento</p>
             </div>
             <div class="card-paquete flex flex-col items-start p-8 ">
-                <h3 class="font-medium text-gradient mt-4 mb-2">Profecional</h3>
+                <h3 class="font-medium text-gradient mt-4 mb-2">Profesional</h3>
                 <p class="precio">$5,500 <span>+ IVA</span></p>
                 <p class="descripcion">
                     Para empresas que buscan el siguiente nivel de autoridad.
@@ -72,7 +72,7 @@
                     <li>Integración con redes sociales y 5 correos corporativos.</li>
                     <li>Incluye 2 meses de mantenimiento web sin costo extra.</li>
                 </ul>
-                <button class="btn-primario uppercase mt-4 w-full">Ver Más</button>
+                <a href="/paquetes#profesional" class="btn-primario uppercase mt-4 w-full">Ver Más</a>
             </div>
         </div>
     </section>
@@ -175,7 +175,7 @@
             <span class="badge badge-azul">Médica</span>
             <span class="badge badge-marino">Educativa</span>
             <span class="badge badge-naranja">Inmobiliaria</span>
-            <span class="badge badge-verde">Turistica</span>
+            <span class="badge badge-verde">Tur&iacute;stica</span>
             <span class="badge badge-rosa">Profesional y Freelancer</span>
         </div>
 
@@ -314,7 +314,7 @@
         <div class="card-paquetes grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center mt-12">
             <div class="card-paquete  fondo-secundario">
                 <div class="flex flex-col items-start justify-between gap-5 card-profesional">
-                    <h3 class="font-medium mt-4 mb-2 text-morado">Profecional</h3>
+                    <h3 class="font-medium mt-4 mb-2 text-morado">Profesional</h3>
                     <div class="">
                         <p class="precio">$5,500 <span>+ IVA</span></p>
                         <p class="descripcion">
@@ -328,9 +328,7 @@
                         <li>Incluye 2 meses de mantenimiento web sin costo extra.</li>
                     </ul>
                 </div>
-                <button class="btn-paquete fondo-morado uppercase mt-4 w-full">
-                    Ver Más
-                </button>
+                <a href="/paquetes#profesional" class="btn-paquete fondo-morado uppercase mt-4 w-full">Ver Más</a>
             </div>
 
             <div class="card-paquete  fondo-secundario">
@@ -349,9 +347,7 @@
                         <li>Alta en Google My Business para mejorar tu visibilidad.</li>
                     </ul>
                 </div>
-                <button class="btn-paquete fondo-morado-claro uppercase mt-4 w-full">
-                    Ver Más
-                </button>
+                <a href="/paquetes#basico" class="btn-paquete fondo-morado-claro uppercase mt-4 w-full">Ver Más</a>
             </div>
 
             <div class="card-paquete  fondo-secundario">
@@ -379,9 +375,7 @@
                         </li>
                     </ul>
                 </div>
-                <button class="btn-paquete fondo-azul uppercase mt-4 w-full">
-                    Ver Más
-                </button>
+                <a href="/paquetes#personalizado" class="btn-paquete fondo-azul uppercase mt-4 w-full">Ver Más</a>
             </div>
         </div>
     </section>
@@ -461,9 +455,11 @@
             Contáctanos hoy mismo para una consulta gratuita y descubre cómo podemos ayudarte a crear una página web que no
             solo se vea increíble, sino que también convierta visitantes en clientes.
         </p>
-        <button class="btn-primario uppercase mt-8 text-2xl">Quiero mi página web</button>
+        <a href="/contacto" class="btn-primario uppercase mt-8 text-2xl">Quiero mi página web</a>
 
     </section>
 @endsection
+
+
 
 

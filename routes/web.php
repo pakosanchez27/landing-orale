@@ -33,3 +33,7 @@ Route::get('/faq', function () {
 Route::get('/contacto', function () {
     return view('pages.contacto');
 });
+
+Route::get('/paquetes', function () {
+    return view('pages.paquetes');
+});

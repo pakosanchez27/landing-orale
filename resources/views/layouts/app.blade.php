@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>¡Órale Web! | @yield('titulo')</title>
+    <title>&iexcl;&Oacute;rale Web! | @yield('titulo')</title>
 
 
     @vite(['resources/js/app.js'])
@@ -37,7 +37,7 @@
                     <li><a href="/contacto" class="font-bold {{ request()->is('contacto*') ? 'active' : '' }}">Contacto</a></li>
                 </ul>
             </nav>
-            <a href="#" class="btn-primario hidden lg:flex uppercase">
+            <a href="/contacto" class="btn-primario hidden lg:flex uppercase">
                 Cotizar Ahora
             </a>
             <button type="button" class="mobile-menu-btn lg:hidden" id="mobile-menu-btn" aria-label="Abrir menu"
@@ -58,7 +58,7 @@
                 <li><a href="/faq" class="{{ request()->is('faq*') ? 'active' : '' }}">FAQ'S</a></li>
                 <li><a href="/contacto" class="{{ request()->is('contacto*') ? 'active' : '' }}">Contacto</a></li>
             </ul>
-            <a href="#" class="btn-primario mobile-menu-cta uppercase">Cotizar Ahora</a>
+            <a href="/contacto" class="btn-primario mobile-menu-cta uppercase">Cotizar Ahora</a>
         </nav>
     </header>
 
@@ -76,15 +76,15 @@
             <div class="footer__brand">
                 <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="footer__logo" />
                 <div class="footer-social">
-                    <a href="#" class="footer-social__link" aria-label="TikTok"><i class="fa-brands fa-tiktok"
+                    <a href="https://www.tiktok.com/@oraleweb" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="TikTok"><i class="fa-brands fa-tiktok"
                             aria-hidden="true"></i></a>
-                    <a href="#" class="footer-social__link" aria-label="YouTube"><i class="fa-brands fa-youtube"
+                    <a href="https://youtube.com/@orale-web?si=r0vxY9H2Rx2uDXEt" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="YouTube"><i class="fa-brands fa-youtube"
                             aria-hidden="true"></i></a>
-                    <a href="#" class="footer-social__link" aria-label="Facebook"><i
+                    <a href="https://www.facebook.com/profile.php?id=61573463732776" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="Facebook"><i
                             class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-                    <a href="#" class="footer-social__link" aria-label="Instagram"><i
+                    <a href="https://www.instagram.com/orale_web/" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="Instagram"><i
                             class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-                    <a href="#" class="footer-social__link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"
+                    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"
                             aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -129,3 +129,4 @@
 </body>
 
 </html>
+

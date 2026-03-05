@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('titulo', 'Demos')
 
@@ -11,11 +11,11 @@
     <div class="hero-demos section shadow-lg" style="--hero-demos-bg: url('{{ asset('img/demos-hero.png') }}');">
         <section class="section contenido-centrado flex flex-col items-center text-center gap-6 justify-end h-full mt-32">
 
-            <h1 class="w-full lg:w-4/6 mx-auto text-center">Explora cómo se vería <span class="text-gradient">tu negocio en
+            <h1 class="w-full lg:w-4/6 mx-auto text-center">Explora c&oacute;mo se ver&iacute;a <span class="text-gradient">tu negocio en
                     internet</span> </h1>
-            <p class="w-full lg:w-4/6 mx-auto text-center">Estas demos son ejemplos de cómo podríamos presentar tu negocio en
-                línea. Cada una está diseñada para mostrar diferentes estilos y enfoques, pero todas pueden ser
-                personalizadas para reflejar la identidad única de tu marca.</p>
+            <p class="w-full lg:w-4/6 mx-auto text-center">Estas demos son ejemplos de c&oacute;mo podr&iacute;amos presentar tu negocio en
+                l&iacute;nea. Cada una est&aacute; dise&ntilde;ada para mostrar diferentes estilos y enfoques, pero todas pueden ser
+                personalizadas para reflejar la identidad &uacute;nica de tu marca.</p>
         </section>
     </div>
 
@@ -41,7 +41,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -54,7 +54,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -67,7 +67,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -80,7 +80,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -93,7 +93,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -106,7 +106,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -119,7 +119,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -132,7 +132,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -145,7 +145,7 @@
                 <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
-                    <span class="badge badge-azul">Médica</span>
+                    <span class="badge badge-azul">M&eacute;dica</span>
                     <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting
                         industry.
@@ -155,6 +155,8 @@
                 </div>
             </div>
         </div>
-        <nav class="paginador-demos" aria-label="Paginación de demos"></nav>
+        <nav class="paginador-demos" aria-label="Paginaci&oacute;n de demos"></nav>
     </div>
 @endsection
+
+

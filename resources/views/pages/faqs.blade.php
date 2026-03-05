@@ -82,11 +82,11 @@
                 <p>Te respondemos r&aacute;pido por el canal que prefieras. Nuestro equipo est&aacute; listo para ayudarte.</p>
             </div>
             <div class="faqs-social__links" aria-label="Redes sociales">
-                <a href="#" class="faqs-social__link" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
-                <a href="#" class="faqs-social__link" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
-                <a href="#" class="faqs-social__link" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-                <a href="#" class="faqs-social__link" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-                <a href="#" class="faqs-social__link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+                <a href="https://www.tiktok.com/@oraleweb" target="_blank" rel="noopener noreferrer" class="faqs-social__link" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                <a href="https://youtube.com/@orale-web?si=r0vxY9H2Rx2uDXEt" target="_blank" rel="noopener noreferrer" class="faqs-social__link" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61573463732776" target="_blank" rel="noopener noreferrer" class="faqs-social__link" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/orale_web/" target="_blank" rel="noopener noreferrer" class="faqs-social__link" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="faqs-social__link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>

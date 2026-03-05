@@ -17,12 +17,12 @@
                 <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen del blog principal">
                 <div class="blog-card__contenido">
                     <span class="blog-card__fecha">Lunes, 3 marzo 2026</span>
-                    <h2>Como mejorar la UX de tu sitio web en 30 dias</h2>
-                    <p>Te mostramos un plan practico para optimizar navegacion, velocidad y conversiones sin redisenar todo desde cero.</p>
+                    <h2>C&oacute;mo mejorar la UX de tu sitio web en 30 d&iacute;as</h2>
+                    <p>Te mostramos un plan pr&aacute;ctico para optimizar navegaci&oacute;n, velocidad y conversiones sin redise&ntilde;ar todo desde cero.</p>
                     <div class="blog-card__tags">
-                        <span class="blog-tag">Diseno UX</span>
-                        <span class="blog-tag">Optimizacion</span>
-                        <span class="blog-tag">Conversion</span>
+                        <span class="blog-tag">Dise&ntilde;o UX</span>
+                        <span class="blog-tag">Optimizaci&oacute;n</span>
+                        <span class="blog-tag">Conversi&oacute;n</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
                 </div>
@@ -33,11 +33,11 @@
                     <img src="{{ asset('img/blog1.png') }}" alt="Imagen del blog 1">
                     <div class="blog-card__contenido">
                         <span class="blog-card__fecha">Jueves, 27 febrero 2026</span>
-                        <h2>Guia para migrar tu web a Laravel sin perder SEO</h2>
-                        <p>Buenas practicas para mover tu sitio a una arquitectura moderna, manteniendo URLs, rendimiento y posicionamiento.</p>
+                        <h2>Gu&iacute;a para migrar tu web a Laravel sin perder SEO</h2>
+                        <p>Buenas pr&aacute;cticas para mover tu sitio a una arquitectura moderna, manteniendo URLs, rendimiento y posicionamiento.</p>
                         <div class="blog-card__tags">
                             <span class="blog-tag">Laravel</span>
-                            <span class="blog-tag">SEO tecnico</span>
+                            <span class="blog-tag">SEO t&eacute;cnico</span>
                         </div>
                         <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
                     </div>
@@ -47,8 +47,8 @@
                     <img src="{{ asset('img/blog2.png') }}" alt="Imagen del blog 2">
                     <div class="blog-card__contenido">
                         <span class="blog-card__fecha">Martes, 18 febrero 2026</span>
-                        <h2>Que incluye un sitio web profesional para vender mas</h2>
-                        <p>Landing pages, formularios inteligentes, analitica y automatizaciones clave para convertir trafico en clientes.</p>
+                        <h2>Qu&eacute; incluye un sitio web profesional para vender m&aacute;s</h2>
+                        <p>Landing pages, formularios inteligentes, anal&iacute;tica y automatizaciones clave para convertir tr&aacute;fico en clientes.</p>
                         <div class="blog-card__tags">
                             <span class="blog-tag">Desarrollo web</span>
                             <span class="blog-tag">Marketing digital</span>
@@ -68,11 +68,11 @@
                 <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 1">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Lunes, 2 marzo 2026</span>
-                    <h3>Estrategias de landing pages que si convierten</h3>
+                    <h3>Estrategias de landing pages que s&iacute; convierten</h3>
                     <p>Aprende una estructura simple para captar leads de forma constante.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Landing</span>
-                        <span class="blog-tag">Conversion</span>
+                        <span class="blog-tag">Conversi&oacute;n</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
                 </div>
@@ -80,9 +80,9 @@
             <article class="all-blog-card">
                 <img src="{{ asset('img/blog1.png') }}" alt="Blog 2">
                 <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Sabado, 28 febrero 2026</span>
-                    <h3>Como elegir un stack web para tu negocio</h3>
-                    <p>Factores clave para decidir tecnologias segun presupuesto y objetivos.</p>
+                    <span class="all-blog-card__fecha">S&aacute;bado, 28 febrero 2026</span>
+                    <h3>C&oacute;mo elegir un stack web para tu negocio</h3>
+                    <p>Factores clave para decidir tecnolog&iacute;as seg&uacute;n presupuesto y objetivos.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Stack</span>
                         <span class="blog-tag">Negocio</span>
@@ -94,11 +94,11 @@
                 <img src="{{ asset('img/blog2.png') }}" alt="Blog 3">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Jueves, 26 febrero 2026</span>
-                    <h3>Checklist SEO tecnico para sitios nuevos</h3>
+                    <h3>Checklist SEO t&eacute;cnico para sitios nuevos</h3>
                     <p>Puntos esenciales para salir en buscadores desde el primer mes.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">SEO</span>
-                        <span class="blog-tag">Tecnico</span>
+                        <span class="blog-tag">T&eacute;cnico</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
                 </div>
@@ -107,8 +107,8 @@
                 <img src="{{ asset('img/blog1.png') }}" alt="Blog 4">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Martes, 24 febrero 2026</span>
-                    <h3>Branding web: coherencia visual en cada pagina</h3>
-                    <p>Diseno consistente para mejorar confianza y reconocimiento de marca.</p>
+                    <h3>Branding web: coherencia visual en cada p&aacute;gina</h3>
+                    <p>Dise&ntilde;o consistente para mejorar confianza y reconocimiento de marca.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Branding</span>
                         <span class="blog-tag">UX</span>
@@ -123,7 +123,7 @@
                     <h3>Automatizaciones para agencias con formularios web</h3>
                     <p>Integra CRM, email y seguimiento sin procesos manuales.</p>
                     <div class="all-blog-card__tags">
-                        <span class="blog-tag">Automatizacion</span>
+                        <span class="blog-tag">Automatizaci&oacute;n</span>
                         <span class="blog-tag">CRM</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
@@ -133,8 +133,8 @@
                 <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 6">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Viernes, 20 febrero 2026</span>
-                    <h3>Velocidad web: como bajar el tiempo de carga</h3>
-                    <p>Optimiza imagenes, scripts y servidor para mejorar experiencia y SEO.</p>
+                    <h3>Velocidad web: c&oacute;mo bajar el tiempo de carga</h3>
+                    <p>Optimiza im&aacute;genes, scripts y servidor para mejorar experiencia y SEO.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Performance</span>
                         <span class="blog-tag">SEO</span>
@@ -145,9 +145,9 @@
             <article class="all-blog-card">
                 <img src="{{ asset('img/blog2.png') }}" alt="Blog 7">
                 <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Miercoles, 18 febrero 2026</span>
-                    <h3>Diseno mobile first para tiendas en linea</h3>
-                    <p>Prioriza la experiencia movil para incrementar ventas reales.</p>
+                    <span class="all-blog-card__fecha">Mi&eacute;rcoles, 18 febrero 2026</span>
+                    <h3>Dise&ntilde;o mobile first para tiendas en l&iacute;nea</h3>
+                    <p>Prioriza la experiencia m&oacute;vil para incrementar ventas reales.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Mobile</span>
                         <span class="blog-tag">Ecommerce</span>
@@ -160,7 +160,7 @@
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Lunes, 16 febrero 2026</span>
                     <h3>Copys web para vender sin sonar agresivo</h3>
-                    <p>Mensajes claros orientados a beneficios que mueven a la accion.</p>
+                    <p>Mensajes claros orientados a beneficios que mueven a la acci&oacute;n.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Copywriting</span>
                         <span class="blog-tag">Ventas</span>
@@ -171,11 +171,11 @@
             <article class="all-blog-card">
                 <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 9">
                 <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Sabado, 14 febrero 2026</span>
-                    <h3>Errores comunes al redisenar un sitio web</h3>
-                    <p>Evita perder trafico y clientes durante una migracion o rediseno.</p>
+                    <span class="all-blog-card__fecha">S&aacute;bado, 14 febrero 2026</span>
+                    <h3>Errores comunes al redise&ntilde;ar un sitio web</h3>
+                    <p>Evita perder tr&aacute;fico y clientes durante una migraci&oacute;n o redise&ntilde;o.</p>
                     <div class="all-blog-card__tags">
-                        <span class="blog-tag">Rediseno</span>
+                        <span class="blog-tag">Redise&ntilde;o</span>
                         <span class="blog-tag">Estrategia</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
@@ -185,7 +185,7 @@
                 <img src="{{ asset('img/blog1.png') }}" alt="Blog 10">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Jueves, 12 febrero 2026</span>
-                    <h3>Como estructurar una web corporativa moderna</h3>
+                    <h3>C&oacute;mo estructurar una web corporativa moderna</h3>
                     <p>Secciones clave para comunicar valor y cerrar oportunidades comerciales.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Corporativo</span>
@@ -198,8 +198,8 @@
                 <img src="{{ asset('img/blog2.png') }}" alt="Blog 11">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Martes, 10 febrero 2026</span>
-                    <h3>Integraciones web utiles para vender servicios</h3>
-                    <p>Chat, agenda, pagos y analitica para mejorar tu proceso comercial.</p>
+                    <h3>Integraciones web &uacute;tiles para vender servicios</h3>
+                    <p>Chat, agenda, pagos y anal&iacute;tica para mejorar tu proceso comercial.</p>
                     <div class="all-blog-card__tags">
                         <span class="blog-tag">Integraciones</span>
                         <span class="blog-tag">Ventas</span>
@@ -211,18 +211,18 @@
                 <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 12">
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Domingo, 8 febrero 2026</span>
-                    <h3>Metricas clave para evaluar un sitio web</h3>
+                    <h3>M&eacute;tricas clave para evaluar un sitio web</h3>
                     <p>KPIs de negocio y UX para tomar decisiones con datos reales.</p>
                     <div class="all-blog-card__tags">
-                        <span class="blog-tag">Metricas</span>
-                        <span class="blog-tag">Analitica</span>
+                        <span class="blog-tag">M&eacute;tricas</span>
+                        <span class="blog-tag">Anal&iacute;tica</span>
                     </div>
                     <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
                 </div>
             </article>
         </div>
 
-        <nav class="all-blog-pagination" id="all-blog-pagination" aria-label="Paginacion de blogs">
+        <nav class="all-blog-pagination" id="all-blog-pagination" aria-label="Paginaci&oacute;n de blogs">
             <button type="button" class="all-blog-page__nav" id="all-blog-prev">Previous</button>
             <div class="all-blog-page__numbers" id="all-blog-numbers"></div>
             <button type="button" class="all-blog-page__nav" id="all-blog-next">Next</button>
@@ -305,6 +305,8 @@
         })();
     </script>
 @endsection
+
+
 
 
 

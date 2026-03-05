@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('titulo')
     Blog Post
@@ -50,17 +50,17 @@
 
             <section class="blog-post__interaccion" aria-label="Like and comment">
                 <h2>Comentarios</h2>
-                <p class="blog-post__hint">Presiona el icono de comentario para escribir.</p>
+                <p class="blog-post__hint">Presiona el &iacute;cono de comentario para escribir.</p>
                 <form class="blog-post__comentario is-hidden" id="comment-form" action="#" method="post">
                     <div class="blog-post__comentario-identidad">
                         <div class="blog-post__campo">
                             <label for="nombre_comentario">Tu nombre (opcional)</label>
                             <input type="text" id="nombre_comentario" name="nombre_comentario"
-                                placeholder="Ejemplo: Juan Perez">
+                                placeholder="Ejemplo: Juan P&eacute;rez">
                         </div>
                         <label class="blog-post__anonimo">
                             <input type="checkbox" name="anonimo" value="1">
-                            <span>Publicar como anonimo</span>
+                            <span>Publicar como an&oacute;nimo</span>
                         </label>
                     </div>
                     <label for="comentario">Comenta este post</label>
@@ -75,10 +75,10 @@
                         <div class="comentario-item__avatar">AP</div>
                         <div class="comentario-item__contenido">
                             <div class="comentario-item__meta">
-                                <strong>Ana Perez</strong>
+                                <strong>Ana P&eacute;rez</strong>
                                 <span>hace 2 horas</span>
                             </div>
-                            <p>Excelente guia. Me ayudo a ordenar mejor el proceso de migracion de mi sitio.</p>
+                            <p>Excelente gu&iacute;a. Me ayud&oacute; a ordenar mejor el proceso de migraci&oacute;n de mi sitio.</p>
                         </div>
                     </article>
 
@@ -89,7 +89,7 @@
                                 <strong>Juan Ramos</strong>
                                 <span>hace 5 horas</span>
                             </div>
-                            <p>Muy buen contenido. Estaria genial ver una version enfocada en ecommerce.</p>
+                            <p>Muy buen contenido. Estar&iacute;a genial ver una versi&oacute;n enfocada en ecommerce.</p>
                         </div>
                     </article>
 
@@ -109,7 +109,7 @@
     </section>
 
     <section class="section mas-blogs">
-        <h2 class="mas-blogs__titulo">Mas Entradas</h2>
+        <h2 class="mas-blogs__titulo">M&aacute;s Entradas</h2>
         <div class="mas-blogs__grid">
             <article class="mas-blogs__card">
                 <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 1">
@@ -213,3 +213,4 @@
         })();
     </script>
 @endsection
+
