@@ -18,15 +18,25 @@
     </section>
 
     <section class="section paquetes-comparativa">
-      
+     
+
         <div class="paquetes-table" role="region" aria-label="Comparativa de paquetes">
             <table>
                 <thead>
                     <tr>
                         <th scope="col">Caracter&iacute;stica</th>
-                        <th scope="col">B&aacute;sico</th>
-                        <th scope="col">Profesional</th>
-                        <th scope="col">Personalizado</th>
+                        <th scope="col">
+                            <span class="paquetes-table__plan-title">B&aacute;sico</span>
+                            <small>Desde $3,500 + IVA</small>
+                        </th>
+                        <th scope="col" class="is-featured">
+                            <span class="paquetes-table__plan-title">Profesional</span>
+                            <small>Desde $5,500 + IVA</small>
+                        </th>
+                        <th scope="col">
+                            <span class="paquetes-table__plan-title">Personalizado</span>
+                            <small>A cotizar</small>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,21 +60,21 @@
                     </tr>
                     <tr>
                         <th scope="row">Dise&ntilde;o responsivo</th>
-                        <td>S&iacute;</td>
-                        <td>S&iacute;</td>
-                        <td>S&iacute;</td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Blog</th>
-                        <td>No</td>
-                        <td>S&iacute;</td>
-                        <td>Opcional</td>
+                        <td><span class="table-pill table-pill--no">No incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Galer&iacute;a / multimedia</th>
-                        <td>Opcional</td>
-                        <td>S&iacute;</td>
-                        <td>Opcional</td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Formulario de contacto</th>
@@ -74,9 +84,9 @@
                     </tr>
                     <tr>
                         <th scope="row">Redes sociales</th>
-                        <td>No</td>
-                        <td>S&iacute;</td>
-                        <td>S&iacute;</td>
+                        <td><span class="table-pill table-pill--no">No incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Correos personalizados</th>
@@ -86,15 +96,15 @@
                     </tr>
                     <tr>
                         <th scope="row">Google My Business</th>
-                        <td>S&iacute;</td>
-                        <td>S&iacute;</td>
-                        <td>Opcional</td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Mapa de ubicaci&oacute;n</th>
-                        <td>Opcional</td>
-                        <td>Opcional</td>
-                        <td>Opcional</td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
+                        <td><span class="table-pill table-pill--optional">Opcional</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Entrega estimada</th>
@@ -104,9 +114,9 @@
                     </tr>
                     <tr>
                         <th scope="row">Autoadministrable</th>
-                        <td>No</td>
-                        <td>S&iacute;</td>
-                        <td>S&iacute;</td>
+                        <td><span class="table-pill table-pill--no">No incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
+                        <td><span class="table-pill table-pill--yes">Incluido</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Mantenimiento</th>
@@ -116,9 +126,9 @@
                     </tr>
                     <tr class="paquetes-table__cta">
                         <th scope="row"></th>
-                        <td><a href="/contacto?paquete=basico" class="btn-primario uppercase">Quiero este paquete</a></td>
-                        <td><a href="/contacto?paquete=profesional" class="btn-primario uppercase">Quiero este paquete</a></td>
-                        <td><a href="/contacto?paquete=personalizado" class="btn-primario uppercase">Quiero este paquete</a></td>
+                        <td><a href="/contacto?paquete=basico" class="btn-primario uppercase btn-table">Elegir</a></td>
+                        <td><a href="/contacto?paquete=profesional" class="btn-primario uppercase btn-table">Elegir</a></td>
+                        <td><a href="/contacto?paquete=personalizado" class="btn-primario uppercase btn-table">Elegir</a></td>
                     </tr>
                 </tbody>
             </table>
