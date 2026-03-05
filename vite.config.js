@@ -17,6 +17,8 @@ export default defineConfig({
                 'resources/css/blog-post.css',
                 'resources/css/faqs.css',
                 'resources/css/contacto.css',
+                'resources/css/paquetes.css',
+
             ],
             refresh: true,
         }),

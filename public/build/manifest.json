@@ -80,6 +80,15 @@
       "nosotros.css"
     ]
   },
+  "resources/css/paquetes.css": {
+    "file": "assets/paquetes-BPOPbDDa.css",
+    "src": "resources/css/paquetes.css",
+    "isEntry": true,
+    "name": "paquetes",
+    "names": [
+      "paquetes.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-Bt-yLKWX.js",
     "name": "app",
