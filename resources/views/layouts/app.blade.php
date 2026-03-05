@@ -67,6 +67,10 @@
     @yield('content')
 
 
+    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    </a>
+
     <footer class="footer">
         <div class="footer__inner contenido-centrado">
             <div class="footer__brand">

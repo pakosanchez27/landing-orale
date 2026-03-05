@@ -505,6 +505,51 @@ body.mobile-menu-open {
     color: var(--acento);
 }
 
+.whatsapp-float {
+  position: fixed;
+  right: 2.4rem;
+  bottom: 2.4rem;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 999px;
+  background: #25d366;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.28);
+  z-index: 50;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  animation: whatsapp-float-pulse 2.8s ease-in-out infinite;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1.6rem 3.2rem rgba(0, 0, 0, 0.34);
+  filter: brightness(1.05);
+}
+
+.whatsapp-float:focus-visible {
+  outline: 3px solid rgba(0, 224, 255, 0.6);
+  outline-offset: 3px;
+}
+
+@keyframes whatsapp-float-pulse {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.28);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 1.8rem 3.6rem rgba(0, 0, 0, 0.32);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.28);
+  }
+}
+
 .footer {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(15, 15, 26, 0.98) 100%);
