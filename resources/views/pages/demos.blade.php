@@ -1,6 +1,8 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo', 'Demos')
+@section('meta_description', 'Explora demos de sitios web profesionales para diferentes industrias y descubre como podria verse tu negocio en internet.')
+@section('og_image', asset('img/demos-hero.png'))
 
 @push('page-styles')
     @vite(['resources/css/home.css', 'resources/css/demos.css'])
@@ -38,7 +40,8 @@
 
         <div class="card-demos grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -51,7 +54,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -64,7 +68,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -77,7 +82,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -90,7 +96,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -103,7 +110,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -116,7 +124,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -129,7 +138,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -142,7 +152,8 @@
                 </div>
             </div>
             <div class="card-demo ">
-                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" />
+                
+                <img src="{{ asset('img/demo.png') }}" alt="imagen demo" class="w-full object-cover" loading="lazy" />
                 <div class="card-demo-texto">
                     <h3>Dental Landing Page</h3>
                     <span class="badge badge-azul">M&eacute;dica</span>
@@ -158,5 +169,4 @@
         <nav class="paginador-demos" aria-label="Paginaci&oacute;n de demos"></nav>
     </div>
 @endsection
-
 

@@ -1,8 +1,11 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo')
     Paquetes
 @endsection
+
+@section('meta_description', 'Compara nuestros paquetes de desarrollo web: Basico, Profesional y Personalizado. Elige el plan ideal para impulsar tu negocio.')
+@section('og_image', asset('img/hero.png'))
 
 @push('page-styles')
     @vite(['resources/css/paquetes.css'])

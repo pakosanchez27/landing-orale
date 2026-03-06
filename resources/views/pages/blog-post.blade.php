@@ -1,8 +1,12 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo')
     Blog Post
 @endsection
+
+@section('meta_description', 'Guia practica para migrar tu sitio y optimizar estructura, rendimiento y experiencia de usuario sin perder visibilidad.')
+@section('og_image', asset('img/blog-principal.png'))
+@section('og_type', 'article')
 
 @push('page-styles')
     @vite(['resources/css/blog-post.css'])
@@ -11,7 +15,8 @@
 @section('content')
     <section class="section blog-post">
         <article class="blog-post__article">
-            <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen principal del post" class="blog-post__hero">
+            
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen principal del post" class="blog-post__hero" loading="lazy" />
 
             <div class="blog-post__header">
                 <span class="blog-post__fecha">Sunday, 1 Jan 2023</span>
@@ -112,7 +117,8 @@
         <h2 class="mas-blogs__titulo">M&aacute;s Entradas</h2>
         <div class="mas-blogs__grid">
             <article class="mas-blogs__card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 1">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 1" loading="lazy" />
                 <div class="mas-blogs__contenido">
                     <span>Sunday, 1 Jan 2023</span>
                     <h3>Bill Walsh leadership lessons</h3>
@@ -126,7 +132,8 @@
                 </div>
             </article>
             <article class="mas-blogs__card">
-                <img src="{{ asset('img/blog2.png') }}" alt="Post relacionado 2">
+                
+                <img src="{{ asset('img/blog2.png') }}" alt="Post relacionado 2" loading="lazy" />
                 <div class="mas-blogs__contenido">
                     <span>Sunday, 1 Jan 2023</span>
                     <h3>What is Wireframing?</h3>
@@ -140,7 +147,8 @@
                 </div>
             </article>
             <article class="mas-blogs__card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 3">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 3" loading="lazy" />
                 <div class="mas-blogs__contenido">
                     <span>Sunday, 1 Jan 2023</span>
                     <h3>PM mental models</h3>
@@ -154,7 +162,8 @@
                 </div>
             </article>
             <article class="mas-blogs__card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 4">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 4" loading="lazy" />
                 <div class="mas-blogs__contenido">
                     <span>Sunday, 1 Jan 2023</span>
                     <h3>Our top 10 Javascript frameworks to use</h3>
@@ -213,4 +222,3 @@
         })();
     </script>
 @endsection
-

@@ -1,15 +1,49 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 
 <head>
+    @php
+        $pageTitle = trim($__env->yieldContent('titulo'));
+        $fullTitle = $pageTitle ? "Orale Web | {$pageTitle}" : 'Orale Web';
+        $metaDescription = trim($__env->yieldContent('meta_description')) ?: 'Agencia web en Mexico especializada en diseno y desarrollo de sitios rapidos, estrategicos y orientados a conversion para negocios y PyMEs.';
+        $canonicalUrl = trim($__env->yieldContent('canonical_url')) ?: url()->current();
+        $robots = trim($__env->yieldContent('meta_robots')) ?: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
+        $ogImage = trim($__env->yieldContent('og_image')) ?: asset('img/hero.png');
+        $ogType = trim($__env->yieldContent('og_type')) ?: 'website';
+        $sameAs = [
+            'https://www.tiktok.com/@oraleweb',
+            'https://youtube.com/@orale-web?si=r0vxY9H2Rx2uDXEt',
+            'https://www.facebook.com/profile.php?id=61573463732776',
+            'https://www.instagram.com/orale_web/',
+            'https://wa.me/525512480210',
+        ];
+    @endphp
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&iexcl;&Oacute;rale Web! | @yield('titulo')</title>
+    <title>{{ $fullTitle }}</title>
+    <meta name="description" content="{{ $metaDescription }}" />
+    <meta name="robots" content="{{ $robots }}" />
+    <link rel="canonical" href="{{ $canonicalUrl }}" />
+    <link rel="alternate" hreflang="es-mx" href="{{ $canonicalUrl }}" />
+    <meta name="theme-color" content="#0f0f1a" />
 
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:type" content="{{ $ogType }}" />
+    <meta property="og:site_name" content="Orale Web" />
+    <meta property="og:title" content="{{ $fullTitle }}" />
+    <meta property="og:description" content="{{ $metaDescription }}" />
+    <meta property="og:url" content="{{ $canonicalUrl }}" />
+    <meta property="og:image" content="{{ $ogImage }}" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ $fullTitle }}" />
+    <meta name="twitter:description" content="{{ $metaDescription }}" />
+    <meta name="twitter:image" content="{{ $ogImage }}" />
 
     @vite(['resources/js/app.js'])
 
     @stack('page-styles')
+    @stack('head-extra')
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="icon" type="image/png" href="{{ asset('img/LogoBlanco.png') }}" />
@@ -17,15 +51,51 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    </noscript>
 
+    <script type="application/ld+json">
+        {!! json_encode(
+            [
+                '@context' => 'https://schema.org',
+                '@type' => 'Organization',
+                'name' => 'Orale Web',
+                'url' => config('app.url'),
+                'logo' => asset('img/LogoBlanco.png'),
+                'sameAs' => $sameAs,
+            ],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+        ) !!}
+    </script>
+    <script type="application/ld+json">
+        {!! json_encode(
+            [
+                '@context' => 'https://schema.org',
+                '@type' => 'WebPage',
+                'name' => $fullTitle,
+                'description' => $metaDescription,
+                'url' => $canonicalUrl,
+                'inLanguage' => 'es-MX',
+                'isPartOf' => [
+                    '@type' => 'WebSite',
+                    'name' => 'Orale Web',
+                    'url' => config('app.url'),
+                ],
+            ],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+        ) !!}
+    </script>
+    @stack('structured-data')
 </head>
 
 <body>
     <header class="header">
         <div class="navegacion flex items-center justify-between">
-            <a href="#" class="logo">
-                <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="w-48 object-contain" />
+            <a href="/" class="logo" aria-label="Ir al inicio de Orale Web">
+                <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="w-48 object-contain" loading="eager" fetchpriority="high" />
             </a>
             <nav class="hidden lg:flex">
                 <ul class="menu flex space-x-8 text-white">
@@ -62,10 +132,9 @@
         </nav>
     </header>
 
-
-
-    @yield('content')
-
+    <main id="main-content">
+        @yield('content')
+    </main>
 
     <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="WhatsApp">
         <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
@@ -74,7 +143,9 @@
     <footer class="footer">
         <div class="footer__inner contenido-centrado">
             <div class="footer__brand">
-                <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="footer__logo" />
+                <a href="/" aria-label="Ir al inicio de Orale Web">
+                    <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="footer__logo" loading="lazy" />
+                </a>
                 <div class="footer-social">
                     <a href="https://www.tiktok.com/@oraleweb" target="_blank" rel="noopener noreferrer" class="footer-social__link" aria-label="TikTok"><i class="fa-brands fa-tiktok"
                             aria-hidden="true"></i></a>
@@ -92,12 +163,12 @@
             <div class="footer__col">
                 <h4>Men&uacute;</h4>
                 <ul>
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Nosotros</a></li>
-                    <li><a href="#">Demos</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">FAQ'S</a></li>
-                    <li><a href="#">Contacto</a></li>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/nosotros">Nosotros</a></li>
+                    <li><a href="/demos">Demos</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/faq">FAQ'S</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
                 </ul>
             </div>
 
@@ -125,8 +196,6 @@
         <p class="footer__legend">Derechos Reservados &iexcl;&Oacute;rale web! 2026</p>
     </footer>
 
-   
 </body>
 
 </html>
-

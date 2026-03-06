@@ -1,6 +1,8 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo', 'Nosotros')
+@section('meta_description', 'Conoce a Orale Web, una agencia mexicana especializada en estrategia digital, diseno y desarrollo web para negocios locales y PyMEs.')
+@section('og_image', asset('img/team.jpg'))
 
 @push('page-styles')
     @vite(['resources/css/nosotros.css'])
@@ -43,8 +45,11 @@
 
         <div class="flex flex-col lg:flex-row gap-16 nosotros-mvv__grid">
             <div class="lg:w-3/6 ">
+                <picture>
+                <source srcset="{{ asset('img/team.webp') }}" type="image/webp">
                 <img src="{{ asset('img/team.jpg') }}" alt="imagen nosotros"
-                    class="rounded-lg  w-full  nosotros-mvv__image" />
+                    class="rounded-lg  w-full  nosotros-mvv__image" loading="lazy" />
+            </picture>
             </div>
             <div class="flex flex-col w-full lg:w-3/6 gap-16 mb-16 nosotros-mvv__content">
                 <div class="flex flex-col gap-2 nosotros-mvv__item">
@@ -70,19 +75,22 @@
             <h3 class="titulo-con-linea">Nuestros Valores</h3>
             <div class="cars-valores grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
                 <article class="card-valor">
-                    <img src="{{ asset('img/icono1.png') }}" alt="icono de estrategia" class="object-contain mb-4" />
+                    
+                <img src="{{ asset('img/icono1.png') }}" alt="icono de estrategia" class="object-contain mb-4" loading="lazy" />
                     <h3 class="font-bold text-lg mb-2">Estrategia antes que dise&ntilde;o</h3>
                     <p>No dise&ntilde;amos por est&eacute;tica. Dise&ntilde;amos para que tu p&aacute;gina web funcione,
                         comunique valor y apoye el crecimiento de tu negocio.</p>
                 </article>
                 <article class="card-valor">
-                    <img src="{{ asset('img/icono2.png') }}" alt="icono de resultados" class="object-contain mb-4" />
+                    
+                <img src="{{ asset('img/icono2.png') }}" alt="icono de resultados" class="object-contain mb-4" loading="lazy" />
                     <h3 class="font-bold text-lg mb-2">Enfoque en resultados</h3>
                     <p>Cada decisi&oacute;n de dise&ntilde;o y contenido est&aacute; pensada para atraer, convertir y
                         retener clientes.</p>
                 </article>
                 <article class="card-valor">
-                    <img src="{{ asset('img/icono3.png') }}" alt="icono de transparencia" class="object-contain mb-4" />
+                    
+                <img src="{{ asset('img/icono3.png') }}" alt="icono de transparencia" class="object-contain mb-4" loading="lazy" />
                     <h3 class="font-bold text-lg mb-2">Transparencia total</h3>
                     <p>Procesos claros, tiempos definidos y comunicaci&oacute;n directa. Sabes qu&eacute; entregamos,
                         cu&aacute;ndo y por qu&eacute; lo hacemos as&iacute;.</p>
@@ -101,8 +109,11 @@
 
         <div class="nosotros-equipo__grid">
             <article class="equipo-card">
+                <picture>
+                <source srcset="{{ asset('img/team.webp') }}" type="image/webp">
                 <img src="{{ asset('img/team.jpg') }}" alt="Foto de Mar&iacute;a Ram&iacute;rez, directora de estrategia"
-                    class="equipo-card__img" />
+                    class="equipo-card__img" loading="lazy" />
+            </picture>
                 <div class="equipo-card__body">
                     <h3>Mar&iacute;a Ram&iacute;rez</h3>
                     <p class="equipo-card__role">Direcci&oacute;n de Estrategia</p>
@@ -112,8 +123,11 @@
             </article>
 
             <article class="equipo-card">
+                <picture>
+                <source srcset="{{ asset('img/nosotros.jpg.webp') }}" type="image/webp">
                 <img src="{{ asset('img/nosotros.jpg') }}" alt="Foto de Carlos M&eacute;ndez, dise&ntilde;ador UI/UX"
-                    class="equipo-card__img" />
+                    class="equipo-card__img" loading="lazy" />
+            </picture>
                 <div class="equipo-card__body">
                     <h3>Carlos M&eacute;ndez</h3>
                     <p class="equipo-card__role">Dise&ntilde;o UI/UX</p>
@@ -124,7 +138,7 @@
 
             <article class="equipo-card">
                 <img src="{{ asset('img/nosotros.png') }}" alt="Foto de Andrea Torres, desarrollo web"
-                    class="equipo-card__img" />
+                    class="equipo-card__img" loading="lazy" />
                 <div class="equipo-card__body">
                     <h3>Andrea Torres</h3>
                     <p class="equipo-card__role">Desarrollo Web</p>

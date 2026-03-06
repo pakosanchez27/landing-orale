@@ -1,8 +1,11 @@
-﻿(() => {
+(() => {
     const sections = Array.from(document.querySelectorAll("section"));
     if (!sections.length) return;
 
-    const staggerSelector = [
+    const isMobile = window.matchMedia("(max-width: 991px)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const desktopStaggerSelector = [
         ".hero_contenido",
         ".hero_imagen",
         ".card-beneficio",
@@ -20,17 +23,32 @@
         "a.btn-primario",
     ].join(", ");
 
+    const mobileStaggerSelector = [
+        ".hero_contenido",
+        ".hero_imagen",
+        ".card-beneficio",
+        ".card-demo",
+        ".card-paquete",
+        ".card-proceso",
+        ".card-valor",
+        ".equipo-card",
+        ".nosotros-mvv__item",
+    ].join(", ");
+
+    const staggerSelector = isMobile ? mobileStaggerSelector : desktopStaggerSelector;
+    const maxDelayIndex = isMobile ? 3 : 8;
+    const delayStep = isMobile ? 35 : 80;
+
     sections.forEach((section) => {
         section.classList.add("reveal-section");
 
         const items = section.querySelectorAll(staggerSelector);
         items.forEach((item, index) => {
             item.classList.add("reveal-card");
-            item.style.transitionDelay = `${Math.min(index, 8) * 80}ms`;
+            item.style.transitionDelay = `${Math.min(index, maxDelayIndex) * delayStep}ms`;
         });
     });
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
         sections.forEach((section) => {
             section.classList.add("is-visible");
@@ -55,8 +73,8 @@
             });
         },
         {
-            threshold: 0.18,
-            rootMargin: "0px 0px -12% 0px",
+            threshold: isMobile ? 0.06 : 0.18,
+            rootMargin: isMobile ? "0px 0px -6% 0px" : "0px 0px -12% 0px",
         },
     );
 

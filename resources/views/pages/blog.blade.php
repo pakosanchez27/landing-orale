@@ -1,8 +1,11 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo')
     Blog
 @endsection
+
+@section('meta_description', 'Articulos sobre diseno web, UX, SEO y estrategia digital para mejorar la presencia online y conversiones de tu negocio.')
+@section('og_image', asset('img/blog-principal.png'))
 
 @push('page-styles')
     @vite(['resources/css/blog.css'])
@@ -14,7 +17,8 @@
 
         <div class="blog-grid">
             <article class="blog-card blog-card--principal">
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen del blog principal">
+                
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen del blog principal" loading="lazy" />
                 <div class="blog-card__contenido">
                     <span class="blog-card__fecha">Lunes, 3 marzo 2026</span>
                     <h2>C&oacute;mo mejorar la UX de tu sitio web en 30 d&iacute;as</h2>
@@ -30,7 +34,8 @@
 
             <div class="blog-grid__columna">
                 <article class="blog-card blog-card--secundaria">
-                    <img src="{{ asset('img/blog1.png') }}" alt="Imagen del blog 1">
+                    
+                <img src="{{ asset('img/blog1.png') }}" alt="Imagen del blog 1" loading="lazy" />
                     <div class="blog-card__contenido">
                         <span class="blog-card__fecha">Jueves, 27 febrero 2026</span>
                         <h2>Gu&iacute;a para migrar tu web a Laravel sin perder SEO</h2>
@@ -44,7 +49,8 @@
                 </article>
 
                 <article class="blog-card blog-card--secundaria">
-                    <img src="{{ asset('img/blog2.png') }}" alt="Imagen del blog 2">
+                    
+                <img src="{{ asset('img/blog2.png') }}" alt="Imagen del blog 2" loading="lazy" />
                     <div class="blog-card__contenido">
                         <span class="blog-card__fecha">Martes, 18 febrero 2026</span>
                         <h2>Qu&eacute; incluye un sitio web profesional para vender m&aacute;s</h2>
@@ -65,7 +71,8 @@
 
         <div class="all-blog-grid" id="all-blog-grid">
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 1">
+                
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 1" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Lunes, 2 marzo 2026</span>
                     <h3>Estrategias de landing pages que s&iacute; convierten</h3>
@@ -78,7 +85,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 2">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Blog 2" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">S&aacute;bado, 28 febrero 2026</span>
                     <h3>C&oacute;mo elegir un stack web para tu negocio</h3>
@@ -91,7 +99,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 3">
+                
+                <img src="{{ asset('img/blog2.png') }}" alt="Blog 3" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Jueves, 26 febrero 2026</span>
                     <h3>Checklist SEO t&eacute;cnico para sitios nuevos</h3>
@@ -104,7 +113,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 4">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Blog 4" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Martes, 24 febrero 2026</span>
                     <h3>Branding web: coherencia visual en cada p&aacute;gina</h3>
@@ -117,7 +127,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 5">
+                
+                <img src="{{ asset('img/blog2.png') }}" alt="Blog 5" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Domingo, 22 febrero 2026</span>
                     <h3>Automatizaciones para agencias con formularios web</h3>
@@ -130,7 +141,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 6">
+                
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 6" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Viernes, 20 febrero 2026</span>
                     <h3>Velocidad web: c&oacute;mo bajar el tiempo de carga</h3>
@@ -143,7 +155,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 7">
+                
+                <img src="{{ asset('img/blog2.png') }}" alt="Blog 7" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Mi&eacute;rcoles, 18 febrero 2026</span>
                     <h3>Dise&ntilde;o mobile first para tiendas en l&iacute;nea</h3>
@@ -156,7 +169,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 8">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Blog 8" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Lunes, 16 febrero 2026</span>
                     <h3>Copys web para vender sin sonar agresivo</h3>
@@ -169,7 +183,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 9">
+                
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 9" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">S&aacute;bado, 14 febrero 2026</span>
                     <h3>Errores comunes al redise&ntilde;ar un sitio web</h3>
@@ -182,7 +197,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 10">
+                
+                <img src="{{ asset('img/blog1.png') }}" alt="Blog 10" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Jueves, 12 febrero 2026</span>
                     <h3>C&oacute;mo estructurar una web corporativa moderna</h3>
@@ -195,7 +211,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 11">
+                
+                <img src="{{ asset('img/blog2.png') }}" alt="Blog 11" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Martes, 10 febrero 2026</span>
                     <h3>Integraciones web &uacute;tiles para vender servicios</h3>
@@ -208,7 +225,8 @@
                 </div>
             </article>
             <article class="all-blog-card">
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 12">
+                
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 12" loading="lazy" />
                 <div class="all-blog-card__content">
                     <span class="all-blog-card__fecha">Domingo, 8 febrero 2026</span>
                     <h3>M&eacute;tricas clave para evaluar un sitio web</h3>
@@ -305,7 +323,6 @@
         })();
     </script>
 @endsection
-
 
 
 
