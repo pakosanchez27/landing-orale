@@ -1,8 +1,11 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo')
     Contacto
 @endsection
+
+@section('meta_description', 'Contactanos para cotizar tu pagina web. Te ayudamos con estrategia, diseno y desarrollo para crecer tu presencia digital.')
+@section('og_image', asset('img/img-2.png'))
 
 @push('page-styles')
     @vite(['resources/css/contacto.css'])
@@ -74,11 +77,11 @@
                 </fieldset>
 
                 <div class="contacto__field">
-                    <label for="paquete">¿Qué paquete te interesa?</label>
+                    <label for="paquete">&iquest;Qu&eacute; paquete te interesa?</label>
                     <select id="paquete" name="paquete" required>
-                        <option value="" selected>Selecciona una opción</option>
+                        <option value="" selected>Selecciona una opci&oacute;n</option>
                         <option value="profesional" @selected($paqueteSeleccionado === 'profesional')>Profesional</option>
-                        <option value="basico" @selected($paqueteSeleccionado === 'basico')>Básico</option>
+                        <option value="basico" @selected($paqueteSeleccionado === 'basico')>B&aacute;sico</option>
                         <option value="personalizado" @selected($paqueteSeleccionado === 'personalizado')>Personalizado</option>
                         <option value="otro">Otro</option>
                     </select>
@@ -110,7 +113,8 @@
                 </div>
 
                 <div class="contacto__media">
-                    <img src="{{ asset('img/img-2.png') }}" alt="Equipo creativo" />
+                    
+                <img src="{{ asset('img/img-2.png') }}" alt="Equipo creativo" loading="lazy" />
                 </div>
             </aside>
         </div>

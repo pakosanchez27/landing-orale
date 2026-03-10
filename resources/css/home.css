@@ -50,6 +50,18 @@
   transform: translateY(0) scale(1);
 }
 
+@media (max-width: 991px) {
+  .reveal-section {
+    transform: translateY(1.6rem);
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+
+  .reveal-card {
+    transform: translateY(1.2rem) scale(0.995);
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+}
+
 /* Cintillo */
 .cintillo {
   background-color: var(--color-secundario);
@@ -64,6 +76,13 @@
   width: max-content;
   animation: cintillo-desplazamiento 24s linear infinite;
   will-change: transform;
+}
+
+@media (max-width: 991px), (prefers-reduced-motion: reduce) {
+  .cintillo__track {
+    animation: none;
+    transform: translateX(0);
+  }
 }
 
 .cintillo__grupo {

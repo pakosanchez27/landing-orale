@@ -1,8 +1,11 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('titulo')
     FAQ'S
 @endsection
+
+@section('meta_description', 'Resuelve tus dudas sobre tiempos, proceso, entregables y mantenimiento de nuestros servicios de diseno y desarrollo web.')
+@section('og_image', asset('img/hero.png'))
 
 @push('page-styles')
     @vite(['resources/css/faqs.css'])
