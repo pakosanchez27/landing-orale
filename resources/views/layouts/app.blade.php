@@ -25,7 +25,7 @@
     <header class="header">
         <div class="navegacion flex items-center justify-between">
             <a href="#" class="logo">
-                <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="w-48 object-contain" />
+                <img src="{{ asset('img/LogoBlanco.png') }}" alt="Logo de &Oacute;rale Web" class="w-32 lg:w-36 object-contain" />
             </a>
             <nav class="hidden lg:flex">
                 <ul class="menu flex space-x-8 text-white">

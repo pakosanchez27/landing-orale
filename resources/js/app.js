@@ -1,4 +1,5 @@
 import '../css/app.css';
+import './vendor';
 import "./bootstrap";
 import "./globales";
 
