@@ -24,67 +24,90 @@
         </div>
 
         <div class="contacto__grid">
-            <form class="contacto__form" action="#" method="POST">
+            <form class="contacto__form" action="{{route('enviar')}}" method="POST" novalidate>
                 @csrf
+                @if (session('success'))
+                    <div class="contacto__alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="contacto__field">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required />
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" value="{{old('nombre')}}" />
+                    @error('nombre')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="contacto__field">
                     <label for="whatsapp">WhatsApp</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="+52 55 0000 0000" required />
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="+52 55 0000 0000" value="{{old('whatsapp')}}" />
+                    @error('whatsapp')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="contacto__field">
                     <label for="correo">Correo</label>
-                    <input type="email" id="correo" name="correo" placeholder="tucorreo@dominio.com" required />
+                    <input type="email" id="correo" name="correo" placeholder="tucorreo@dominio.com" value="{{old('correo')}}" />
+                    @error('correo')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="contacto__field">
                     <label for="mensaje">Mensaje</label>
-                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cu&eacute;ntanos sobre tu negocio" required></textarea>
+                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cu&eacute;ntanos sobre tu negocio" >{{old('mensaje')}}</textarea>
+                    @error('mensaje')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <fieldset class="contacto__fieldset">
                     <legend>Selecciona tu industria</legend>
                     <div class="contacto__checks">
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="hospitalidad" />
+                            <input type="radio" name="industria" value="hospitalidad" />
                             Hospitalidad y Alimentos
                         </label>
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="inmobiliarias" />
+                            <input type="radio" name="industria" value="inmobiliarias" />
                             Inmobiliarias
                         </label>
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="medica" />
+                            <input type="radio" name="industria" value="medica" />
                             M&eacute;dica
                         </label>
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="turismo" />
+                            <input type="radio" name="industria" value="turismo" />
                             Turismo
                         </label>
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="profesional" />
+                            <input type="radio" name="industria" value="profesional" />
                             Profesional y Freelancer
                         </label>
                         <label class="contacto__check">
-                            <input type="checkbox" name="industria[]" value="otro" />
+                            <input type="radio" name="industria" value="otro" />
                             Otro
                         </label>
                     </div>
+                    @error('industria')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </fieldset>
 
                 <div class="contacto__field">
                     <label for="paquete">&iquest;Qu&eacute; paquete te interesa?</label>
-                    <select id="paquete" name="paquete" required>
+                    <select id="paquete" name="paquete">
                         <option value="" selected>Selecciona una opci&oacute;n</option>
                         <option value="profesional" @selected($paqueteSeleccionado === 'profesional')>Profesional</option>
                         <option value="basico" @selected($paqueteSeleccionado === 'basico')>B&aacute;sico</option>
                         <option value="personalizado" @selected($paqueteSeleccionado === 'personalizado')>Personalizado</option>
                         <option value="otro">Otro</option>
                     </select>
+                    @error('paquete')
+                        <small class="contacto__error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <button type="submit" class="btn-primario uppercase">Enviar mensaje</button>

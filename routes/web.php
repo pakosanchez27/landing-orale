@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogosController;
 use App\Http\Controllers\DemosController;
+use App\Http\Controllers\FormularioController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +42,10 @@ Route::get('/paquetes', function () {
     return view('pages.paquetes');
 });
 
+Route::get('/enviar-formulario', function () {
+    return redirect('/contacto');
+});
+Route::post('/enviar-formulario', [FormularioController::class, 'enviar'])->name('enviar');
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
