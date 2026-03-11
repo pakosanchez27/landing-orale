@@ -47,6 +47,10 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/catalogos/industrias', [CatalogosController::class, 'industrias'])->name('admin.catalogos.industrias');
 Route::post('/admin/catalogos/industrias', [CatalogosController::class, 'saveIndustria'])->name('admin.catalogos.industrias.store');
 Route::post('/admin/catalogos/industria/seve', [CatalogosController::class, 'seveIndustria']);
+Route::post('/admin/catalogos/industria/show', [CatalogosController::class, 'showIndustria']);
+Route::post('/admin/catalogos/industria/update', [CatalogosController::class, 'updateIndustria'])->name('admin.catalogos.industrias.update');
+Route::post('/admin/catalogos/industria/estado', [CatalogosController::class, 'updateIndustriaEstado']);
 
 
-Route::get('admin/demos', [DemosController::class, 'index'])->name('demos');
+Route::get('/admin/demos', [DemosController::class, 'index'])->name('demos');
+Route::get('/admin/demo/create', [DemosController::class, 'create'])->name('demos.create');

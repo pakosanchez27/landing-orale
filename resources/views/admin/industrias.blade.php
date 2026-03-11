@@ -15,8 +15,8 @@
         <section class="admin-panel">
             <div class="admin-panel__header">
                 <h2>Lista de industrias</h2>
-                <button class="btn-primario" type="button" id="nueva-industria-btn" onclick="createIndustria()">Nueva
-                    industria</button>
+                <a class="btn-primario" type="button" id="nueva-industria-btn" onclick="createIndustria()">Nueva
+                    industria</a>
             </div>
             <div class="admin-panel__body">
                 <div class="table-wrap">
@@ -44,9 +44,11 @@
                                     <td>
                                         <button class="btn-action" type="button" onclick="editIndustria({{$industria['id']}})">Editar</button>
                                         @if ($industria['estado'] == 1)
-                                            <button class="btn-action btn-danger" type="button">Eliminar</button>
+                                            <button class="btn-action btn-danger" type="button"
+                                                onclick="toggleIndustriaEstado({{ $industria['id'] }}, 0)">Eliminar</button>
                                         @else
-                                            <button class="btn-action btn-blue" type="button">Activar</button>
+                                            <button class="btn-action btn-blue" type="button"
+                                                onclick="toggleIndustriaEstado({{ $industria['id'] }}, 1)">Activar</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -125,7 +127,9 @@
                 </label>
                 <div class="admin-modal__actions">
                     <button type="button" class="admin-btn-secondary" id="industria-modal-edit-cancel">Cancelar</button>
-                    <button type="button" class="btn-primario" id="industria-update-btn" onclick="updateIndustria()">Actualizar</button>
+                    <button type="button" class="btn-primario" id="industria-update-btn"
+                        data-url="{{ route('admin.catalogos.industrias.update') }}"
+                        onclick="updateIndustria()">Actualizar</button>
                 </div>
             </form>
         </div>

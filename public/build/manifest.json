@@ -1,6 +1,15 @@
 {
+  "resources/css/app-admin.css": {
+    "file": "assets/app-admin-BmWpGCdK.css",
+    "src": "resources/css/app-admin.css",
+    "isEntry": true,
+    "name": "app-admin",
+    "names": [
+      "app-admin.css"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-ywI41CnH.css",
+    "file": "assets/app-BVt5K-Z3.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -89,13 +98,51 @@
       "paquetes.css"
     ]
   },
+  "resources/js/admin/catalogos.js": {
+    "file": "assets/catalogos-BDJd2JB0.js",
+    "name": "catalogos",
+    "src": "resources/js/admin/catalogos.js",
+    "isEntry": true
+  },
+  "resources/js/app-admin.js": {
+    "file": "assets/app-admin-DAq3e91r.js",
+    "name": "app-admin",
+    "src": "resources/js/app-admin.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/vendor.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-CMYEWTuY.js",
+    "file": "assets/app-BQHSLs8L.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "imports": [
+      "resources/js/vendor.js",
+      "resources/js/bootstrap.js",
+      "resources/js/globales.js"
+    ]
+  },
+  "resources/js/bootstrap.js": {
+    "file": "assets/bootstrap-BuG9aa18.js",
+    "name": "bootstrap",
+    "src": "resources/js/bootstrap.js",
+    "isEntry": true
+  },
+  "resources/js/globales.js": {
+    "file": "assets/globales-HGsOszz3.js",
+    "name": "globales",
+    "src": "resources/js/globales.js",
+    "isEntry": true
+  },
+  "resources/js/vendor.js": {
+    "file": "assets/vendor-ZElQoGcu.js",
+    "name": "vendor",
+    "src": "resources/js/vendor.js",
+    "isEntry": true,
     "css": [
-      "assets/app-ywI41CnH.css"
+      "assets/vendor-BULF2s0M.css"
     ]
   }
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_industria');
             $table->text('descripcion');
             $table->string('link');
-            $table->timestamp('create_date')->useCurrent();
-            $table->timestamp('update_date')->nullable()->useCurrentOnUpdate();
+            $table->timestamp('create_at')->useCurrent();
+            $table->timestamp('update_at')->nullable()->useCurrentOnUpdate();
 
             $table->foreign('id_industria')->references('id')->on('industrias')->onDelete('cascade');
         });

@@ -40,7 +40,7 @@
     <meta name="twitter:description" content="{{ $metaDescription }}" />
     <meta name="twitter:image" content="{{ $ogImage }}" />
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('page-styles')
     @stack('head-extra')
