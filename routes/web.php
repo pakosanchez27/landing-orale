@@ -4,12 +4,17 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogosController;
 use App\Http\Controllers\DemosController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsuariosController;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
 
 /* =========================
    Rutas Públicas
    ========================= */
+
 Route::get('/', function () {
     return view('pages.index');
 });
@@ -45,17 +50,38 @@ Route::get('/paquetes', function () {
 Route::get('/enviar-formulario', function () {
     return redirect('/contacto');
 });
+
+// Login
+
+
+
+
 Route::post('/enviar-formulario', [FormularioController::class, 'enviar'])->name('enviar');
 
+Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'login']);
+Route::get('/admin/perfil', [ProfileController::class, 'show'])->name('admin.profile');
+Route::post('/admin/perfil', [ProfileController::class, 'update'])->name('admin.profile.update');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/catalogos/industrias', [CatalogosController::class, 'industrias'])->name('admin.catalogos.industrias');
-Route::post('/admin/catalogos/industrias', [CatalogosController::class, 'saveIndustria'])->name('admin.catalogos.industrias.store');
-Route::post('/admin/catalogos/industria/seve', [CatalogosController::class, 'seveIndustria']);
-Route::post('/admin/catalogos/industria/show', [CatalogosController::class, 'showIndustria']);
-Route::post('/admin/catalogos/industria/update', [CatalogosController::class, 'updateIndustria'])->name('admin.catalogos.industrias.update');
-Route::post('/admin/catalogos/industria/estado', [CatalogosController::class, 'updateIndustriaEstado']);
+// Protege un grupo de rutas
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin/catalogos/industrias', [CatalogosController::class, 'industrias'])->name('admin.catalogos.industrias');
+    Route::post('/admin/catalogos/industrias', [CatalogosController::class, 'saveIndustria'])->name('admin.catalogos.industrias.store');
+    Route::post('/admin/catalogos/industria/seve', [CatalogosController::class, 'seveIndustria']);
+    Route::post('/admin/catalogos/industria/show', [CatalogosController::class, 'showIndustria']);
+    Route::post('/admin/catalogos/industria/update', [CatalogosController::class, 'updateIndustria'])->name('admin.catalogos.industrias.update');
+    Route::post('/admin/catalogos/industria/estado', [CatalogosController::class, 'updateIndustriaEstado']);
 
 
-Route::get('/admin/demos', [DemosController::class, 'index'])->name('demos');
-Route::get('/admin/demo/create', [DemosController::class, 'create'])->name('demos.create');
+    Route::get('/admin/demos', [DemosController::class, 'index'])->name('demos');
+    Route::get('/admin/demo/create', [DemosController::class, 'create'])->name('demos.create');
+
+
+
+    //usuarios
+
+    Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
+    Route::get('/admin/usuarios/create', [UsuariosController::class, 'create'])->name('usuarios.create');
+    Route::post('/admin/usuarios', [UsuariosController::class, 'store'])->name('usuarios.store');
+});

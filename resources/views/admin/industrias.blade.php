@@ -1,7 +1,7 @@
 @extends('layouts.app-admin')
 
 @section('content')
-    <header class="admin-topbar">
+    <div class="admin-topbar">
         <button class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">
             <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
@@ -9,7 +9,7 @@
             <p class="admin-topbar__eyebrow">Cat&aacute;logos</p>
             <h1 class="admin-topbar__title">Industrias</h1>
         </div>
-    </header>
+    </div>
 
     <main class="admin-content">
         <section class="admin-panel">

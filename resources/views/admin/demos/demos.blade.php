@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <header class="admin-topbar">
+    <div class="admin-topbar">
         <a class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">
             <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </a>
@@ -16,7 +16,7 @@
         <div class="admin-topbar__actions">
             <a href="{{route('demos.create')}}" class="btn-primario" type="button">Nuevo Demo</a>
         </div>
-    </header>
+    </div>
 
     <main class="admin-content">
 
