@@ -1,4 +1,4 @@
-﻿@extends('layouts.app-admin')
+@extends('layouts.app-admin')
 
 @section('titulo', 'Crear usuario')
 
@@ -12,7 +12,9 @@
                 </div>
             </div>
 
-           
+            <div class="admin-alert admin-alert--success">
+                Al crear el usuario se enviara un correo de bienvenida con un enlace para definir su contrasena.
+            </div>
 
             <form action="{{ route('usuarios.store') }}" method="POST" enctype="multipart/form-data" class="admin-form" novalidate>
                 @csrf
@@ -44,20 +46,6 @@
                         @error('email')
                             <p class="admin-error">{{ $message }}</p>
                         @enderror
-                    </div>
-                </div>
-
-                <div class="admin-form__row">
-                    <div class="admin-form__group">
-                        <label class="admin-label">Contraseña</label>
-                        <input type="password" name="password" class="admin-input" required />
-                        @error('password')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="admin-form__group">
-                        <label class="admin-label">Confirmar contraseña</label>
-                        <input type="password" name="password_confirmation" class="admin-input" required />
                     </div>
                 </div>
 

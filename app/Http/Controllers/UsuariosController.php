@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\Auth;
+use App\Mail\UserWelcomeSetPasswordMail;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class UsuariosController extends Controller
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function index()
     {
@@ -19,14 +23,15 @@ class UsuariosController extends Controller
             $users = User::with('role')->orderBy('name')->get();
 
             return view('admin.usuarios.index', compact('users'));
-        } else {
-            return redirect()->route('admin');
         }
+
+        return redirect()->route('admin');
     }
 
     public function create()
     {
         $roles = Role::orderBy('id')->get();
+
         return view('admin.usuarios.create', compact('roles'));
     }
 
@@ -35,7 +40,6 @@ class UsuariosController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'min:8', 'confirmed'],
             'cargo' => ['nullable', 'string', 'max:255'],
             'role_id' => ['required', 'exists:roles,id'],
             'imagen' => ['nullable', 'image', 'max:2048'],
@@ -44,7 +48,7 @@ class UsuariosController extends Controller
         $user = new User();
         $user->name = $validated['name'];
         $user->email = $validated['email'];
-        $user->password = Hash::make($validated['password']);
+        $user->password = Hash::make(Str::random(40));
         $user->cargo = $validated['cargo'] ?? null;
         $user->role_id = $validated['role_id'];
 
@@ -53,6 +57,7 @@ class UsuariosController extends Controller
             if (!is_dir($dir)) {
                 mkdir($dir, 0755, true);
             }
+
             $file = $request->file('imagen');
             $filename = uniqid('profile_', true) . '.' . $file->getClientOriginalExtension();
             $file->move($dir, $filename);
@@ -61,7 +66,12 @@ class UsuariosController extends Controller
 
         $user->save();
 
-        return redirect()->route('usuarios')->with('status', 'Usuario creado correctamente.');
+        $this->sendPasswordSetupMail($user);
+
+        return redirect()->route('usuarios')->with(
+            'status',
+            'Usuario creado correctamente. Se envio un correo para definir su contrasena.'
+        );
     }
 
     public function edit(User $user)
@@ -96,6 +106,7 @@ class UsuariosController extends Controller
             if (!is_dir($dir)) {
                 mkdir($dir, 0755, true);
             }
+
             $file = $request->file('imagen');
             $filename = uniqid('profile_', true) . '.' . $file->getClientOriginalExtension();
             $file->move($dir, $filename);
@@ -120,13 +131,22 @@ class UsuariosController extends Controller
 
     public function resetPassword(User $user)
     {
-        $temporaryPassword = Str::random(10);
-        $user->password = Hash::make($temporaryPassword);
-        $user->save();
+        $this->sendPasswordSetupMail($user);
 
         return redirect()->route('usuarios')->with(
             'status',
-            'Contraseña restablecida para ' . $user->email . '. Temporal: ' . $temporaryPassword
+            'Se envio un nuevo enlace para definir la contrasena a ' . $user->email . '.'
         );
+    }
+
+    private function sendPasswordSetupMail(User $user): void
+    {
+        $resetToken = Password::broker()->createToken($user);
+        $resetUrl = route('password.setup', [
+            'token' => $resetToken,
+            'email' => $user->email,
+        ]);
+
+        Mail::to($user->email)->send(new UserWelcomeSetPasswordMail($user, $resetUrl));
     }
 }

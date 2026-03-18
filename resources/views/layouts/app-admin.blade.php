@@ -46,8 +46,6 @@
                 </a>
 
                 @role(0)
-                    {{-- Super Admin --}}
-                    <p class=" text-slate-400 text-xs uppercase italic">Super Admin</p>
                     <a href="{{ route('usuarios') }}" class="admin-nav__item">
                         <i class="fa-solid fa-users" aria-hidden="true"></i>
                         <span class="admin-nav__text">Usuarios</span>
