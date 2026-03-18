@@ -8,6 +8,13 @@
         $avatar = $user && $user->imagen ? asset($user->imagen) : asset('img/perfil.jpg');
     @endphp
 
+    <div class="admin-topbar">
+        <div>
+            <p class="admin-topbar__eyebrow">Perfil</p>
+            <h1 class="admin-topbar__title">Editar perfil</h1>
+        </div>
+    </div>
+
     <section class="admin-section">
         <div class="admin-card">
             <div class="admin-card__header">

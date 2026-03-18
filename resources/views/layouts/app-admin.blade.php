@@ -85,19 +85,24 @@
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     <input type="search" placeholder="Buscar..." aria-label="Buscar" />
                 </div>
-                <button class="admin-user" type="button" id="admin-user-btn" aria-expanded="false">
-                    @php
-                        $authUser = auth()->user();
-                        $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
-                        $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
-                    @endphp
-                    <img src="{{ $avatar }}" alt="Foto de usuario" />
-                    <span class="admin-user__info">
-                        <strong>{{ $firstName }}</strong>
-                        <small>{{ $authUser?->cargo ?? 'Usuario' }}</small>
-                    </span>
-                    <i class="fa-solid fa-chevron-down admin-user__chevron" aria-hidden="true"></i>
-                </button>
+                <div class="admin-navtop__actions">
+                    <button class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <button class="admin-user" type="button" id="admin-user-btn" aria-expanded="false">
+                        @php
+                            $authUser = auth()->user();
+                            $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
+                            $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
+                        @endphp
+                        <img src="{{ $avatar }}" alt="Foto de usuario" />
+                        <span class="admin-user__info">
+                            <strong>{{ $firstName }}</strong>
+                            <small>{{ $authUser?->cargo ?? 'Usuario' }}</small>
+                        </span>
+                        <i class="fa-solid fa-chevron-down admin-user__chevron" aria-hidden="true"></i>
+                    </button>
+                </div>
                 <div class="admin-user-menu" id="admin-user-menu" hidden>
                     <a href="{{ route('admin.profile') }}">
                         <svg viewBox="0 0 24 24" aria-hidden="true">
