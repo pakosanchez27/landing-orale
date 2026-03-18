@@ -1,5 +1,9 @@
 @extends('layouts.app-admin')
 
+@section('titulo')
+    Industrias
+@endsection
+
 @section('content')
     <div class="admin-topbar">
         <button class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">

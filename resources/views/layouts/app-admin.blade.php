@@ -95,10 +95,11 @@
                     @php
                         $authUser = auth()->user();
                         $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
+                        $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
                     @endphp
                     <img src="{{ $avatar }}" alt="Foto de usuario" />
                     <span class="admin-user__info">
-                        <strong>{{ $authUser?->name ?? 'Usuario' }}</strong>
+                        <strong>{{ $firstName }}</strong>
                         <small>{{ $authUser?->cargo ?? 'Usuario' }}</small>
                     </span>
                     <i class="fa-solid fa-chevron-down admin-user__chevron" aria-hidden="true"></i>

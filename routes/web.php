@@ -84,4 +84,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
     Route::get('/admin/usuarios/create', [UsuariosController::class, 'create'])->name('usuarios.create');
     Route::post('/admin/usuarios', [UsuariosController::class, 'store'])->name('usuarios.store');
+    Route::get('/admin/usuarios/{user}/edit', [UsuariosController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/admin/usuarios/{user}', [UsuariosController::class, 'update'])->name('usuarios.update');
+    Route::delete('/admin/usuarios/{user}', [UsuariosController::class, 'destroy'])->name('usuarios.destroy');
+    Route::post('/admin/usuarios/{user}/reset-password', [UsuariosController::class, 'resetPassword'])->name('usuarios.reset-password');
 });

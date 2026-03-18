@@ -197,7 +197,7 @@ img {
 }
 
 button {
-    font-size: 1.8rem !important;
+    font-size: clamp(1.5rem, 0.4vw + 1.2rem, 1.8rem);
 }
 
 /* =========================
@@ -972,6 +972,130 @@ button {
 .btn-action.btn-blue {
     background: #45a5e6;
     color: #ffffff;
+}
+
+.admin-inline-form {
+    display: inline-block;
+}
+
+.table-wrap--usuarios {
+    background: #ffffff;
+    border: 1px solid #e7eaf4;
+    border-radius: 1.6rem;
+    padding: 1.6rem;
+    box-shadow: 0 12px 32px rgba(35, 51, 86, 0.08);
+}
+
+.table-wrap--usuarios table.dataTable {
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+.table-wrap--usuarios table.dataTable thead th {
+    background: #f4f7ff;
+    color: #22304f;
+    font-weight: 700;
+    border-bottom: 1px solid #d8deec !important;
+    padding: 1.4rem 1.6rem !important;
+}
+
+.table-wrap--usuarios table.dataTable tbody td {
+    color: #3a4561;
+    padding: 1.4rem 1.6rem !important;
+    border-bottom: 1px solid #edf1f7 !important;
+    vertical-align: middle;
+}
+
+.table-wrap--usuarios table.dataTable tbody tr:hover {
+    background: #f9fbff;
+}
+
+.table-wrap--usuarios table.dataTable tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+.table-wrap--usuarios table.dataTable tbody td:last-child {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.table-wrap--usuarios table.dataTable thead th:last-child {
+    text-align: center;
+}
+
+.usuarios-datatable__top,
+.usuarios-datatable__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding: 0.4rem 0 1.4rem;
+    flex-wrap: wrap;
+}
+
+.usuarios-datatable__bottom {
+    padding: 1.4rem 0 0;
+}
+
+.table-wrap--usuarios .dataTables_length label,
+.table-wrap--usuarios .dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #5b6785;
+    font-weight: 600;
+}
+
+.table-wrap--usuarios .dataTables_length select,
+.table-wrap--usuarios .dataTables_filter input {
+    border: 1px solid #d5dceb;
+    border-radius: 1rem;
+    background: #ffffff;
+    color: #22304f;
+    min-height: 4rem;
+    padding: 0.8rem 1.2rem;
+}
+
+.table-wrap--usuarios .dataTables_filter input {
+    min-width: 24rem;
+}
+
+.table-wrap--usuarios .dataTables_paginate .paginate_button {
+    border-radius: 0.8rem !important;
+    border: 1px solid transparent !important;
+    padding: 0.6rem 1.1rem !important;
+}
+
+.table-wrap--usuarios .dataTables_paginate .paginate_button.current,
+.table-wrap--usuarios .dataTables_paginate .paginate_button.current:hover {
+    background: #223d8f !important;
+    color: #ffffff !important;
+    border-color: #223d8f !important;
+}
+
+.table-wrap--usuarios .dataTables_paginate .paginate_button:hover {
+    background: #edf3ff !important;
+    color: #22304f !important;
+    border-color: #cdd8f3 !important;
+}
+
+.table-wrap--usuarios .dataTables_info {
+    color: #5b6785;
+}
+
+@media (max-width: 768px) {
+    .table-wrap--usuarios {
+        padding: 1rem;
+    }
+
+    .table-wrap--usuarios .dataTables_filter input {
+        min-width: 100%;
+    }
+
+    .usuarios-datatable__top,
+    .usuarios-datatable__bottom {
+        align-items: stretch;
+    }
 }
 
 .admin-overlay {

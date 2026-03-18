@@ -1,6 +1,6 @@
 {
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-Dfhl3jYM.css",
+    "file": "assets/app-admin-DeF8tyYp.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true,
     "name": "app-admin",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-qvUEHs2X.css",
+    "file": "assets/app-D9_Xmxcs.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -105,7 +105,7 @@
     "isEntry": true
   },
   "resources/js/app-admin.js": {
-    "file": "assets/app-admin-DAq3e91r.js",
+    "file": "assets/app-admin-BDsfxUdm.js",
     "name": "app-admin",
     "src": "resources/js/app-admin.js",
     "isEntry": true,
@@ -114,7 +114,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-BQHSLs8L.js",
+    "file": "assets/app-B3pJWHpP.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -137,7 +137,7 @@
     "isEntry": true
   },
   "resources/js/vendor.js": {
-    "file": "assets/vendor-ZElQoGcu.js",
+    "file": "assets/vendor-DZlAw0VI.js",
     "name": "vendor",
     "src": "resources/js/vendor.js",
     "isEntry": true,
