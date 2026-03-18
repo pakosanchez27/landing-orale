@@ -71,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/demos', [DemosController::class, 'index'])->name('demos');
     Route::get('/admin/demo/create', [DemosController::class, 'create'])->name('demos.create');
+    Route::post('/admin/demo/store', [DemosController::class, 'store'])->name('demos.store');
+    Route::get('/admin/demo/{id}/edit', [DemosController::class, 'edit'])->name('demos.edit');
+    Route::put('/admin/demo/{id}', [DemosController::class, 'update'])->name('demos.update');
+    Route::delete('/admin/demo/{id}', [DemosController::class, 'destroy'])->name('demos.destroy');
 
     Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
     Route::get('/admin/usuarios/create', [UsuariosController::class, 'create'])->name('usuarios.create');
