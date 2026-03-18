@@ -7,7 +7,6 @@
     <title>&iexcl;&Oacute;rale Web! | @yield('titulo')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-
     <script>
         window.base_url = "{{ url('/') }}";
     </script>
@@ -69,10 +68,7 @@
                 <a href="{{ route('demos') }}" class="admin-nav__item">
                     <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
                     <span class="admin-nav__text">Demos</span>
-                    </button>
                 </a>
-
-
             </nav>
 
             <div class="admin-sidebar__footer">
@@ -119,13 +115,16 @@
                         </svg>
                         Configuraci&oacute;n
                     </a>
-                    <a type="button">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M10 17l1.41-1.41L8.83 13H20v-2H8.83l2.58-2.59L10 7l-5 5 5 5zm-8 4h8v-2H4V5h6V3H2z"
-                                fill="currentColor" />
-                        </svg>
-                        Cerrar sesi&oacute;n
-                    </a>
+                    <form action="{{ route('admin.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="admin-user-menu__action">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M10 17l1.41-1.41L8.83 13H20v-2H8.83l2.58-2.59L10 7l-5 5 5 5zm-8 4h8v-2H4V5h6V3H2z"
+                                    fill="currentColor" />
+                            </svg>
+                            Cerrar sesi&oacute;n
+                        </button>
+                    </form>
                 </div>
             </div>
             @yield('content')
@@ -177,7 +176,9 @@
         }
         overlay.addEventListener("click", () => setMobileOpen(false));
         userBtn.addEventListener("click", () => setUserMenu(userMenu.hidden));
-        catalogosToggle.addEventListener("click", () => setCatalogosOpen(catalogosChildren.hidden));
+        if (catalogosToggle) {
+            catalogosToggle.addEventListener("click", () => setCatalogosOpen(catalogosChildren.hidden));
+        }
 
         document.addEventListener("click", (event) => {
             if (userMenu.hidden) return;

@@ -978,6 +978,25 @@ button {
     display: inline-block;
 }
 
+.admin-user-menu__action {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 0;
+    background: transparent;
+    padding: 0.8rem 1rem;
+    border-radius: 0.8rem;
+    font-size: 1.4rem;
+    color: #1a1b2b;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-user-menu__action:hover {
+    background: #f3f4fb;
+}
+
 .table-wrap--usuarios {
     background: #ffffff;
     border: 1px solid #e7eaf4;

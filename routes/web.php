@@ -60,6 +60,7 @@ Route::get('/admin/perfil', [ProfileController::class, 'show'])->name('admin.pro
 Route::post('/admin/perfil', [ProfileController::class, 'update'])->name('admin.profile.update');
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
     Route::get('/admin/catalogos/industrias', [CatalogosController::class, 'industrias'])->name('admin.catalogos.industrias');
     Route::post('/admin/catalogos/industrias', [CatalogosController::class, 'saveIndustria'])->name('admin.catalogos.industrias.store');
