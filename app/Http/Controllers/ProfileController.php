@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\PublicUploadPath;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +29,7 @@ class ProfileController extends Controller
 
         // 2. Gestión de la imagen de perfil
         if ($request->hasFile('imagen')) {
-            $path = public_path('uploads/profiles');
+            $path = PublicUploadPath::make('uploads/profiles');
             
             if (!is_dir($path)) {
                 mkdir($path, 0755, true);

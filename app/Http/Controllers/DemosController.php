@@ -6,6 +6,7 @@ use App\Http\Middleware\Auth;
 use App\Http\Requests\FormularioDemosRequest;
 use App\Models\DemoModel;
 use App\Models\IndustriaModel;
+use App\Support\PublicUploadPath;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -56,7 +57,7 @@ class DemosController extends Controller
 
         // La imagen se mueve manualmente a public/img/demos y se guarda la ruta relativa.
         if ($request->hasFile('imagen')) {
-            $directory = public_path('img/demos');
+            $directory = PublicUploadPath::make('img/demos');
 
             if (!is_dir($directory)) {
                 mkdir($directory, 0755, true);
@@ -113,7 +114,7 @@ class DemosController extends Controller
         unset($data['industria']);
 
         if ($request->hasFile('imagen')) {
-            $directory = public_path('img/demos');
+            $directory = PublicUploadPath::make('img/demos');
 
             if (!is_dir($directory)) {
                 mkdir($directory, 0755, true);
@@ -144,8 +145,10 @@ class DemosController extends Controller
         $demo = DemoModel::findOrFail($id);
         abort_unless($this->canManageDemo($demo), 403);
 
-        if ($demo->imagen && File::exists(public_path($demo->imagen))) {
-            File::delete(public_path($demo->imagen));
+        $imagePath = PublicUploadPath::make($demo->imagen ?? '');
+
+        if ($demo->imagen && File::exists($imagePath)) {
+            File::delete($imagePath);
         }
 
         $demo->delete();

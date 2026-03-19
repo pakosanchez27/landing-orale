@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\UserWelcomeSetPasswordMail;
 use App\Models\Role;
 use App\Models\User;
+use App\Support\PublicUploadPath;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -53,7 +54,7 @@ class UsuariosController extends Controller
         $user->role_id = $validated['role_id'];
 
         if ($request->hasFile('imagen')) {
-            $dir = public_path('uploads/profiles');
+            $dir = PublicUploadPath::make('uploads/profiles');
             if (!is_dir($dir)) {
                 mkdir($dir, 0755, true);
             }
@@ -102,7 +103,7 @@ class UsuariosController extends Controller
         }
 
         if ($request->hasFile('imagen')) {
-            $dir = public_path('uploads/profiles');
+            $dir = PublicUploadPath::make('uploads/profiles');
             if (!is_dir($dir)) {
                 mkdir($dir, 0755, true);
             }

@@ -19,6 +19,7 @@ $user = User::updateOrCreate(
         'name' => 'Francisco Sanchez',
         'password' => Hash::make($password),
         'role_id' => 0, 
+        'cargo' => 'CEO'
     ]
 );
 
