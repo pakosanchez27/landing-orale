@@ -8,14 +8,44 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordSetupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuariosController;
+use App\Models\DemoModel;
+use App\Models\IndustriaModel;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 /* =========================
    Rutas Publicas
    ========================= */
 
 Route::get('/', function () {
-    return view('pages.index');
+    if (!Schema::hasTable('demos') || !Schema::hasTable('industrias')) {
+        return view('pages.index', [
+            'industriasConDemos' => collect(),
+            'demos' => collect(),
+        ]);
+    }
+
+    $demoIndustryIds = DemoModel::query()
+        ->select('id_industria')
+        ->distinct()
+        ->pluck('id_industria');
+
+    $industriasConDemos = IndustriaModel::query()
+        ->whereIn('id', $demoIndustryIds)
+        ->where('estado', 1)
+        ->orderBy('nombre')
+        ->get();
+
+    $demos = DemoModel::query()
+        ->with('industria')
+        ->whereHas('industria', function ($query) {
+            $query->where('estado', 1);
+        })
+        ->latest('id')
+        ->take(9)
+        ->get();
+
+    return view('pages.index', compact('industriasConDemos', 'demos'));
 });
 
 Route::get('/nosotros', function () {
