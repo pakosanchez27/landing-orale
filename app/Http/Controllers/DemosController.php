@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\Auth;
 use App\Http\Requests\FormularioDemosRequest;
 use App\Models\DemoModel;
 use App\Models\IndustriaModel;
 use App\Support\PublicUploadPath;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class DemosController extends Controller
@@ -56,18 +56,10 @@ class DemosController extends Controller
         $data['id_usuario'] = auth()->id();
 
         // La imagen se mueve manualmente a public/img/demos y se guarda la ruta relativa.
-        if ($request->hasFile('imagen')) {
-            $directory = PublicUploadPath::make('img/demos');
+        $storedImagePath = $this->storeDemoImage($request);
 
-            if (!is_dir($directory)) {
-                mkdir($directory, 0755, true);
-            }
-
-            $image = $request->file('imagen');
-            $filename = uniqid('demo_', true) . '.' . $image->getClientOriginalExtension();
-            $image->move($directory, $filename);
-
-            $data['imagen'] = 'img/demos/' . $filename;
+        if ($storedImagePath !== null) {
+            $data['imagen'] = $storedImagePath;
         }
 
         // La tabla usa create_at/update_at personalizados, por eso se asignan aqui.
@@ -113,18 +105,10 @@ class DemosController extends Controller
         $data['id_industria'] = $data['industria'];
         unset($data['industria']);
 
-        if ($request->hasFile('imagen')) {
-            $directory = PublicUploadPath::make('img/demos');
+        $storedImagePath = $this->storeDemoImage($request);
 
-            if (!is_dir($directory)) {
-                mkdir($directory, 0755, true);
-            }
-
-            $image = $request->file('imagen');
-            $filename = uniqid('demo_', true) . '.' . $image->getClientOriginalExtension();
-            $image->move($directory, $filename);
-
-            $data['imagen'] = 'img/demos/' . $filename;
+        if ($storedImagePath !== null) {
+            $data['imagen'] = $storedImagePath;
         } else {
             unset($data['imagen']);
         }
@@ -165,5 +149,37 @@ class DemosController extends Controller
         }
 
         return (int) $user->role_id === 0 || (int) $user->id === (int) $demo->id_usuario;
+    }
+
+    private function storeDemoImage(FormularioDemosRequest $request): ?string
+    {
+        $directory = PublicUploadPath::make('img/demos');
+
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $base64Image = $request->input('imagen_base64');
+
+        if (!$base64Image) {
+            return null;
+        }
+
+        if (!preg_match('/^data:image\/([a-zA-Z0-9.+-]+);base64,/', $base64Image, $matches)) {
+            return null;
+        }
+
+        $extension = strtolower($matches[1]);
+        $encoded = substr($base64Image, strpos($base64Image, ',') + 1);
+        $binary = base64_decode($encoded, true);
+
+        if ($binary === false) {
+            return null;
+        }
+
+        $filename = uniqid('demo_', true) . '.' . $extension;
+        file_put_contents($directory . DIRECTORY_SEPARATOR . $filename, $binary);
+
+        return 'img/demos/' . $filename;
     }
 }

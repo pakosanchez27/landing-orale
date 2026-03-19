@@ -18,8 +18,9 @@
 
     <main class="admin-content">
         <div class="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <form class="w-full" novalidate method="POST" action="{{ route('demos.store') }}" enctype="multipart/form-data">
+            <form class="w-full" novalidate method="POST" action="{{ route('demos.store') }}">
                 @csrf
+                <input type="hidden" name="imagen_base64" id="imagen-base64" value="{{ old('imagen_base64') }}">
                 <div class="w-full grid grid-cols-1 gap-6">
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 	                    <div class="flex flex-col gap-2">
@@ -73,7 +74,7 @@
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <label class=" font-semibold text-slate-700" for="imagen-input">Imagen</label>
-                            <input type="file" name="imagen" id="imagen-input" accept="image/*"
+                            <input type="file" id="imagen-input" accept="image/*"
                                 class="w-full rounded-md border border-slate-300 px-4 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-slate-800 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-700" />
                             @error('imagen')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
@@ -100,20 +101,27 @@
     <script>
         const imagenInput = document.getElementById("imagen-input");
         const imagenPreview = document.getElementById("imagen-preview");
+        const imagenBase64 = document.getElementById("imagen-base64");
 
-        if (imagenInput && imagenPreview) {
+        if (imagenInput && imagenPreview && imagenBase64) {
             imagenInput.addEventListener("change", (event) => {
                 const file = event.target.files && event.target.files[0];
                 if (!file) {
+                    imagenBase64.value = "";
                     imagenPreview.src = "https://via.placeholder.com/640x360?text=Preview";
                     return;
                 }
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     imagenPreview.src = e.target.result;
+                    imagenBase64.value = typeof e.target.result === "string" ? e.target.result : "";
                 };
                 reader.readAsDataURL(file);
             });
+
+            if (imagenBase64.value) {
+                imagenPreview.src = imagenBase64.value;
+            }
         }
 
         @if (session('status'))

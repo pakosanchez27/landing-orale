@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class FormularioDemosRequest extends FormRequest
 {
@@ -13,21 +14,55 @@ class FormularioDemosRequest extends FormRequest
 
     public function rules(): array
     {
-        $imageRules = ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'];
-
-        if ($this->isMethod('post')) {
-            array_unshift($imageRules, 'required');
-        } else {
-            array_unshift($imageRules, 'nullable');
-        }
-
         return [
             'titulo' => ['required', 'string', 'max:255'],
             'industria' => ['required', 'integer', 'exists:industrias,id'],
             'descripcion' => ['required', 'string', 'max:5000'],
             'link' => ['required', 'url', 'max:255'],
-            'imagen' => $imageRules,
+            'imagen_base64' => $this->isMethod('post')
+                ? ['required', 'string']
+                : ['nullable', 'string'],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            $base64Image = $this->input('imagen_base64');
+
+            if (!$base64Image) {
+                if ($this->isMethod('post')) {
+                    $validator->errors()->add('imagen', 'La imagen es obligatoria.');
+                }
+
+                return;
+            }
+
+            if (!preg_match('/^data:image\/([a-zA-Z0-9.+-]+);base64,/', $base64Image, $matches)) {
+                $validator->errors()->add('imagen', 'La imagen debe ser jpg, jpeg, png o webp.');
+                return;
+            }
+
+            $extension = strtolower($matches[1]);
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (!in_array($extension, $allowedExtensions, true)) {
+                $validator->errors()->add('imagen', 'La imagen debe ser jpg, jpeg, png o webp.');
+                return;
+            }
+
+            $encoded = substr($base64Image, strpos($base64Image, ',') + 1);
+            $binary = base64_decode($encoded, true);
+
+            if ($binary === false) {
+                $validator->errors()->add('imagen', 'La imagen no se pudo procesar correctamente.');
+                return;
+            }
+
+            if (strlen($binary) > 2048 * 1024) {
+                $validator->errors()->add('imagen', 'La imagen no puede pesar mas de 2 MB.');
+            }
+        });
     }
 
     public function messages(): array
@@ -43,10 +78,7 @@ class FormularioDemosRequest extends FormRequest
             'link.required' => 'El link es obligatorio.',
             'link.url' => 'Debes ingresar una URL valida.',
             'link.max' => 'El link no puede exceder 255 caracteres.',
-            'imagen.required' => 'La imagen es obligatoria.',
-            'imagen.image' => 'El archivo debe ser una imagen valida.',
-            'imagen.mimes' => 'La imagen debe ser jpg, jpeg, png o webp.',
-            'imagen.max' => 'La imagen no puede pesar mas de 2 MB.',
+            'imagen_base64.required' => 'La imagen es obligatoria.',
         ];
     }
 }
