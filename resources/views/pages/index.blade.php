@@ -209,7 +209,7 @@
                             data-demo-link="{{ $demo->link }}"
                             data-demo-industry="{{ $demo->industria?->nombre }}"
                             data-demo-color="{{ $demo->industria?->color ?: '#8c5cff' }}">
-                            Ver Demo
+                            Ver más
                         </button>
                     </div>
                 </div>
