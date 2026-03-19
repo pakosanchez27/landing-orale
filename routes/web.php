@@ -53,7 +53,40 @@ Route::get('/nosotros', function () {
 });
 
 Route::get('/demos', function () {
-    return view('pages.demos');
+    if (!Schema::hasTable('demos') || !Schema::hasTable('industrias')) {
+        return view('pages.demos', [
+            'industriasConDemos' => collect(),
+            'demos' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 6),
+            'industriaSeleccionada' => null,
+        ]);
+    }
+
+    $demoIndustryIds = DemoModel::query()
+        ->select('id_industria')
+        ->distinct()
+        ->pluck('id_industria');
+
+    $industriasConDemos = IndustriaModel::query()
+        ->whereIn('id', $demoIndustryIds)
+        ->where('estado', 1)
+        ->orderBy('nombre')
+        ->get();
+
+    $industriaSeleccionada = request('industria');
+
+    $demos = DemoModel::query()
+        ->with('industria')
+        ->whereHas('industria', function ($query) {
+            $query->where('estado', 1);
+        })
+        ->when($industriaSeleccionada, function ($query) use ($industriaSeleccionada) {
+            $query->where('id_industria', $industriaSeleccionada);
+        })
+        ->latest('id')
+        ->paginate(6)
+        ->withQueryString();
+
+    return view('pages.demos', compact('industriasConDemos', 'demos', 'industriaSeleccionada'));
 });
 
 Route::get('/blog', function () {

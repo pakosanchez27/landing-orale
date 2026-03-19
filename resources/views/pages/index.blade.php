@@ -179,12 +179,11 @@
             dise&ntilde;o moderno y enfoque en conversi&oacute;n.
         </p>
 
-        <div class="badges flex justify-center gap-8 mt-8 mb-16 flex-wrap">
-            @foreach ($industriasConDemos as $industria)
-                <span class="badge" style="background-color: {{ $industria->color ?: '#8c5cff' }};">
-                    {{ $industria->nombre }}
-                </span>
-            @endforeach
+        <div class="w-full flex justify-end mt-8 mb-16">
+            <a href="/demos" class="demo-more-link uppercase">
+                Ver m&aacute;s demos
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
         </div>
 
         <div class="card-demos grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
@@ -219,30 +218,6 @@
         </div>
         <nav class="paginador-demos" aria-label="Paginaci&oacute;n de demos"></nav>
     </section>
-
-    <div class="demo-modal" id="demo-modal" hidden>
-        <div class="demo-modal__backdrop" data-demo-modal-close></div>
-        <div class="demo-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
-            <button type="button" class="demo-modal__close" id="demo-modal-close" aria-label="Cerrar modal">
-                &times;
-            </button>
-            <div class="demo-modal__media">
-                <img id="demo-modal-image" src="" alt="" loading="lazy" />
-            </div>
-            <div class="demo-modal__body">
-                <p class="demo-modal__eyebrow">Vista previa del demo</p>
-                <h3 id="demo-modal-title"></h3>
-                <span class="badge demo-modal__badge" id="demo-modal-industry" hidden></span>
-                <div class="demo-modal__description-wrap">
-                    <p id="demo-modal-description"></p>
-                </div>
-                <a id="demo-modal-link" href="#" target="_blank" rel="noopener noreferrer"
-                    class="btn-primario demo-modal__action uppercase inline-flex justify-center">
-                    Ir al demo
-                </a>
-            </div>
-        </div>
-    </div>
 
     <section class="section text-center contenido-centrado">
         <h2 class="w-full md:w-3/6 mx-auto flex flex-col justify-center items-center text-center font-bold mb-12">
@@ -402,6 +377,32 @@
 
     </section>
 @endsection
+
+@push('page-overlays')
+    <div class="demo-modal" id="demo-modal" hidden>
+        <div class="demo-modal__backdrop" data-demo-modal-close></div>
+        <div class="demo-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
+            <button type="button" class="demo-modal__close" id="demo-modal-close" aria-label="Cerrar modal">
+                &times;
+            </button>
+            <div class="demo-modal__media">
+                <img id="demo-modal-image" src="" alt="" loading="lazy" />
+            </div>
+            <div class="demo-modal__body">
+                <p class="demo-modal__eyebrow">Vista previa del demo</p>
+                <h3 id="demo-modal-title"></h3>
+                <span class="badge demo-modal__badge" id="demo-modal-industry" hidden></span>
+                <div class="demo-modal__description-wrap">
+                    <p id="demo-modal-description"></p>
+                </div>
+                <a id="demo-modal-link" href="#" target="_blank" rel="noopener noreferrer"
+                    class="btn-primario demo-modal__action uppercase inline-flex justify-center">
+                    Ir al demo
+                </a>
+            </div>
+        </div>
+    </div>
+@endpush
 
 @push('page-scripts')
     <script>

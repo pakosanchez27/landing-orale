@@ -196,6 +196,7 @@
         <p class="footer__legend">Derechos Reservados &iexcl;&Oacute;rale web! 2026</p>
     </footer>
 
+    @stack('page-overlays')
     @stack('page-scripts')
 </body>
 

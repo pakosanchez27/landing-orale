@@ -206,6 +206,30 @@
   margin-top: 3rem;
 }
 
+.demo-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.demo-more-link i {
+  color: #ffffff;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.demo-more-link:hover,
+.demo-more-link:hover i {
+  color: var(--color-primario);
+}
+
+.demo-more-link:hover i {
+  transform: translateX(0.4rem);
+}
+
 .demo-modal-open {
   overflow: hidden;
 }
