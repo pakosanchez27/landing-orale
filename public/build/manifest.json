@@ -1,6 +1,6 @@
 {
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-BWWXbaJJ.css",
+    "file": "assets/app-admin-BPaXBL6E.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true,
     "name": "app-admin",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-DnL3B-aT.css",
+    "file": "assets/app-cvX2zBfY.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -114,7 +114,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-B3pJWHpP.js",
+    "file": "assets/app-DuHDCAIm.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -131,7 +131,7 @@
     "isEntry": true
   },
   "resources/js/globales.js": {
-    "file": "assets/globales-HGsOszz3.js",
+    "file": "assets/globales-BqPw2S62.js",
     "name": "globales",
     "src": "resources/js/globales.js",
     "isEntry": true
