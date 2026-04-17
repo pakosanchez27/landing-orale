@@ -1,330 +1,111 @@
 @extends('layouts.app')
 
-@section('titulo')
-    Blog
-@endsection
-
+@section('titulo', 'Blog')
 @section('meta_description', 'Articulos sobre diseno web, UX, SEO y estrategia digital para mejorar la presencia online y conversiones de tu negocio.')
 @section('og_image', asset('img/blog-principal.png'))
 
-@push('page-styles')
-    @vite(['resources/css/blog.css'])
-@endpush
-
 @section('content')
-    <section class="section ">
-        <h1 class="blog-recientes__titulo">Blogs Recientes</h1>
+    @php
+        $posts = [
+            [
+                'image' => asset('img/blog-principal.png'),
+                'date' => '03 marzo 2026',
+                'category' => 'UX',
+                'title' => 'Como mejorar la UX de tu sitio web en 30 dias',
+                'excerpt' => 'Un plan practico para optimizar navegacion, velocidad y conversiones sin rehacerlo todo desde cero.',
+            ],
+            [
+                'image' => asset('img/blog1.png'),
+                'date' => '27 febrero 2026',
+                'category' => 'SEO tecnico',
+                'title' => 'Guia para migrar tu web sin perder posicionamiento',
+                'excerpt' => 'Puntos clave para cuidar URLs, rendimiento y estructura al modernizar un sitio existente.',
+            ],
+            [
+                'image' => asset('img/blog2.png'),
+                'date' => '18 febrero 2026',
+                'category' => 'Conversion',
+                'title' => 'Que debe incluir una landing page para vender mas',
+                'excerpt' => 'Jerarquia visual, prueba social y llamadas a la accion que empujan resultados reales.',
+            ],
+            [
+                'image' => asset('img/blog1.png'),
+                'date' => '12 febrero 2026',
+                'category' => 'Branding',
+                'title' => 'Coherencia visual: por que influye en la confianza',
+                'excerpt' => 'Una web coherente se percibe mas profesional, mas solida y mucho mas creible.',
+            ],
+            [
+                'image' => asset('img/blog2.png'),
+                'date' => '10 febrero 2026',
+                'category' => 'Automatizacion',
+                'title' => 'Integraciones web utiles para cerrar mas oportunidades',
+                'excerpt' => 'Formularios, CRM, correo y seguimiento para evitar que tus prospectos se pierdan.',
+            ],
+            [
+                'image' => asset('img/blog-principal.png'),
+                'date' => '08 febrero 2026',
+                'category' => 'Performance',
+                'title' => 'Velocidad web: como bajar el tiempo de carga',
+                'excerpt' => 'Ideas practicas para mejorar experiencia, SEO y conversion sin sacrificar calidad visual.',
+            ],
+        ];
+    @endphp
 
-        <div class="blog-grid">
-            <article class="blog-card blog-card--principal">
-                
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen del blog principal" loading="lazy" />
-                <div class="blog-card__contenido">
-                    <span class="blog-card__fecha">Lunes, 3 marzo 2026</span>
-                    <h2>C&oacute;mo mejorar la UX de tu sitio web en 30 d&iacute;as</h2>
-                    <p>Te mostramos un plan pr&aacute;ctico para optimizar navegaci&oacute;n, velocidad y conversiones sin redise&ntilde;ar todo desde cero.</p>
-                    <div class="blog-card__tags">
-                        <span class="blog-tag">Dise&ntilde;o UX</span>
-                        <span class="blog-tag">Optimizaci&oacute;n</span>
-                        <span class="blog-tag">Conversi&oacute;n</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
+    <section class="page-hero">
+        <div class="shell page-hero__card" data-reveal>
+            <span class="eyebrow">Blog</span>
+            <h1>Ideas, criterios y buenas practicas para construir una presencia digital <span class="gradient-text">mas fuerte</span>.</h1>
+            <p>Compartimos aprendizajes sobre dise&ntilde;o web, UX, SEO t&eacute;cnico, conversi&oacute;n y estrategia digital para marcas que quieren crecer con m&aacute;s claridad.</p>
+        </div>
+    </section>
 
-            <div class="blog-grid__columna">
-                <article class="blog-card blog-card--secundaria">
-                    
-                <img src="{{ asset('img/blog1.png') }}" alt="Imagen del blog 1" loading="lazy" />
-                    <div class="blog-card__contenido">
-                        <span class="blog-card__fecha">Jueves, 27 febrero 2026</span>
-                        <h2>Gu&iacute;a para migrar tu web a Laravel sin perder SEO</h2>
-                        <p>Buenas pr&aacute;cticas para mover tu sitio a una arquitectura moderna, manteniendo URLs, rendimiento y posicionamiento.</p>
-                        <div class="blog-card__tags">
-                            <span class="blog-tag">Laravel</span>
-                            <span class="blog-tag">SEO t&eacute;cnico</span>
+    <section class="section">
+        <div class="shell">
+            <div class="section-intro" data-reveal>
+                <span class="eyebrow">Entradas recientes</span>
+                <h2>Contenido pensado para ayudarte a tomar mejores decisiones digitales.</h2>
+            </div>
+
+            <div class="blog-grid-modern grid-3">
+                @foreach ($posts as $post)
+                    <article class="blog-card-modern" data-reveal>
+                        <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" loading="lazy" />
+                        <div class="blog-card-modern__body">
+                            <div class="blog-card-modern__meta">
+                                <span>{{ $post['date'] }}</span>
+                                <span>{{ $post['category'] }}</span>
+                            </div>
+                            <h3>{{ $post['title'] }}</h3>
+                            <p>{{ $post['excerpt'] }}</p>
+                            <a href="{{ route('blog.post') }}" class="btn btn-secondary">Leer articulo</a>
                         </div>
-                        <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                    </div>
-                </article>
-
-                <article class="blog-card blog-card--secundaria">
-                    
-                <img src="{{ asset('img/blog2.png') }}" alt="Imagen del blog 2" loading="lazy" />
-                    <div class="blog-card__contenido">
-                        <span class="blog-card__fecha">Martes, 18 febrero 2026</span>
-                        <h2>Qu&eacute; incluye un sitio web profesional para vender m&aacute;s</h2>
-                        <p>Landing pages, formularios inteligentes, anal&iacute;tica y automatizaciones clave para convertir tr&aacute;fico en clientes.</p>
-                        <div class="blog-card__tags">
-                            <span class="blog-tag">Desarrollo web</span>
-                            <span class="blog-tag">Marketing digital</span>
-                        </div>
-                        <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                    </div>
-                </article>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <section class="section all-blogs">
-        <h2 class="all-blogs__titulo">Todos los blogs</h2>
-
-        <div class="all-blog-grid" id="all-blog-grid">
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 1" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Lunes, 2 marzo 2026</span>
-                    <h3>Estrategias de landing pages que s&iacute; convierten</h3>
-                    <p>Aprende una estructura simple para captar leads de forma constante.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Landing</span>
-                        <span class="blog-tag">Conversi&oacute;n</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
+    <section class="section">
+        <div class="shell band-card" data-reveal>
+            <div class="two-col-grid">
+                <div>
+                    <span class="eyebrow">Que vas a encontrar</span>
+                    <h2>Contenido util para marcas que ya entendieron que su web es una pieza comercial, no solo una tarjeta digital.</h2>
                 </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 2" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">S&aacute;bado, 28 febrero 2026</span>
-                    <h3>C&oacute;mo elegir un stack web para tu negocio</h3>
-                    <p>Factores clave para decidir tecnolog&iacute;as seg&uacute;n presupuesto y objetivos.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Stack</span>
-                        <span class="blog-tag">Negocio</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
+                <div class="card-grid">
+                    <article class="feature-card">
+                        <div class="feature-card__icon"><i class="fa-solid fa-pen-nib"></i></div>
+                        <h3>Estrategia</h3>
+                        <p>Como estructurar mensajes, secciones y recorridos para guiar mejor al usuario.</p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-card__icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <h3>Experiencia</h3>
+                        <p>Buenas practicas de UX, performance y dise&ntilde;o responsive que elevan la percepci&oacute;n de marca.</p>
+                    </article>
                 </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 3" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Jueves, 26 febrero 2026</span>
-                    <h3>Checklist SEO t&eacute;cnico para sitios nuevos</h3>
-                    <p>Puntos esenciales para salir en buscadores desde el primer mes.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">SEO</span>
-                        <span class="blog-tag">T&eacute;cnico</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 4" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Martes, 24 febrero 2026</span>
-                    <h3>Branding web: coherencia visual en cada p&aacute;gina</h3>
-                    <p>Dise&ntilde;o consistente para mejorar confianza y reconocimiento de marca.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Branding</span>
-                        <span class="blog-tag">UX</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 5" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Domingo, 22 febrero 2026</span>
-                    <h3>Automatizaciones para agencias con formularios web</h3>
-                    <p>Integra CRM, email y seguimiento sin procesos manuales.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Automatizaci&oacute;n</span>
-                        <span class="blog-tag">CRM</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 6" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Viernes, 20 febrero 2026</span>
-                    <h3>Velocidad web: c&oacute;mo bajar el tiempo de carga</h3>
-                    <p>Optimiza im&aacute;genes, scripts y servidor para mejorar experiencia y SEO.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Performance</span>
-                        <span class="blog-tag">SEO</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 7" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Mi&eacute;rcoles, 18 febrero 2026</span>
-                    <h3>Dise&ntilde;o mobile first para tiendas en l&iacute;nea</h3>
-                    <p>Prioriza la experiencia m&oacute;vil para incrementar ventas reales.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Mobile</span>
-                        <span class="blog-tag">Ecommerce</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 8" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Lunes, 16 febrero 2026</span>
-                    <h3>Copys web para vender sin sonar agresivo</h3>
-                    <p>Mensajes claros orientados a beneficios que mueven a la acci&oacute;n.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Copywriting</span>
-                        <span class="blog-tag">Ventas</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 9" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">S&aacute;bado, 14 febrero 2026</span>
-                    <h3>Errores comunes al redise&ntilde;ar un sitio web</h3>
-                    <p>Evita perder tr&aacute;fico y clientes durante una migraci&oacute;n o redise&ntilde;o.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Redise&ntilde;o</span>
-                        <span class="blog-tag">Estrategia</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Blog 10" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Jueves, 12 febrero 2026</span>
-                    <h3>C&oacute;mo estructurar una web corporativa moderna</h3>
-                    <p>Secciones clave para comunicar valor y cerrar oportunidades comerciales.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Corporativo</span>
-                        <span class="blog-tag">UX</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog2.png') }}" alt="Blog 11" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Martes, 10 febrero 2026</span>
-                    <h3>Integraciones web &uacute;tiles para vender servicios</h3>
-                    <p>Chat, agenda, pagos y anal&iacute;tica para mejorar tu proceso comercial.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">Integraciones</span>
-                        <span class="blog-tag">Ventas</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
-            <article class="all-blog-card">
-                
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Blog 12" loading="lazy" />
-                <div class="all-blog-card__content">
-                    <span class="all-blog-card__fecha">Domingo, 8 febrero 2026</span>
-                    <h3>M&eacute;tricas clave para evaluar un sitio web</h3>
-                    <p>KPIs de negocio y UX para tomar decisiones con datos reales.</p>
-                    <div class="all-blog-card__tags">
-                        <span class="blog-tag">M&eacute;tricas</span>
-                        <span class="blog-tag">Anal&iacute;tica</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="blog-card__btn">&rarr;</a>
-                </div>
-            </article>
+            </div>
         </div>
-
-        <nav class="all-blog-pagination" id="all-blog-pagination" aria-label="Paginaci&oacute;n de blogs">
-            <button type="button" class="all-blog-page__nav" id="all-blog-prev">Previous</button>
-            <div class="all-blog-page__numbers" id="all-blog-numbers"></div>
-            <button type="button" class="all-blog-page__nav" id="all-blog-next">Next</button>
-        </nav>
     </section>
-
-    <script>
-        (() => {
-            const cards = Array.from(document.querySelectorAll('.all-blog-card'));
-            const numbersWrap = document.getElementById('all-blog-numbers');
-            const prevBtn = document.getElementById('all-blog-prev');
-            const nextBtn = document.getElementById('all-blog-next');
-
-            if (!cards.length || !numbersWrap || !prevBtn || !nextBtn) return;
-
-            const itemsPerPage = 6;
-            const totalPages = Math.ceil(cards.length / itemsPerPage);
-            let currentPage = 1;
-
-            const renderPage = (page) => {
-                currentPage = page;
-                cards.forEach((card, index) => {
-                    const start = (currentPage - 1) * itemsPerPage;
-                    const end = start + itemsPerPage;
-                    card.style.display = index >= start && index < end ? 'block' : 'none';
-                });
-
-                const pageBtns = numbersWrap.querySelectorAll('button');
-                pageBtns.forEach((btn, idx) => {
-                    btn.classList.toggle('is-active', idx + 1 === currentPage);
-                });
-
-                prevBtn.disabled = currentPage === 1;
-                nextBtn.disabled = currentPage === totalPages;
-            };
-
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'all-blog-page__number';
-                btn.textContent = i;
-                btn.addEventListener('click', () => renderPage(i));
-                numbersWrap.appendChild(btn);
-            }
-
-            prevBtn.addEventListener('click', () => {
-                if (currentPage > 1) renderPage(currentPage - 1);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                if (currentPage < totalPages) renderPage(currentPage + 1);
-            });
-
-            renderPage(1);
-        })();
-
-        (() => {
-            const clickableCards = Array.from(document.querySelectorAll('.blog-card, .all-blog-card'));
-
-            clickableCards.forEach((card) => {
-                const link = card.querySelector('.blog-card__btn');
-                if (!link || !link.getAttribute('href')) return;
-
-                card.setAttribute('role', 'link');
-                card.setAttribute('tabindex', '0');
-
-                card.addEventListener('click', (event) => {
-                    const target = event.target;
-                    if (target instanceof Element && target.closest('a, button')) return;
-                    window.location.href = link.getAttribute('href');
-                });
-
-                card.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        window.location.href = link.getAttribute('href');
-                    }
-                });
-            });
-        })();
-    </script>
 @endsection
-
-
-
-
-

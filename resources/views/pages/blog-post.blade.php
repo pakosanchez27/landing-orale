@@ -1,224 +1,111 @@
 @extends('layouts.app')
 
-@section('titulo')
-    Blog Post
-@endsection
-
-@section('meta_description', 'Guia practica para migrar tu sitio y optimizar estructura, rendimiento y experiencia de usuario sin perder visibilidad.')
+@section('titulo', 'Blog Post')
+@section('meta_description', 'Guia practica para mejorar estructura, rendimiento y experiencia de usuario sin perder claridad comercial.')
 @section('og_image', asset('img/blog-principal.png'))
 @section('og_type', 'article')
 
-@push('page-styles')
-    @vite(['resources/css/blog-post.css'])
-@endpush
-
 @section('content')
-    <section class="section blog-post">
-        <article class="blog-post__article">
-            
-                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen principal del post" class="blog-post__hero" loading="lazy" />
-
-            <div class="blog-post__header">
-                <span class="blog-post__fecha">Sunday, 1 Jan 2023</span>
-                <h1 class="blog-post__titulo">Migrating to Linear 101</h1>
-            </div>
-
-            <div class="blog-post__body">
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                </p>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                </p>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                </p>
-            </div>
-
-            <div class="blog-post__stats" aria-label="Post stats">
-                <button type="button" class="post-stat post-stat-like" id="like-trigger" aria-pressed="false"
-                    data-base-likes="22500">
-                    <i class="fa-regular fa-heart post-stat-like__icon" aria-hidden="true"></i>
-                    <strong id="like-count">22.5k</strong>
-                </button>
-                <button type="button" class="post-stat" id="comment-trigger">
-                    <i class="fa-regular fa-message" aria-hidden="true"></i><strong>56</strong>
-                </button>
-                <button type="button" class="post-stat"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i><strong>89</strong></button>
-            </div>
-
-            <section class="blog-post__interaccion" aria-label="Like and comment">
-                <h2>Comentarios</h2>
-                <p class="blog-post__hint">Presiona el &iacute;cono de comentario para escribir.</p>
-                <form class="blog-post__comentario is-hidden" id="comment-form" action="#" method="post">
-                    <div class="blog-post__comentario-identidad">
-                        <div class="blog-post__campo">
-                            <label for="nombre_comentario">Tu nombre (opcional)</label>
-                            <input type="text" id="nombre_comentario" name="nombre_comentario"
-                                placeholder="Ejemplo: Juan P&eacute;rez">
-                        </div>
-                        <label class="blog-post__anonimo">
-                            <input type="checkbox" name="anonimo" value="1">
-                            <span>Publicar como an&oacute;nimo</span>
-                        </label>
-                    </div>
-                    <label for="comentario">Comenta este post</label>
-                    <textarea id="comentario" name="comentario" rows="3" placeholder="Escribe tu comentario..."></textarea>
-                    <button type="submit" class="post-btn-comentar">Publicar comentario</button>
-                </form>
-
-                <div class="blog-post__comentarios-demo" aria-label="Comentarios de ejemplo">
-                    <h3>Comentarios recientes</h3>
-
-                    <article class="comentario-item">
-                        <div class="comentario-item__avatar">AP</div>
-                        <div class="comentario-item__contenido">
-                            <div class="comentario-item__meta">
-                                <strong>Ana P&eacute;rez</strong>
-                                <span>hace 2 horas</span>
-                            </div>
-                            <p>Excelente gu&iacute;a. Me ayud&oacute; a ordenar mejor el proceso de migraci&oacute;n de mi sitio.</p>
-                        </div>
-                    </article>
-
-                    <article class="comentario-item">
-                        <div class="comentario-item__avatar">JR</div>
-                        <div class="comentario-item__contenido">
-                            <div class="comentario-item__meta">
-                                <strong>Juan Ramos</strong>
-                                <span>hace 5 horas</span>
-                            </div>
-                            <p>Muy buen contenido. Estar&iacute;a genial ver una versi&oacute;n enfocada en ecommerce.</p>
-                        </div>
-                    </article>
-
-                    <article class="comentario-item">
-                        <div class="comentario-item__avatar">LM</div>
-                        <div class="comentario-item__contenido">
-                            <div class="comentario-item__meta">
-                                <strong>Laura Medina</strong>
-                                <span>ayer</span>
-                            </div>
-                            <p>Aplicamos varios puntos del post y mejoramos la velocidad del sitio en una semana.</p>
-                        </div>
-                    </article>
+    <section class="page-hero">
+        <div class="shell article-layout">
+            <article class="surface-card article-card" data-reveal>
+                <img src="{{ asset('img/blog-principal.png') }}" alt="Imagen principal del articulo" loading="lazy" />
+                <div class="article-meta">
+                    <span>03 marzo 2026</span>
+                    <span>UX</span>
+                    <span>Estrategia digital</span>
                 </div>
-            </section>
-        </article>
-    </section>
+                <h1 style="margin: 1.8rem 0 2rem;">Como mejorar la UX de tu sitio web en 30 dias</h1>
 
-    <section class="section mas-blogs">
-        <h2 class="mas-blogs__titulo">M&aacute;s Entradas</h2>
-        <div class="mas-blogs__grid">
-            <article class="mas-blogs__card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 1" loading="lazy" />
-                <div class="mas-blogs__contenido">
-                    <span>Sunday, 1 Jan 2023</span>
-                    <h3>Bill Walsh leadership lessons</h3>
-                    <p>Like to know the secrets of transforming a 2-14 team into a 3x Super Bowl winning Dynasty?</p>
-                    <div class="mas-blogs__tags">
-                        <span class="mas-tag">Leadership</span>
-                        <span class="mas-tag">Management</span>
-                        <span class="mas-tag">Presentation</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="mas-blogs__arrow" aria-label="Leer post">&rarr;</a>
+                <div class="article-content">
+                    <p>Mejorar la experiencia de usuario no siempre exige rehacer un sitio completo. A menudo, los avances mas importantes aparecen cuando ordenas mejor la jerarquia visual, aclaras el recorrido y reduces la friccion en puntos clave.</p>
+                    <p>El primer paso es revisar si tu home responde rapido tres preguntas: qu&eacute; haces, para qui&eacute;n lo haces y qu&eacute; debe hacer el usuario despu&eacute;s. Si esas respuestas no est&aacute;n claras en los primeros segundos, el sitio pierde fuerza comercial.</p>
+                    <p>Despu&eacute;s conviene revisar bloques espec&iacute;ficos: encabezados, botones, formularios, velocidad, composici&oacute;n visual y coherencia entre secciones. La UX no es solo usabilidad; tambi&eacute;n es percepci&oacute;n, ritmo y confianza.</p>
+                    <h2>Un checklist simple para empezar</h2>
+                    <ul>
+                        <li>Haz que el encabezado principal explique valor real, no solo una frase bonita.</li>
+                        <li>Reduce ruido visual y deja un camino evidente hacia la acci&oacute;n principal.</li>
+                        <li>Optimiza im&aacute;genes, espaciado y contraste para mejorar legibilidad.</li>
+                        <li>Revisa el formulario: menos fricci&oacute;n casi siempre significa m&aacute;s conversiones.</li>
+                    </ul>
+                    <p>Cuando un sitio se siente ordenado, fluido y consistente, la marca se percibe mas seria. Y esa percepci&oacute;n tiene un impacto directo en la confianza del usuario y en la capacidad de generar prospectos.</p>
                 </div>
             </article>
-            <article class="mas-blogs__card">
-                
-                <img src="{{ asset('img/blog2.png') }}" alt="Post relacionado 2" loading="lazy" />
-                <div class="mas-blogs__contenido">
-                    <span>Sunday, 1 Jan 2023</span>
-                    <h3>What is Wireframing?</h3>
-                    <p>Introduction to Wireframing and its Principles. Learn from the best in the industry.</p>
-                    <div class="mas-blogs__tags">
-                        <span class="mas-tag">Design</span>
-                        <span class="mas-tag">Research</span>
-                        <span class="mas-tag">Presentation</span>
+
+            <aside class="article-sidebar">
+                <div class="surface-card sidebar-card" data-reveal>
+                    <span class="eyebrow">Resumen</span>
+                    <div class="timeline-list">
+                        <div>
+                            <h3>Lectura</h3>
+                            <p>5 minutos</p>
+                        </div>
+                        <div>
+                            <h3>Ideal para</h3>
+                            <p>Negocios con una web que se siente confusa o poco convincente.</p>
+                        </div>
+                        <div>
+                            <h3>Resultado</h3>
+                            <p>Una experiencia m&aacute;s clara, m&aacute;s r&aacute;pida y mejor orientada a conversi&oacute;n.</p>
+                        </div>
                     </div>
-                    <a href="{{ route('blog.post') }}" class="mas-blogs__arrow" aria-label="Leer post">&rarr;</a>
                 </div>
-            </article>
-            <article class="mas-blogs__card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 3" loading="lazy" />
-                <div class="mas-blogs__contenido">
-                    <span>Sunday, 1 Jan 2023</span>
-                    <h3>PM mental models</h3>
-                    <p>Mental models are simple expressions of complex processes or relationships.</p>
-                    <div class="mas-blogs__tags">
-                        <span class="mas-tag">Product</span>
-                        <span class="mas-tag">Research</span>
-                        <span class="mas-tag">Frameworks</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="mas-blogs__arrow" aria-label="Leer post">&rarr;</a>
+
+                <div class="surface-card sidebar-card" data-reveal>
+                    <span class="eyebrow">Siguiente paso</span>
+                    <h3>Quieres aplicar esto en tu marca?</h3>
+                    <p>Podemos revisar tu sitio actual y proponerte una direcci&oacute;n visual y estructural m&aacute;s clara.</p>
+                    <a href="/contacto" class="btn btn-primary" style="margin-top: 1.6rem;">Hablar del proyecto</a>
                 </div>
-            </article>
-            <article class="mas-blogs__card">
-                
-                <img src="{{ asset('img/blog1.png') }}" alt="Post relacionado 4" loading="lazy" />
-                <div class="mas-blogs__contenido">
-                    <span>Sunday, 1 Jan 2023</span>
-                    <h3>Our top 10 Javascript frameworks to use</h3>
-                    <p>JavaScript frameworks make development easy with extensive features and functionalities.</p>
-                    <div class="mas-blogs__tags">
-                        <span class="mas-tag">Software Development</span>
-                        <span class="mas-tag">Tools</span>
-                        <span class="mas-tag">SaaS</span>
-                    </div>
-                    <a href="{{ route('blog.post') }}" class="mas-blogs__arrow" aria-label="Leer post">&rarr;</a>
-                </div>
-            </article>
+            </aside>
         </div>
     </section>
 
-    <script>
-        (() => {
-            const likeTrigger = document.getElementById('like-trigger');
-            const likeCount = document.getElementById('like-count');
-            const commentTrigger = document.getElementById('comment-trigger');
-            const commentForm = document.getElementById('comment-form');
+    <section class="section">
+        <div class="shell">
+            <div class="section-intro" data-reveal>
+                <span class="eyebrow">Mas entradas</span>
+                <h2>Articulos relacionados</h2>
+            </div>
 
-            if (likeTrigger && likeCount) {
-                const baseLikes = Number(likeTrigger.dataset.baseLikes || 0);
-                let liked = false;
-
-                const formatLikes = (value) => {
-                    if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
-                    return String(value);
-                };
-
-                const renderLikes = () => {
-                    const current = liked ? baseLikes + 1 : baseLikes;
-                    likeCount.textContent = formatLikes(current);
-                    likeTrigger.setAttribute('aria-pressed', liked ? 'true' : 'false');
-                    likeTrigger.classList.toggle('is-liked', liked);
-                };
-
-                likeTrigger.addEventListener('click', () => {
-                    liked = !liked;
-                    renderLikes();
-                });
-
-                renderLikes();
-            }
-
-            const openCommentForm = () => {
-                if (!commentForm) return;
-                commentForm.classList.remove('is-hidden');
-                commentForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                const textarea = commentForm.querySelector('textarea');
-                if (textarea) textarea.focus();
-            };
-
-            if (commentTrigger) commentTrigger.addEventListener('click', openCommentForm);
-        })();
-    </script>
+            <div class="blog-grid-modern grid-3">
+                <article class="blog-card-modern" data-reveal>
+                    <img src="{{ asset('img/blog1.png') }}" alt="Articulo relacionado 1" loading="lazy" />
+                    <div class="blog-card-modern__body">
+                        <div class="blog-card-modern__meta">
+                            <span>27 febrero 2026</span>
+                            <span>SEO tecnico</span>
+                        </div>
+                        <h3>Como migrar tu web sin perder traccion</h3>
+                        <p>Buenas practicas para actualizar una web sin comprometer estructura, indexacion ni experiencia.</p>
+                        <a href="{{ route('blog.post') }}" class="btn btn-secondary">Leer articulo</a>
+                    </div>
+                </article>
+                <article class="blog-card-modern" data-reveal>
+                    <img src="{{ asset('img/blog2.png') }}" alt="Articulo relacionado 2" loading="lazy" />
+                    <div class="blog-card-modern__body">
+                        <div class="blog-card-modern__meta">
+                            <span>18 febrero 2026</span>
+                            <span>Conversion</span>
+                        </div>
+                        <h3>Elementos clave de una landing que si convierte</h3>
+                        <p>Desde la propuesta de valor hasta el CTA final, cada bloque debe empujar a una decision clara.</p>
+                        <a href="{{ route('blog.post') }}" class="btn btn-secondary">Leer articulo</a>
+                    </div>
+                </article>
+                <article class="blog-card-modern" data-reveal>
+                    <img src="{{ asset('img/blog-principal.png') }}" alt="Articulo relacionado 3" loading="lazy" />
+                    <div class="blog-card-modern__body">
+                        <div class="blog-card-modern__meta">
+                            <span>08 febrero 2026</span>
+                            <span>Performance</span>
+                        </div>
+                        <h3>Velocidad web: por qu&eacute; importa mas de lo que parece</h3>
+                        <p>Mejorar tiempos de carga tambi&eacute;n mejora confianza, permanencia y resultados comerciales.</p>
+                        <a href="{{ route('blog.post') }}" class="btn btn-secondary">Leer articulo</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 @endsection
