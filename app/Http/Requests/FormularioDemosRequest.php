@@ -59,9 +59,7 @@ class FormularioDemosRequest extends FormRequest
                 return;
             }
 
-            if (strlen($binary) > 2048 * 1024) {
-                $validator->errors()->add('imagen', 'La imagen no puede pesar mas de 2 MB.');
-            }
+            
         });
     }
 

@@ -3,7 +3,6 @@ import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-    base: '/build/', // ⚠️ importante
     plugins: [
         laravel({
             input: [
@@ -24,7 +23,6 @@ export default defineConfig({
                 'resources/js/globales.js',
                 'resources/js/vendor.js',
                 'resources/js/admin/catalogos.js',
-
             ],
             refresh: true,
         }),

@@ -14,15 +14,56 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          port: 65002
+          port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/domains/oraleweb.com/laravel_app
+            set -e
+
+            DOMAIN_ROOT=~/domains/oraleweb.com
+            PUBLIC_HTML="$DOMAIN_ROOT/public_html"
+            APP_ROOT=""
+            PUBLIC_ROOT=""
+
+            if [ -f "$PUBLIC_HTML/artisan" ]; then
+              APP_ROOT="$PUBLIC_HTML"
+              PUBLIC_ROOT="$PUBLIC_HTML"
+            elif [ -f "$DOMAIN_ROOT/laravel_app/artisan" ]; then
+              APP_ROOT="$DOMAIN_ROOT/laravel_app"
+              PUBLIC_ROOT="$PUBLIC_HTML"
+            else
+              echo "No se encontro artisan en public_html ni en laravel_app"
+              exit 1
+            fi
+
+            cd "$APP_ROOT"
             git pull origin master
             composer install --no-dev --optimize-autoloader
-            rm -rf ~/domains/oraleweb.com/public_html/build
-            cp -r ~/domains/oraleweb.com/laravel_app/public/build ~/domains/oraleweb.com/public_html/build
-            rm -rf ~/domains/oraleweb.com/public_html/img
-            cp -r ~/domains/oraleweb.com/laravel_app/public/img ~/domains/oraleweb.com/public_html/img
+
+            if command -v npm >/dev/null 2>&1; then
+              if [ -f package-lock.json ]; then
+                npm ci
+              else
+                npm install
+              fi
+              npm run build
+            else
+              echo "npm no esta disponible en el servidor; se usara el build existente"
+            fi
+
+            rm -f public/hot
+            rm -f storage/vite.hot
+
+            if [ "$APP_ROOT" != "$PUBLIC_ROOT" ]; then
+              rm -rf "$PUBLIC_ROOT/build"
+              cp -r "$APP_ROOT/public/build" "$PUBLIC_ROOT/build"
+
+              rm -rf "$PUBLIC_ROOT/img"
+              cp -r "$APP_ROOT/public/img" "$PUBLIC_ROOT/img"
+
+              cp "$APP_ROOT/public/.htaccess" "$PUBLIC_ROOT/.htaccess"
+            fi
+
+            php artisan optimize:clear
             php artisan config:cache
             php artisan route:cache
+            php artisan view:cache
             php artisan migrate --force
