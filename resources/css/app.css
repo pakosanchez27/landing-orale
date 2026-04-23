@@ -1188,6 +1188,80 @@ textarea {
   border-radius: 2.2rem;
 }
 
+.share-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 5rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(23, 26, 36, 0.08);
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  font-size: 1.45rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(94, 30, 211, 0.08);
+}
+
+.share-btn i {
+  font-size: 1.8rem;
+}
+
+.share-btn--whatsapp:hover {
+  border-color: rgba(37, 211, 102, 0.24);
+  background: rgba(37, 211, 102, 0.1);
+  color: #0f7d45;
+}
+
+.share-btn--linkedin:hover {
+  border-color: rgba(10, 102, 194, 0.24);
+  background: rgba(10, 102, 194, 0.1);
+  color: #0a66c2;
+}
+
+.share-btn--facebook:hover {
+  border-color: rgba(24, 119, 242, 0.24);
+  background: rgba(24, 119, 242, 0.1);
+  color: #1877f2;
+}
+
+.share-btn--x:hover {
+  border-color: rgba(15, 23, 41, 0.18);
+  background: rgba(15, 23, 41, 0.08);
+  color: #111827;
+}
+
+.share-btn--copy:hover {
+  border-color: rgba(94, 30, 211, 0.18);
+  background: linear-gradient(135deg, rgba(94, 30, 211, 0.08), rgba(46, 143, 255, 0.08));
+  color: var(--color-primary-strong);
+}
+
+.share-feedback {
+  margin-top: 1.2rem;
+  color: var(--color-primary-strong);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
 .timeline-list {
   margin-top: 2rem;
 }
