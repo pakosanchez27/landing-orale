@@ -89,40 +89,28 @@
             </div>
 
             <div class="card-grid grid-3">
-                <article class="team-card" data-reveal>
-                    <picture>
-                        <source srcset="{{ asset('img/team.webp') }}" type="image/webp">
-                        <img src="{{ asset('img/team.jpg') }}" alt="Maria Ramirez, direccion de estrategia" loading="lazy" />
-                    </picture>
-                    <div class="team-card__body">
-                        <h3>Maria Ramirez</h3>
-                        <p class="mini-pill">Direccion de estrategia</p>
-                        <p>Define objetivos, propuesta de valor y recorrido comercial para que cada web tenga un papel claro dentro del negocio.</p>
-                    </div>
-                </article>
+                @foreach ($teamMembers->where('is_active', true) as $member)
+                    <article class="team-card" data-reveal>
+                        @if ($member['display_mode'] === 'art')
+                            <div class="team-card__media team-card__media--art art-frame art-frame--compact">
+                                <img src="{{ asset($member['image']) }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
+                            </div>
+                        @else
+                            <picture>
+                                @if (!empty($member['image_webp']))
+                                    <source srcset="{{ asset($member['image_webp']) }}" type="image/webp">
+                                @endif
+                                <img src="{{ asset($member['image']) }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
+                            </picture>
+                        @endif
 
-                <article class="team-card" data-reveal>
-                    <picture>
-                        <source srcset="{{ asset('img/nosotros.jpg.webp') }}" type="image/webp">
-                        <img src="{{ asset('img/nosotros.jpg') }}" alt="Carlos Mendez, diseno UI UX" loading="lazy" />
-                    </picture>
-                    <div class="team-card__body">
-                        <h3>Carlos Mendez</h3>
-                        <p class="mini-pill">Dise&ntilde;o UI/UX</p>
-                        <p>Convierte necesidades comerciales en interfaces pulidas, contempor&aacute;neas y con una lectura visual clara.</p>
-                    </div>
-                </article>
-
-                <article class="team-card" data-reveal>
-                    <div class="team-card__media team-card__media--art art-frame art-frame--compact">
-                        <img src="{{ asset('img/nosotros.png') }}" alt="Andrea Torres, desarrollo web" loading="lazy" />
-                    </div>
-                    <div class="team-card__body">
-                        <h3>Andrea Torres</h3>
-                        <p class="mini-pill">Desarrollo web</p>
-                        <p>Se encarga de que todo lo dise&ntilde;ado cobre vida con rendimiento, limpieza t&eacute;cnica y buena experiencia en cualquier pantalla.</p>
-                    </div>
-                </article>
+                        <div class="team-card__body">
+                            <h3>{{ $member['name'] }}</h3>
+                            <p class="mini-pill">{{ $member['role'] }}</p>
+                            <p>{{ $member['description'] }}</p>
+                        </div>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>

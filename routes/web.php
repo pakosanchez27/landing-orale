@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogosController;
 use App\Http\Controllers\DemosController;
+use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordSetupController;
@@ -48,9 +49,7 @@ Route::get('/', function () {
     return view('pages.index', compact('industriasConDemos', 'demos'));
 });
 
-Route::get('/nosotros', function () {
-    return view('pages.nosotros');
-});
+Route::get('/nosotros', [EquipoController::class, 'publicPage']);
 
 Route::get('/demos', function () {
     if (!Schema::hasTable('demos') || !Schema::hasTable('industrias')) {
@@ -146,4 +145,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/usuarios/{user}', [UsuariosController::class, 'update'])->name('usuarios.update');
     Route::delete('/admin/usuarios/{user}', [UsuariosController::class, 'destroy'])->name('usuarios.destroy');
     Route::post('/admin/usuarios/{user}/reset-password', [UsuariosController::class, 'resetPassword'])->name('usuarios.reset-password');
+
+    Route::get('/admin/equipo', [EquipoController::class, 'index'])->name('admin.equipo');
+    Route::post('/admin/equipo', [EquipoController::class, 'store'])->name('admin.equipo.store');
+    Route::put('/admin/equipo/{memberId}', [EquipoController::class, 'update'])->name('admin.equipo.update');
+    Route::delete('/admin/equipo/{memberId}', [EquipoController::class, 'destroy'])->name('admin.equipo.destroy');
 });

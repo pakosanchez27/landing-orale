@@ -19,7 +19,7 @@
     <link rel="icon" type="image/png" href="{{ asset('img/LogoBlanco.png') }}" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/LogoBlanco.png') }}" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <input type="hidden" id="base_url" value="{{ url('/') }}">
@@ -39,33 +39,37 @@
             </div>
 
             <nav class="admin-nav">
-                <a href="#" class="admin-nav__item is-active">
+                <a href="{{ route('admin') }}" class="admin-nav__item {{ request()->routeIs('admin') ? 'is-active' : '' }}">
                     <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                     <span class="admin-nav__text">Dashboard</span>
                 </a>
 
                 @role(0)
-                    <a href="{{ route('usuarios') }}" class="admin-nav__item">
+                    <a href="{{ route('usuarios') }}" class="admin-nav__item {{ request()->routeIs('usuarios*') ? 'is-active' : '' }}">
                         <i class="fa-solid fa-users" aria-hidden="true"></i>
                         <span class="admin-nav__text">Usuarios</span>
                     </a>
 
                     <div class="admin-nav__group">
                         <button type="button" class="admin-nav__item admin-nav__parent" id="catalogos-toggle"
-                            aria-expanded="false" aria-controls="catalogos-children">
+                            aria-expanded="{{ request()->routeIs('admin.catalogos.*') ? 'true' : 'false' }}" aria-controls="catalogos-children">
                             <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
                             <span class="admin-nav__text">Cat&aacute;logos</span>
                             <i class="fa-solid fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
                         </button>
-                        <div class="admin-nav__children" id="catalogos-children" hidden>
-                            <a href="{{ route('admin.catalogos.industrias') }}" class="admin-nav__item admin-nav__child">
+                        <div class="admin-nav__children" id="catalogos-children" @if (request()->routeIs('admin.catalogos.*')) style="display: grid;" @endif @if (!request()->routeIs('admin.catalogos.*')) hidden @endif>
+                            <a href="{{ route('admin.catalogos.industrias') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.catalogos.industrias*') ? 'is-active' : '' }}">
                                 <i class="fa-solid fa-industry" aria-hidden="true"></i>
                                 <span class="admin-nav__text">Industrias</span>
                             </a>
                         </div>
                     </div>
                 @endrole
-                <a href="{{ route('demos') }}" class="admin-nav__item">
+                <a href="{{ route('admin.equipo') }}" class="admin-nav__item {{ request()->routeIs('admin.equipo*') ? 'is-active' : '' }}">
+                    <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+                    <span class="admin-nav__text">Equipo</span>
+                </a>
+                <a href="{{ route('demos') }}" class="admin-nav__item {{ request()->routeIs('demos*') ? 'is-active' : '' }}">
                     <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
                     <span class="admin-nav__text">Demos</span>
                 </a>
