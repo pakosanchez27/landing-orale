@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 class OpenAiBlogGenerator
@@ -57,9 +58,14 @@ PROMPT;
             throw new RuntimeException($message, previous: $exception);
         }
 
-        $outputText = (string) data_get($response->json(), 'output_text', '');
+        $responseJson = $response->json();
+        $outputText = $this->extractOutputText($responseJson);
 
         if ($outputText === '') {
+            Log::warning('OpenAI blog generator returned no parseable text.', [
+                'response' => $responseJson,
+            ]);
+
             throw new RuntimeException('OpenAI no devolvio contenido util para generar el blog.');
         }
 
@@ -82,5 +88,32 @@ PROMPT;
             'reading_time' => (string) ($decoded['reading_time'] ?? '5 minutos'),
             'content_html' => (string) ($decoded['content_html'] ?? ''),
         ];
+    }
+
+    private function extractOutputText(array $responseJson): string
+    {
+        $outputText = trim((string) data_get($responseJson, 'output_text', ''));
+
+        if ($outputText !== '') {
+            return $outputText;
+        }
+
+        $chunks = [];
+
+        foreach ((array) data_get($responseJson, 'output', []) as $outputItem) {
+            foreach ((array) data_get($outputItem, 'content', []) as $contentItem) {
+                $text = trim((string) ($contentItem['text'] ?? ''));
+
+                if ($text !== '') {
+                    $chunks[] = $text;
+                }
+            }
+        }
+
+        if ($chunks !== []) {
+            return trim(implode("\n", $chunks));
+        }
+
+        return '';
     }
 }
