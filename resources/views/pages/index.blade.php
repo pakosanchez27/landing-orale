@@ -12,7 +12,7 @@
     <section class="page-hero page-hero--home">
         <div class="shell hero-grid">
             <div class="hero-copy" data-reveal>
-                <span class="eyebrow">Estudio digital premium</span>
+                <span class="eyebrow">Estudio digital premium.</span>
                 <h1>Construimos sitios web que se sienten <span class="gradient-text">memorables</span> y marcan la diferencia</h1>
                 <p>En Orale Web dise&ntilde;amos experiencias visuales de alto impacto para marcas que necesitan verse s&oacute;lidas, cargar r&aacute;pido y transformar visitas en prospectos reales.</p>
                 <div class="hero-actions">
