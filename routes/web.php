@@ -91,6 +91,7 @@ Route::get('/demos', function () {
 
 Route::get('/blog', [BlogController::class, 'publicIndex'])->name('blog');
 Route::get('/blog/{slug}', [BlogController::class, 'publicShow'])->name('blog.post');
+Route::post('/blog/{slug}/share', [BlogController::class, 'registerShare'])->name('blog.share');
 
 Route::get('/faq', function () {
     return view('pages.faqs');

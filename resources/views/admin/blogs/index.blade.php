@@ -47,6 +47,10 @@
                             </div>
                             <h3 class="admin-card__title">{{ $post['title'] }}</h3>
                             <p>{{ $post['excerpt'] }}</p>
+                            <div class="admin-blog-stats">
+                                <span><i class="fa-solid fa-eye" aria-hidden="true"></i> {{ number_format($post['view_count'] ?? 0) }} vistas</span>
+                                <span><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> {{ number_format($post['share_count'] ?? 0) }} compartidos</span>
+                            </div>
                             <div class="admin-blog-card__footer">
                                 <span class="estado {{ $post['is_active'] ? 'estado-activo' : 'estado-inactivo' }}">
                                     {{ $post['is_active'] ? 'Publicado' : 'Oculto' }}

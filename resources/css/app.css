@@ -1262,6 +1262,21 @@ textarea {
   font-weight: 800;
 }
 
+.admin-blog-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  color: var(--color-muted);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.admin-blog-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 .timeline-list {
   margin-top: 2rem;
 }

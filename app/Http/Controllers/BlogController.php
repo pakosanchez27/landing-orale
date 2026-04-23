@@ -38,10 +38,24 @@ class BlogController extends Controller
 
     public function publicShow(string $slug): View
     {
+        $postModel = BlogPost::query()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->first();
+
+        abort_unless($postModel, 404);
+
+        $viewedPosts = session()->get('viewed_blog_posts', []);
+
+        if (!in_array($postModel->id, $viewedPosts, true)) {
+            $postModel->increment('view_count');
+            $viewedPosts[] = $postModel->id;
+            session()->put('viewed_blog_posts', $viewedPosts);
+            $postModel->refresh();
+        }
+
         $posts = $this->publishedPosts();
         $post = $posts->firstWhere('slug', $slug);
-
-        abort_unless($post, 404);
 
         $relatedPosts = $posts
             ->where('slug', '!=', $slug)
@@ -51,6 +65,20 @@ class BlogController extends Controller
         return view('pages.blog-post', [
             'post' => $post,
             'relatedPosts' => $relatedPosts,
+        ]);
+    }
+
+    public function registerShare(string $slug): JsonResponse
+    {
+        $post = BlogPost::query()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $post->increment('share_count');
+
+        return response()->json([
+            'share_count' => $post->fresh()->share_count,
         ]);
     }
 
@@ -81,6 +109,8 @@ class BlogController extends Controller
             'reading_time' => $payload['reading_time'],
             'published_at' => $payload['published_at'],
             'is_active' => $request->boolean('is_active'),
+            'view_count' => 0,
+            'share_count' => 0,
         ]);
 
         return redirect()

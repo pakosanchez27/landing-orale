@@ -19,6 +19,8 @@ class BlogPost extends Model
         'reading_time',
         'published_at',
         'is_active',
+        'view_count',
+        'share_count',
         'create_at',
         'update_at',
     ];
@@ -26,5 +28,7 @@ class BlogPost extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'published_at' => 'date',
+        'view_count' => 'integer',
+        'share_count' => 'integer',
     ];
 }
