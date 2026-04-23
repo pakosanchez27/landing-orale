@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+    @php
+        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+    @endphp
     <header class="admin-topbar">
         <a class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">
             <i class="fa-solid fa-bars" aria-hidden="true"></i>
@@ -83,7 +86,7 @@
                         <div class="flex flex-col gap-2">
                             <label class=" font-semibold text-slate-700" for="imagen-preview">Preview</label>
                             <div class="w-full overflow-hidden rounded-md border border-slate-200 bg-slate-50">
-                                <img id="imagen-preview" src="{{ asset($demo->imagen) }}"
+                                <img id="imagen-preview" src="{{ $demoImage }}"
                                     alt="Preview de la imagen" class="h-48 w-full object-cover" />
                             </div>
                         </div>
@@ -108,7 +111,7 @@
                 const file = event.target.files && event.target.files[0];
                 if (!file) {
                     imagenBase64.value = "";
-                    imagenPreview.src = "{{ asset($demo->imagen) }}";
+                    imagenPreview.src = "{{ $demoImage }}";
                     return;
                 }
                 const reader = new FileReader();

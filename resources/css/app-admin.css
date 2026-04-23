@@ -1354,6 +1354,120 @@ button {
     justify-content: flex-end;
 }
 
+.admin-blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 1.8rem;
+}
+
+.admin-blog-card {
+    overflow: hidden;
+    padding: 0;
+}
+
+.admin-blog-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+}
+
+.admin-blog-card__body {
+    display: grid;
+    gap: 1.2rem;
+    padding: 2rem;
+}
+
+.admin-blog-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.admin-blog-preview {
+    width: 100%;
+    max-width: 28rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(23, 26, 36, 0.08);
+    object-fit: cover;
+}
+
+.admin-editor {
+    border: 1px solid rgba(23, 26, 36, 0.1);
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.92);
+    overflow: hidden;
+}
+
+.admin-editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(23, 26, 36, 0.08);
+    background: rgba(243, 246, 252, 0.88);
+}
+
+.admin-editor__btn {
+    min-width: 4rem;
+    min-height: 4rem;
+    border: 1px solid rgba(23, 26, 36, 0.08);
+    border-radius: 1rem;
+    background: #fff;
+    color: var(--negro);
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-editor__surface {
+    min-height: 28rem;
+    padding: 1.6rem;
+    color: var(--negro);
+    font-size: 1.6rem;
+    line-height: 1.7;
+    outline: none;
+}
+
+.admin-editor__surface h2,
+.admin-editor__surface p,
+.admin-editor__surface ul,
+.admin-editor__surface ol {
+    margin-bottom: 1.4rem;
+}
+
+.admin-editor__surface ul,
+.admin-editor__surface ol {
+    padding-left: 2rem;
+    list-style: initial;
+}
+
+.admin-editor__surface ol {
+    list-style: decimal;
+}
+
+.admin-ai-panel {
+    display: grid;
+    gap: 1.6rem;
+    padding: 1.8rem;
+    border: 1px solid rgba(94, 30, 211, 0.14);
+    border-radius: 2.4rem;
+    background: linear-gradient(135deg, rgba(94, 30, 211, 0.08), rgba(46, 143, 255, 0.06));
+}
+
+.admin-ai-panel__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.2rem;
+}
+
+.admin-ai-panel__hint {
+    color: var(--color-texto-secundario);
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
 .admin-overlay {
     position: fixed;
     inset: 0;

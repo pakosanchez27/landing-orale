@@ -90,17 +90,23 @@
 
             <div class="card-grid grid-3">
                 @foreach ($teamMembers->where('is_active', true) as $member)
+                    @php
+                        $memberImage = \Illuminate\Support\Str::startsWith($member['image'], ['http://', 'https://']) ? $member['image'] : asset($member['image']);
+                        $memberImageWebp = !empty($member['image_webp'])
+                            ? (\Illuminate\Support\Str::startsWith($member['image_webp'], ['http://', 'https://']) ? $member['image_webp'] : asset($member['image_webp']))
+                            : null;
+                    @endphp
                     <article class="team-card" data-reveal>
                         @if ($member['display_mode'] === 'art')
                             <div class="team-card__media team-card__media--art art-frame art-frame--compact">
-                                <img src="{{ asset($member['image']) }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
+                                <img src="{{ $memberImage }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
                             </div>
                         @else
                             <picture>
-                                @if (!empty($member['image_webp']))
-                                    <source srcset="{{ asset($member['image_webp']) }}" type="image/webp">
+                                @if (!empty($memberImageWebp))
+                                    <source srcset="{{ $memberImageWebp }}" type="image/webp">
                                 @endif
-                                <img src="{{ asset($member['image']) }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
+                                <img src="{{ $memberImage }}" alt="{{ $member['name'] }}, {{ $member['role'] }}" loading="lazy" />
                             </picture>
                         @endif
 

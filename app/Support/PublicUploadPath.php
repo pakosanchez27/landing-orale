@@ -9,6 +9,11 @@ class PublicUploadPath
         $root = rtrim((string) config('uploads.public_root', public_path()), '\\/');
         $relativePath = trim($relativePath, '\\/');
 
+        if (filter_var($relativePath, FILTER_VALIDATE_URL)) {
+            $parsedPath = parse_url($relativePath, PHP_URL_PATH) ?: '';
+            $relativePath = trim($parsedPath, '\\/');
+        }
+
         if ($relativePath === '') {
             return $root;
         }

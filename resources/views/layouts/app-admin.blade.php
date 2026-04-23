@@ -69,6 +69,10 @@
                     <i class="fa-solid fa-people-group" aria-hidden="true"></i>
                     <span class="admin-nav__text">Equipo</span>
                 </a>
+                <a href="{{ route('admin.blogs') }}" class="admin-nav__item {{ request()->routeIs('admin.blogs*') ? 'is-active' : '' }}">
+                    <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
+                    <span class="admin-nav__text">Blogs</span>
+                </a>
                 <a href="{{ route('demos') }}" class="admin-nav__item {{ request()->routeIs('demos*') ? 'is-active' : '' }}">
                     <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
                     <span class="admin-nav__text">Demos</span>

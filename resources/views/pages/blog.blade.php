@@ -2,56 +2,9 @@
 
 @section('titulo', 'Blog')
 @section('meta_description', 'Articulos sobre diseno web, UX, SEO y estrategia digital para mejorar la presencia online y conversiones de tu negocio.')
-@section('og_image', asset('img/blog-principal.png'))
+@section('og_image', $posts->isNotEmpty() ? (\Illuminate\Support\Str::startsWith($posts->first()['cover_image'], ['http://', 'https://']) ? $posts->first()['cover_image'] : asset($posts->first()['cover_image'])) : asset('img/blog-principal.png'))
 
 @section('content')
-    @php
-        $posts = [
-            [
-                'image' => asset('img/blog-principal.png'),
-                'date' => '03 marzo 2026',
-                'category' => 'UX',
-                'title' => 'Como mejorar la UX de tu sitio web en 30 dias',
-                'excerpt' => 'Un plan practico para optimizar navegacion, velocidad y conversiones sin rehacerlo todo desde cero.',
-            ],
-            [
-                'image' => asset('img/blog1.png'),
-                'date' => '27 febrero 2026',
-                'category' => 'SEO tecnico',
-                'title' => 'Guia para migrar tu web sin perder posicionamiento',
-                'excerpt' => 'Puntos clave para cuidar URLs, rendimiento y estructura al modernizar un sitio existente.',
-            ],
-            [
-                'image' => asset('img/blog2.png'),
-                'date' => '18 febrero 2026',
-                'category' => 'Conversion',
-                'title' => 'Que debe incluir una landing page para vender mas',
-                'excerpt' => 'Jerarquia visual, prueba social y llamadas a la accion que empujan resultados reales.',
-            ],
-            [
-                'image' => asset('img/blog1.png'),
-                'date' => '12 febrero 2026',
-                'category' => 'Branding',
-                'title' => 'Coherencia visual: por que influye en la confianza',
-                'excerpt' => 'Una web coherente se percibe mas profesional, mas solida y mucho mas creible.',
-            ],
-            [
-                'image' => asset('img/blog2.png'),
-                'date' => '10 febrero 2026',
-                'category' => 'Automatizacion',
-                'title' => 'Integraciones web utiles para cerrar mas oportunidades',
-                'excerpt' => 'Formularios, CRM, correo y seguimiento para evitar que tus prospectos se pierdan.',
-            ],
-            [
-                'image' => asset('img/blog-principal.png'),
-                'date' => '08 febrero 2026',
-                'category' => 'Performance',
-                'title' => 'Velocidad web: como bajar el tiempo de carga',
-                'excerpt' => 'Ideas practicas para mejorar experiencia, SEO y conversion sin sacrificar calidad visual.',
-            ],
-        ];
-    @endphp
-
     <section class="page-hero">
         <div class="shell page-hero__card" data-reveal>
             <span class="eyebrow">Blog</span>
@@ -68,20 +21,25 @@
             </div>
 
             <div class="blog-grid-modern grid-3">
-                @foreach ($posts as $post)
+                @forelse ($posts as $post)
+                    @php
+                        $postCover = \Illuminate\Support\Str::startsWith($post['cover_image'], ['http://', 'https://']) ? $post['cover_image'] : asset($post['cover_image']);
+                    @endphp
                     <article class="blog-card-modern" data-reveal>
-                        <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" loading="lazy" />
+                        <img src="{{ $postCover }}" alt="{{ $post['title'] }}" loading="lazy" />
                         <div class="blog-card-modern__body">
                             <div class="blog-card-modern__meta">
-                                <span>{{ $post['date'] }}</span>
+                                <span>{{ \Carbon\Carbon::parse($post['published_at'])->translatedFormat('d F Y') }}</span>
                                 <span>{{ $post['category'] }}</span>
                             </div>
                             <h3>{{ $post['title'] }}</h3>
                             <p>{{ $post['excerpt'] }}</p>
-                            <a href="{{ route('blog.post') }}" class="btn btn-secondary">Leer articulo</a>
+                            <a href="{{ route('blog.post', $post['slug']) }}" class="btn btn-secondary">Leer articulo</a>
                         </div>
                     </article>
-                @endforeach
+                @empty
+                    <p data-reveal>Aun no hay articulos publicados.</p>
+                @endforelse
             </div>
         </div>
     </section>

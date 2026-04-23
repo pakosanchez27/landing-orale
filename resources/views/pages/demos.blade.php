@@ -29,8 +29,11 @@
 
             <div class="card-grid grid-3">
                 @forelse ($demos as $demo)
+                    @php
+                        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                    @endphp
                     <article class="portfolio-card" data-reveal>
-                        <img src="{{ asset($demo->imagen) }}" alt="{{ $demo->titulo }}" loading="lazy" />
+                        <img src="{{ $demoImage }}" alt="{{ $demo->titulo }}" loading="lazy" />
                         <div class="portfolio-card__body">
                             @if ($demo->industria)
                                 <span class="pill" style="background-color: {{ $demo->industria->color ?: '#5E1ED3' }}1A; color: {{ $demo->industria->color ?: '#5E1ED3' }};">
@@ -44,7 +47,7 @@
                                 class="btn btn-secondary"
                                 data-demo-trigger
                                 data-demo-title="{{ $demo->titulo }}"
-                                data-demo-image="{{ asset($demo->imagen) }}"
+                                data-demo-image="{{ $demoImage }}"
                                 data-demo-description="{{ $demo->descripcion }}"
                                 data-demo-link="{{ $demo->link }}"
                                 data-demo-industry="{{ $demo->industria?->nombre }}"

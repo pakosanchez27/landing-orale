@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CatalogosController;
 use App\Http\Controllers\DemosController;
 use App\Http\Controllers\EquipoController;
@@ -88,13 +89,8 @@ Route::get('/demos', function () {
     return view('pages.demos', compact('industriasConDemos', 'demos', 'industriaSeleccionada'));
 });
 
-Route::get('/blog', function () {
-    return view('pages.blog');
-});
-
-Route::get('/blog-post', function () {
-    return view('pages.blog-post');
-})->name('blog.post');
+Route::get('/blog', [BlogController::class, 'publicIndex'])->name('blog');
+Route::get('/blog/{slug}', [BlogController::class, 'publicShow'])->name('blog.post');
 
 Route::get('/faq', function () {
     return view('pages.faqs');
@@ -150,4 +146,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/equipo', [EquipoController::class, 'store'])->name('admin.equipo.store');
     Route::put('/admin/equipo/{memberId}', [EquipoController::class, 'update'])->name('admin.equipo.update');
     Route::delete('/admin/equipo/{memberId}', [EquipoController::class, 'destroy'])->name('admin.equipo.destroy');
+
+    Route::get('/admin/blogs', [BlogController::class, 'index'])->name('admin.blogs');
+    Route::get('/admin/blogs/create', [BlogController::class, 'create'])->name('admin.blogs.create');
+    Route::post('/admin/blogs/ai-generate', [BlogController::class, 'generateWithAi'])->name('admin.blogs.ai-generate');
+    Route::post('/admin/blogs', [BlogController::class, 'store'])->name('admin.blogs.store');
+    Route::get('/admin/blogs/{postId}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
+    Route::put('/admin/blogs/{postId}', [BlogController::class, 'update'])->name('admin.blogs.update');
+    Route::delete('/admin/blogs/{postId}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
 });

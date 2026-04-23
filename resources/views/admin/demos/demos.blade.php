@@ -38,9 +38,12 @@
 
             <section class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 @forelse ($demos as $demo)
+                    @php
+                        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                    @endphp
                     <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm ">
                         <div class="aspect-[16/10] overflow-hidden bg-slate-100">
-                            <img src="{{ asset($demo->imagen) }}" alt="{{ $demo->titulo }}" class="h-full w-full object-cover" />
+                            <img src="{{ $demoImage }}" alt="{{ $demo->titulo }}" class="h-full w-full object-cover" />
                         </div>
                         <div class="flex flex-col gap-4 p-6 ">
                             <div>

@@ -180,6 +180,6 @@ class DemosController extends Controller
         $filename = uniqid('demo_', true) . '.' . $extension;
         file_put_contents($directory . DIRECTORY_SEPARATOR . $filename, $binary);
 
-        return 'img/demos/' . $filename;
+        return url('img/demos/' . $filename);
     }
 }

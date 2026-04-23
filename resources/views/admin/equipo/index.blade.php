@@ -94,6 +94,9 @@
 
             <div class="admin-panel__body admin-team-grid">
                 @forelse ($teamMembers as $member)
+                    @php
+                        $memberImage = \Illuminate\Support\Str::startsWith($member['image'], ['http://', 'https://']) ? $member['image'] : asset($member['image']);
+                    @endphp
                     <article class="admin-card admin-team-card">
                         <div class="admin-card__header">
                             <div>
@@ -106,7 +109,7 @@
                         </div>
 
                         <div class="admin-team-card__preview">
-                            <img src="{{ asset($member['image']) }}" alt="{{ $member['name'] }}" class="admin-avatar" />
+                            <img src="{{ $memberImage }}" alt="{{ $member['name'] }}" class="admin-avatar" />
                             <div class="admin-team-card__meta">
                                 <p><strong>Orden:</strong> {{ $member['sort_order'] }}</p>
                                 <p><strong>Modo:</strong> {{ $member['display_mode'] === 'art' ? 'Marco artistico' : 'Imagen normal' }}</p>
