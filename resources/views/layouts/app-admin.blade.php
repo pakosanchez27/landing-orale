@@ -93,6 +93,12 @@
                             <i class="fa-solid fa-address-book" aria-hidden="true"></i>
                             <span class="admin-nav__text">Contactos</span>
                         </a>
+                        @role(0)
+                            <a href="{{ route('admin.crm.api-docs') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm.api-docs') ? 'is-active' : '' }}">
+                                <i class="fa-solid fa-book" aria-hidden="true"></i>
+                                <span class="admin-nav__text">API Bot</span>
+                            </a>
+                        @endrole
                     </div>
                 </div>
                 <a href="{{ route('demos') }}" class="admin-nav__item {{ request()->routeIs('demos*') ? 'is-active' : '' }}">

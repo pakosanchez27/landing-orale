@@ -238,6 +238,15 @@ class LeadController extends Controller
         ]);
     }
 
+    public function apiDocs()
+    {
+        abort_unless($this->isSuperAdmin(), 403);
+
+        return view('admin.leads.api-docs', [
+            'baseApiUrl' => url('/api/crm/bot'),
+        ]);
+    }
+
     public function updateStatus(Request $request, Lead $lead): JsonResponse
     {
         $validated = $request->validate([
@@ -385,6 +394,11 @@ class LeadController extends Controller
         }
 
         return in_array((int) auth()->user()->role_id, [0, 1], true);
+    }
+
+    private function isSuperAdmin(): bool
+    {
+        return auth()->check() && (int) auth()->user()->role_id === 0;
     }
 
     private function formatDelta(float|int $current, float|int $previous, bool $isPercentage = false): array

@@ -163,6 +163,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
     Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
     Route::get('/admin/crm/contactos', [LeadController::class, 'contacts'])->name('admin.crm.contacts');
+    Route::get('/admin/crm/api-docs', [LeadController::class, 'apiDocs'])->name('admin.crm.api-docs');
     Route::patch('/admin/crm/leads/{lead}/status', [LeadController::class, 'updateStatus'])->name('admin.crm.leads.status');
     Route::patch('/admin/crm/leads/{lead}', [LeadController::class, 'update'])->name('admin.crm.leads.update');
 });
