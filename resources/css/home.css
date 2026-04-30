@@ -28,37 +28,22 @@
   pointer-events: none;
 }
 
-.reveal-section {
-  opacity: 0;
-  transform: translateY(4rem);
-  transition: opacity 520ms ease, transform 520ms ease;
-}
-
+.reveal-section,
 .reveal-section.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-.reveal-card {
-  opacity: 0;
-  transform: translateY(3rem) scale(0.98);
-  transition: opacity 500ms ease, transform 500ms ease;
-}
-
+.reveal-card,
 .reveal-card.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
 }
 
 @media (max-width: 991px) {
-  .reveal-section {
-    transform: translateY(1.6rem);
-    transition: opacity 260ms ease, transform 260ms ease;
-  }
-
+  .reveal-section,
   .reveal-card {
-    transform: translateY(1.2rem) scale(0.995);
-    transition: opacity 220ms ease, transform 220ms ease;
+    transform: none;
   }
 }
 
