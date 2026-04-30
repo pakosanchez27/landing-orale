@@ -21,15 +21,12 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT || 65002 }}
-          script_stop: true
-          envs: GITHUB_SHA
+          envs: GITHUB_SHA,VPS_APP_ROOT,VPS_PUBLIC_ROOT
           script: |
             set -eu
 
-            DOMAIN_ROOT=~/domains/oraleweb.com
-            PUBLIC_HTML="$DOMAIN_ROOT/public_html"
-            APP_ROOT=""
-            PUBLIC_ROOT=""
+            APP_ROOT="${VPS_APP_ROOT:-}"
+            PUBLIC_ROOT="${VPS_PUBLIC_ROOT:-}"
             DEPLOY_LOCK="/tmp/oraleweb-deploy.lock"
 
             if [ -f "$DEPLOY_LOCK" ]; then
@@ -40,16 +37,39 @@ jobs:
             trap 'rm -f "$DEPLOY_LOCK"' EXIT
             touch "$DEPLOY_LOCK"
 
-            if [ -f "$PUBLIC_HTML/artisan" ]; then
-              APP_ROOT="$PUBLIC_HTML"
-              PUBLIC_ROOT="$PUBLIC_HTML"
-            elif [ -f "$DOMAIN_ROOT/laravel_app/artisan" ]; then
-              APP_ROOT="$DOMAIN_ROOT/laravel_app"
-              PUBLIC_ROOT="$PUBLIC_HTML"
-            else
-              echo "No se encontro artisan en public_html ni en laravel_app"
+            if [ -n "$APP_ROOT" ]; then
+              echo "Usando APP_ROOT definido en secrets: $APP_ROOT"
+            elif [ -f "$HOME/public_html/artisan" ]; then
+              APP_ROOT="$HOME/public_html"
+            elif [ -f "$HOME/laravel_app/artisan" ]; then
+              APP_ROOT="$HOME/laravel_app"
+            elif [ -f "$HOME/domains/oraleweb.com/public_html/artisan" ]; then
+              APP_ROOT="$HOME/domains/oraleweb.com/public_html"
+            elif [ -f "$HOME/domains/oraleweb.com/laravel_app/artisan" ]; then
+              APP_ROOT="$HOME/domains/oraleweb.com/laravel_app"
+            fi
+
+            if [ -z "$PUBLIC_ROOT" ]; then
+              if [ -d "$HOME/public_html" ]; then
+                PUBLIC_ROOT="$HOME/public_html"
+              elif [ -d "$HOME/domains/oraleweb.com/public_html" ]; then
+                PUBLIC_ROOT="$HOME/domains/oraleweb.com/public_html"
+              else
+                PUBLIC_ROOT="$APP_ROOT/public"
+              fi
+            fi
+
+            if [ -z "$APP_ROOT" ] || [ ! -f "$APP_ROOT/artisan" ]; then
+              echo "No se encontro artisan. Define el secret VPS_APP_ROOT con la ruta real del proyecto."
+              echo "Ejemplos:"
+              echo "  /home/usuario/public_html"
+              echo "  /var/www/oraleweb"
+              echo "  /home/usuario/domains/oraleweb.com/laravel_app"
               exit 1
             fi
+
+            echo "APP_ROOT=$APP_ROOT"
+            echo "PUBLIC_ROOT=$PUBLIC_ROOT"
 
             cd "$APP_ROOT"
             git fetch origin master
