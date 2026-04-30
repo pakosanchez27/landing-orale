@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-DFrvRugu.css",
+    "file": "assets/app-CrE7O13y.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -63,7 +63,7 @@
     ]
   },
   "resources/css/home.css": {
-    "file": "assets/home-YGA6YvoV.css",
+    "file": "assets/home-Co1w5d5C.css",
     "src": "resources/css/home.css",
     "isEntry": true,
     "name": "home",
@@ -114,7 +114,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DuHDCAIm.js",
+    "file": "assets/app-BuUmsZfV.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -131,7 +131,7 @@
     "isEntry": true
   },
   "resources/js/globales.js": {
-    "file": "assets/globales-BqPw2S62.js",
+    "file": "assets/globales-CNMIbPsB.js",
     "name": "globales",
     "src": "resources/js/globales.js",
     "isEntry": true
