@@ -101,6 +101,10 @@ Route::get('/contacto', function () {
     return view('pages.contacto');
 });
 
+Route::get('/privacidad', function () {
+    return view('pages.privacidad');
+});
+
 Route::get('/paquetes', function () {
     return view('pages.paquetes');
 });

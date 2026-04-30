@@ -13,6 +13,7 @@ class FormularioController extends Controller
     {
         // Datos validados
         $data = $request->validated();
+        $data['whatsapp'] = trim($data['whatsapp_codigo'] . ' ' . $data['whatsapp']);
 
         $equipo = [
             'contacto@oraleweb.com',
