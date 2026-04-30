@@ -24,7 +24,7 @@ jobs:
           envs: GITHUB_SHA,VPS_APP_ROOT,VPS_PUBLIC_ROOT
           script: |
             set -eu
-
+ 
             APP_ROOT="${VPS_APP_ROOT:-}"
             PUBLIC_ROOT="${VPS_PUBLIC_ROOT:-}"
             DEPLOY_LOCK="/tmp/oraleweb-deploy.lock"
