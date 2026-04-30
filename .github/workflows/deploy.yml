@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          VPS_APP_ROOT: ${{ secrets.VPS_APP_ROOT }}
+          VPS_PUBLIC_ROOT: ${{ secrets.VPS_PUBLIC_ROOT }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
