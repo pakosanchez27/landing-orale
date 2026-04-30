@@ -9,6 +9,9 @@
 :root {
   --font-heading: "Space Grotesk", sans-serif;
   --font-body: "Manrope", sans-serif;
+  --space-title-text: 1.6rem;
+  --space-text-text: 1.6rem;
+  --space-section-stack: 2rem;
   --color-bg: #f5f7fb;
   --color-surface: rgba(255, 255, 255, 0.78);
   --color-surface-strong: #ffffff;
@@ -94,6 +97,18 @@ h3 {
 p {
   margin: 0;
   color: var(--color-muted);
+}
+
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p {
+  margin-top: var(--space-title-text);
+}
+
+p + p {
+  margin-top: var(--space-text-text);
 }
 
 a {
@@ -391,7 +406,7 @@ textarea {
 
 .hero-copy {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-section-stack);
 }
 
 .hero-copy p {
@@ -539,7 +554,7 @@ textarea {
 
 .section-intro {
   display: grid;
-  gap: 1.6rem;
+  gap: var(--space-title-text);
   margin-bottom: 3.6rem;
 }
 
@@ -690,7 +705,7 @@ textarea {
 
 .feature-card {
   display: grid;
-  gap: 1.6rem;
+  gap: var(--space-title-text);
 }
 
 .feature-card__icon {
@@ -768,6 +783,32 @@ textarea {
   color: rgba(255, 255, 255, 0.76);
 }
 
+.band-card .feature-card {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 42px rgba(7, 12, 24, 0.22);
+}
+
+.band-card .feature-card h3 {
+  color: #f8fbff;
+}
+
+.band-card .feature-card p {
+  color: rgba(232, 239, 250, 0.88);
+}
+
+.band-card .feature-card .feature-card__icon {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+  color: #8fc2ff;
+}
+
+.band-card .feature-card:hover {
+  border-color: rgba(143, 194, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.1));
+  box-shadow: 0 24px 54px rgba(6, 10, 20, 0.28);
+}
+
 .cta-panel > .eyebrow {
   margin-bottom: 1.8rem;
 }
@@ -812,7 +853,7 @@ textarea {
 
 .portfolio-card__body {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-title-text);
   padding: 2.4rem;
 }
 
@@ -966,7 +1007,7 @@ textarea {
 .article-meta,
 .timeline-list {
   display: grid;
-  gap: 1.2rem;
+  gap: var(--space-title-text);
 }
 
 .contact-links a,
@@ -1125,8 +1166,20 @@ textarea {
 
 .blog-card-modern__body {
   display: grid;
-  gap: 1.2rem;
+  gap: var(--space-title-text);
   padding: 2.4rem;
+}
+
+.empty-state {
+  display: grid;
+  gap: var(--space-title-text);
+  padding: 3rem;
+  text-align: center;
+  justify-items: center;
+}
+
+.empty-state p {
+  max-width: 56rem;
 }
 
 .blog-card-modern__meta,
@@ -1161,7 +1214,7 @@ textarea {
 
 .article-content {
   display: grid;
-  gap: 1.8rem;
+  gap: var(--space-section-stack);
 }
 
 .article-content p,
@@ -1345,7 +1398,7 @@ textarea {
 
 .team-card__body {
   display: grid;
-  gap: 0.8rem;
+  gap: var(--space-title-text);
   padding: 2.4rem;
 }
 
@@ -1367,7 +1420,7 @@ textarea {
 
 .footer-brand {
   display: grid;
-  gap: 1.4rem;
+  gap: var(--space-title-text);
 }
 
 .footer-brand__logo {

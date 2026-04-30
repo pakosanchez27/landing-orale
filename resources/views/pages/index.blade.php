@@ -14,7 +14,7 @@
             <div class="hero-copy" data-reveal>
                 <span class="eyebrow">Estudio digital premium</span>
                 <h1>Construimos sitios web que se sienten <span class="gradient-text">memorables</span> y marcan la diferencia</h1>
-                <p>En Orale Web dise&ntilde;amos experiencias visuales de alto impacto para marcas que necesitan verse s&oacute;lidas, cargar r&aacute;pido y transformar visitas en prospectos reales.</p>
+                <p>En <span class="gradient-text">¡Orale Web!</span> dise&ntilde;amos experiencias visuales de alto impacto para marcas que necesitan verse s&oacute;lidas, cargar r&aacute;pido y transformar visitas en prospectos reales.</p>
                 <div class="hero-actions">
                     <a href="/contacto" class="btn btn-primary">Quiero mi proyecto</a>
                     <a href="/demos" class="btn btn-secondary">Ver demos en vivo</a>
@@ -223,7 +223,7 @@
                         <li>Responsive y formulario de contacto</li>
                         <li>Alta en Google My Business</li>
                     </ul>
-                    <a href="/contacto?paquete=basico" class="btn btn-secondary">Elegir plan</a>
+                    <a href="/paquetes" class="btn btn-secondary">Mas informacion</a>
                 </article>
 
                 <article class="pricing-card is-featured" data-reveal>
@@ -237,7 +237,7 @@
                         <li>Blog, redes y correos corporativos</li>
                         <li>2 meses de mantenimiento incluidos</li>
                     </ul>
-                    <a href="/contacto?paquete=profesional" class="btn btn-primary">Elegir plan</a>
+                    <a href="/paquetes" class="btn btn-primary">Mas informacion</a>
                 </article>
 
                 <article class="pricing-card" data-reveal>
@@ -251,7 +251,7 @@
                         <li>Funcionalidades especiales</li>
                         <li>Escalabilidad segun objetivos</li>
                     </ul>
-                    <a href="/contacto?paquete=personalizado" class="btn btn-secondary">Cotizar</a>
+                    <a href="/paquetes" class="btn btn-secondary">Mas informacion</a>
                 </article>
             </div>
         </div>

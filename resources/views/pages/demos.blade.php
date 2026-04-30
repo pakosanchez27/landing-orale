@@ -15,53 +15,65 @@
 
     <section class="section">
         <div class="shell">
-            <form class="demo-filter" action="{{ url('/demos') }}" method="GET" data-reveal>
-                <label for="industria">Filtrar por industria</label>
-                <select name="industria" id="industria" onchange="this.form.submit()">
-                    <option value="">Todas las industrias</option>
-                    @foreach ($industriasConDemos as $industria)
-                        <option value="{{ $industria->id }}" @selected((string) $industriaSeleccionada === (string) $industria->id)>
-                            {{ $industria->nombre }}
-                        </option>
+            @if ($industriasConDemos->isNotEmpty())
+                <form class="demo-filter" action="{{ url('/demos') }}" method="GET" data-reveal>
+                    <label for="industria">Filtrar por industria</label>
+                    <select name="industria" id="industria" onchange="this.form.submit()">
+                        <option value="">Todas las industrias</option>
+                        @foreach ($industriasConDemos as $industria)
+                            <option value="{{ $industria->id }}" @selected((string) $industriaSeleccionada === (string) $industria->id)>
+                                {{ $industria->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            @endif
+
+            @if ($demos->count() > 0)
+                <div class="card-grid grid-3">
+                    @foreach ($demos as $demo)
+                        @php
+                            $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                        @endphp
+                        <article class="portfolio-card" data-reveal>
+                            <img src="{{ $demoImage }}" alt="{{ $demo->titulo }}" loading="lazy" />
+                            <div class="portfolio-card__body">
+                                @if ($demo->industria)
+                                    <span class="pill" style="background-color: {{ $demo->industria->color ?: '#5E1ED3' }}1A; color: {{ $demo->industria->color ?: '#5E1ED3' }};">
+                                        {{ $demo->industria->nombre }}
+                                    </span>
+                                @endif
+                                <h3>{{ $demo->titulo }}</h3>
+                                <p>{{ \Illuminate\Support\Str::limit($demo->descripcion, 130) }}</p>
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-demo-trigger
+                                    data-demo-title="{{ $demo->titulo }}"
+                                    data-demo-image="{{ $demoImage }}"
+                                    data-demo-description="{{ $demo->descripcion }}"
+                                    data-demo-link="{{ $demo->link }}"
+                                    data-demo-industry="{{ $demo->industria?->nombre }}"
+                                    data-demo-color="{{ $demo->industria?->color ?: '#5E1ED3' }}">
+                                    Ver demo
+                                </button>
+                            </div>
+                        </article>
                     @endforeach
-                </select>
-            </form>
-
-            <div class="card-grid grid-3">
-                @forelse ($demos as $demo)
+                </div>
+            @else
+                <div class="empty-state surface-card" data-reveal>
                     @php
-                        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                        $emptyMessage = $industriaSeleccionada
+                            ? 'No hay demos disponibles para esta industria.'
+                            : 'No hay demos disponibles por ahora.';
                     @endphp
-                    <article class="portfolio-card" data-reveal>
-                        <img src="{{ $demoImage }}" alt="{{ $demo->titulo }}" loading="lazy" />
-                        <div class="portfolio-card__body">
-                            @if ($demo->industria)
-                                <span class="pill" style="background-color: {{ $demo->industria->color ?: '#5E1ED3' }}1A; color: {{ $demo->industria->color ?: '#5E1ED3' }};">
-                                    {{ $demo->industria->nombre }}
-                                </span>
-                            @endif
-                            <h3>{{ $demo->titulo }}</h3>
-                            <p>{{ \Illuminate\Support\Str::limit($demo->descripcion, 130) }}</p>
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-demo-trigger
-                                data-demo-title="{{ $demo->titulo }}"
-                                data-demo-image="{{ $demoImage }}"
-                                data-demo-description="{{ $demo->descripcion }}"
-                                data-demo-link="{{ $demo->link }}"
-                                data-demo-industry="{{ $demo->industria?->nombre }}"
-                                data-demo-color="{{ $demo->industria?->color ?: '#5E1ED3' }}">
-                                Ver demo
-                            </button>
-                        </div>
-                    </article>
-                @empty
-                    <p data-reveal>No se encontraron demos para esta industria.</p>
-                @endforelse
-            </div>
+                    <h3>{{ $emptyMessage }}</h3>
+                    <p>Cuando agreguemos nuevos demos apareceran aqui automaticamente.</p>
+                </div>
+            @endif
 
-            @if ($demos->hasPages())
+            @if ($demos->count() > 0 && $demos->hasPages())
                 <div style="margin-top: 3rem;" data-reveal>
                     {{ $demos->links() }}
                 </div>

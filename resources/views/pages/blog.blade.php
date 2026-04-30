@@ -20,27 +20,32 @@
                 <h2>Contenido pensado para ayudarte a tomar mejores decisiones digitales.</h2>
             </div>
 
-            <div class="blog-grid-modern grid-3">
-                @forelse ($posts as $post)
-                    @php
-                        $postCover = \Illuminate\Support\Str::startsWith($post['cover_image'], ['http://', 'https://']) ? $post['cover_image'] : asset($post['cover_image']);
-                    @endphp
-                    <article class="blog-card-modern" data-reveal>
-                        <img src="{{ $postCover }}" alt="{{ $post['title'] }}" loading="lazy" />
-                        <div class="blog-card-modern__body">
-                            <div class="blog-card-modern__meta">
-                                <span>{{ \Carbon\Carbon::parse($post['published_at'])->translatedFormat('d F Y') }}</span>
-                                <span>{{ $post['category'] }}</span>
+            @if ($posts->isNotEmpty())
+                <div class="blog-grid-modern grid-3">
+                    @foreach ($posts as $post)
+                        @php
+                            $postCover = \Illuminate\Support\Str::startsWith($post['cover_image'], ['http://', 'https://']) ? $post['cover_image'] : asset($post['cover_image']);
+                        @endphp
+                        <article class="blog-card-modern" data-reveal>
+                            <img src="{{ $postCover }}" alt="{{ $post['title'] }}" loading="lazy" />
+                            <div class="blog-card-modern__body">
+                                <div class="blog-card-modern__meta">
+                                    <span>{{ \Carbon\Carbon::parse($post['published_at'])->translatedFormat('d F Y') }}</span>
+                                    <span>{{ $post['category'] }}</span>
+                                </div>
+                                <h3>{{ $post['title'] }}</h3>
+                                <p>{{ $post['excerpt'] }}</p>
+                                <a href="{{ route('blog.post', $post['slug']) }}" class="btn btn-secondary">Leer articulo</a>
                             </div>
-                            <h3>{{ $post['title'] }}</h3>
-                            <p>{{ $post['excerpt'] }}</p>
-                            <a href="{{ route('blog.post', $post['slug']) }}" class="btn btn-secondary">Leer articulo</a>
-                        </div>
-                    </article>
-                @empty
-                    <p data-reveal>Aun no hay articulos publicados.</p>
-                @endforelse
-            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @else
+                <div class="empty-state surface-card" data-reveal>
+                    <h3>Aun no hay articulos disponibles.</h3>
+                    <p>Cuando publiquemos nuevas entradas apareceran aqui automaticamente.</p>
+                </div>
+            @endif
         </div>
     </section>
 

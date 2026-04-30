@@ -3,10 +3,16 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -14,14 +20,25 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
+          port: ${{ secrets.SSH_PORT || 65002 }}
+          script_stop: true
+          envs: GITHUB_SHA
           script: |
-            set -e
+            set -eu
 
             DOMAIN_ROOT=~/domains/oraleweb.com
             PUBLIC_HTML="$DOMAIN_ROOT/public_html"
             APP_ROOT=""
             PUBLIC_ROOT=""
+            DEPLOY_LOCK="/tmp/oraleweb-deploy.lock"
+
+            if [ -f "$DEPLOY_LOCK" ]; then
+              echo "Ya hay un despliegue en curso"
+              exit 1
+            fi
+
+            trap 'rm -f "$DEPLOY_LOCK"' EXIT
+            touch "$DEPLOY_LOCK"
 
             if [ -f "$PUBLIC_HTML/artisan" ]; then
               APP_ROOT="$PUBLIC_HTML"
@@ -35,14 +52,15 @@ jobs:
             fi
 
             cd "$APP_ROOT"
-            git pull origin master
-            composer install --no-dev --optimize-autoloader
+            git fetch origin master
+            git reset --hard "$GITHUB_SHA"
+            composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
             if command -v npm >/dev/null 2>&1; then
               if [ -f package-lock.json ]; then
-                npm ci
+                npm ci --no-audit --no-fund
               else
-                npm install
+                npm install --no-audit --no-fund
               fi
               npm run build
             else
@@ -51,6 +69,20 @@ jobs:
 
             rm -f public/hot
             rm -f storage/vite.hot
+
+            if [ ! -L "$APP_ROOT/public/storage" ]; then
+              php artisan storage:link || true
+            fi
+
+            if [ ! -d "$APP_ROOT/public/build" ]; then
+              echo "No existe $APP_ROOT/public/build despues del despliegue"
+              exit 1
+            fi
+
+            if [ ! -d "$APP_ROOT/public/img" ]; then
+              echo "No existe $APP_ROOT/public/img despues del despliegue"
+              exit 1
+            fi
 
             if [ "$APP_ROOT" != "$PUBLIC_ROOT" ]; then
               rm -rf "$PUBLIC_ROOT/build"
@@ -62,8 +94,10 @@ jobs:
               cp "$APP_ROOT/public/.htaccess" "$PUBLIC_ROOT/.htaccess"
             fi
 
+            php artisan down --render="errors::503" || true
+            php artisan migrate --force
             php artisan optimize:clear
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
-            php artisan migrate --force
+            php artisan up
