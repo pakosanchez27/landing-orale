@@ -73,6 +73,28 @@
                     <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
                     <span class="admin-nav__text">Blogs</span>
                 </a>
+                <div class="admin-nav__group">
+                    <button type="button" class="admin-nav__item admin-nav__parent" id="crm-toggle"
+                        aria-expanded="{{ request()->routeIs('admin.crm*') ? 'true' : 'false' }}" aria-controls="crm-children">
+                        <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+                        <span class="admin-nav__text">CRM</span>
+                        <i class="fa-solid fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                    </button>
+                    <div class="admin-nav__children" id="crm-children" @if (request()->routeIs('admin.crm*')) style="display: grid;" @endif @if (!request()->routeIs('admin.crm*')) hidden @endif>
+                        <a href="{{ route('admin.crm.dashboard') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm.dashboard') ? 'is-active' : '' }}">
+                            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+                            <span class="admin-nav__text">Dashboard</span>
+                        </a>
+                        <a href="{{ route('admin.crm') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm') ? 'is-active' : '' }}">
+                            <i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
+                            <span class="admin-nav__text">Pipeline</span>
+                        </a>
+                        <a href="{{ route('admin.crm.contacts') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm.contacts') ? 'is-active' : '' }}">
+                            <i class="fa-solid fa-address-book" aria-hidden="true"></i>
+                            <span class="admin-nav__text">Contactos</span>
+                        </a>
+                    </div>
+                </div>
                 <a href="{{ route('demos') }}" class="admin-nav__item {{ request()->routeIs('demos*') ? 'is-active' : '' }}">
                     <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
                     <span class="admin-nav__text">Demos</span>
@@ -155,6 +177,8 @@
         const userMenu = document.getElementById("admin-user-menu");
         const catalogosToggle = document.getElementById("catalogos-toggle");
         const catalogosChildren = document.getElementById("catalogos-children");
+        const crmToggle = document.getElementById("crm-toggle");
+        const crmChildren = document.getElementById("crm-children");
 
         const setCollapsed = (collapsed) => {
             layout.classList.toggle("is-collapsed", collapsed);
@@ -177,6 +201,11 @@
             catalogosToggle.setAttribute("aria-expanded", open ? "true" : "false");
         };
 
+        const setCrmOpen = (open) => {
+            crmChildren.hidden = !open;
+            crmToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        };
+
         const savedCollapsed = localStorage.getItem("adminSidebarCollapsed") === "1";
         setCollapsed(savedCollapsed);
 
@@ -191,6 +220,9 @@
         userBtn.addEventListener("click", () => setUserMenu(userMenu.hidden));
         if (catalogosToggle) {
             catalogosToggle.addEventListener("click", () => setCatalogosOpen(catalogosChildren.hidden));
+        }
+        if (crmToggle) {
+            crmToggle.addEventListener("click", () => setCrmOpen(crmChildren.hidden));
         }
 
         document.addEventListener("click", (event) => {
