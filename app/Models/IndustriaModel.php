@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class IndustriaModel extends Model
 {
@@ -16,4 +17,8 @@ class IndustriaModel extends Model
         'update_date'
         ];
 
+    public function leads(): HasMany
+    {
+        return $this->hasMany(Lead::class, 'industry_id');
+    }
 }

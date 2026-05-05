@@ -62,7 +62,7 @@
                 <div class="section-intro" style="margin-bottom: 2.4rem;">
                     <span class="eyebrow">Formulario</span>
                     <h2>Cu&eacute;ntanos lo esencial y nosotros armamos la ruta.</h2>
-                    <p>El campo de WhatsApp debe llevar solo 10 d&iacute;gitos para pasar la validaci&oacute;n actual del sistema.</p>
+                    <p>Selecciona tu prefijo internacional y escribe tu n&uacute;mero de WhatsApp sin espacios.</p>
                 </div>
 
                 <form class="contact-form" action="{{ route('enviar') }}" method="POST" novalidate>
@@ -83,7 +83,21 @@
 
                         <div class="field">
                             <label for="whatsapp">WhatsApp</label>
-                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="5512345678" value="{{ old('whatsapp') }}" />
+                            <div class="field-inline">
+                                <select id="whatsapp_codigo" name="whatsapp_codigo" aria-label="C&oacute;digo de pa&iacute;s de WhatsApp">
+                                    <option value="+52" @selected(old('whatsapp_codigo', '+52') === '+52')>+52 MX</option>
+                                    <option value="+1" @selected(old('whatsapp_codigo') === '+1')>+1 USA/CAN</option>
+                                    <option value="+34" @selected(old('whatsapp_codigo') === '+34')>+34 ES</option>
+                                    <option value="+57" @selected(old('whatsapp_codigo') === '+57')>+57 CO</option>
+                                    <option value="+54" @selected(old('whatsapp_codigo') === '+54')>+54 AR</option>
+                                    <option value="+56" @selected(old('whatsapp_codigo') === '+56')>+56 CL</option>
+                                    <option value="+51" @selected(old('whatsapp_codigo') === '+51')>+51 PE</option>
+                                </select>
+                                <input type="tel" id="whatsapp" name="whatsapp" placeholder="5512345678" value="{{ old('whatsapp') }}" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" />
+                            </div>
+                            @error('whatsapp_codigo')
+                                <small>{{ $message }}</small>
+                            @enderror
                             @error('whatsapp')
                                 <small>{{ $message }}</small>
                             @enderror
@@ -151,6 +165,19 @@
                         <label for="mensaje">Mensaje</label>
                         <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cu&eacute;ntanos sobre tu negocio, objetivos o lo que te gustaria mejorar.">{{ old('mensaje') }}</textarea>
                         @error('mensaje')
+                            <small>{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="check-group">
+                        <div class="check-card">
+                            <input type="checkbox" id="aviso_privacidad" name="aviso_privacidad" value="1" @checked(old('aviso_privacidad')) required />
+                            <label for="aviso_privacidad">
+                                He le&iacute;do y acepto el
+                                <a href="{{ url('/privacidad') }}" class="check-card__link">Aviso de Privacidad</a>.
+                            </label>
+                        </div>
+                        @error('aviso_privacidad')
                             <small>{{ $message }}</small>
                         @enderror
                     </div>

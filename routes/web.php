@@ -7,6 +7,7 @@ use App\Http\Controllers\DemosController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\PasswordSetupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuariosController;
@@ -101,6 +102,10 @@ Route::get('/contacto', function () {
     return view('pages.contacto');
 });
 
+Route::get('/privacidad', function () {
+    return view('pages.privacidad');
+});
+
 Route::get('/paquetes', function () {
     return view('pages.paquetes');
 });
@@ -155,4 +160,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/blogs/{postId}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
     Route::put('/admin/blogs/{postId}', [BlogController::class, 'update'])->name('admin.blogs.update');
     Route::delete('/admin/blogs/{postId}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
+    Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
+    Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
+    Route::get('/admin/crm/contactos', [LeadController::class, 'contacts'])->name('admin.crm.contacts');
+    Route::get('/admin/crm/api-docs', [LeadController::class, 'apiDocs'])->name('admin.crm.api-docs');
+    Route::patch('/admin/crm/leads/{lead}/status', [LeadController::class, 'updateStatus'])->name('admin.crm.leads.status');
+    Route::patch('/admin/crm/leads/{lead}', [LeadController::class, 'update'])->name('admin.crm.leads.update');
 });

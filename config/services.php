@@ -40,4 +40,8 @@ return [
         'model' => env('OPENAI_MODEL', 'gpt-4.1'),
     ],
 
+    'crm_bot' => [
+        'token' => env('CRM_BOT_API_TOKEN'),
+    ],
+
 ];

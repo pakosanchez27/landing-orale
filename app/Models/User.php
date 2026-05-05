@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -52,5 +53,40 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function assignedLeads(): HasMany
+    {
+        return $this->hasMany(Lead::class, 'assigned_to');
+    }
+
+    public function createdLeads(): HasMany
+    {
+        return $this->hasMany(Lead::class, 'created_by');
+    }
+
+    public function leadActivities(): HasMany
+    {
+        return $this->hasMany(LeadActivity::class);
+    }
+
+    public function assignedLeadTasks(): HasMany
+    {
+        return $this->hasMany(LeadTask::class, 'assigned_to');
+    }
+
+    public function createdLeadTasks(): HasMany
+    {
+        return $this->hasMany(LeadTask::class, 'created_by');
+    }
+
+    public function createdAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'created_by');
+    }
+
+    public function leadMessages(): HasMany
+    {
+        return $this->hasMany(LeadMessage::class);
     }
 }
