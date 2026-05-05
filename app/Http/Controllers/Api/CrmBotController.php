@@ -28,7 +28,7 @@ class CrmBotController extends Controller
             'company_name' => ['nullable', 'string', 'max:255'],
             'industry_id' => ['nullable', 'integer', 'exists:industrias,id'],
             'source' => ['nullable', 'string', 'max:60'],
-            'status' => ['nullable', 'string', 'max:60'],
+            'status' => ['nullable'],
             'score' => ['nullable', 'integer', 'min:0', 'max:100'],
             'interest_package' => ['nullable', 'string', 'max:255'],
             'budget_range' => ['nullable', 'string', 'max:255'],
@@ -100,7 +100,7 @@ class CrmBotController extends Controller
                 ...($lead->origin_meta ?? []),
                 ...($validated['origin_meta'] ?? []),
                 'last_ingested_from' => 'bot',
-            ], fn ($value) => $value !== null && $value !== ''),
+            ], fn($value) => $value !== null && $value !== ''),
         ]);
         $lead->save();
 
@@ -287,11 +287,20 @@ class CrmBotController extends Controller
         );
     }
 
-    private function resolveStatus(string $value): LeadStatus
+    private function resolveStatus(int|string|null $value): LeadStatus
     {
+        if (blank($value)) {
+            $value = 'new';
+        }
+
         $status = LeadStatus::query()
-            ->where('key', Str::slug($value, '_'))
-            ->orWhere('name', $value)
+            ->when(
+                is_numeric($value),
+                fn($query) => $query->where('id', (int) $value),
+                fn($query) => $query
+                    ->where('key', Str::slug((string) $value, '_'))
+                    ->orWhere('name', (string) $value)
+            )
             ->first();
 
         if (! $status) {
