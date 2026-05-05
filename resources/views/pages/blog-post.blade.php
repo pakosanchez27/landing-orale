@@ -11,9 +11,6 @@
         $postCover = \Illuminate\Support\Str::startsWith($post['cover_image'], ['http://', 'https://'])
             ? $post['cover_image']
             : asset($post['cover_image']);
-        $shareUrl = url()->current();
-        $shareTitle = $post['title'];
-        $shareEndpoint = route('blog.share', $post['slug']);
     @endphp
     <section class="page-hero">
         <div class="shell article-layout">
@@ -24,7 +21,6 @@
                     <span>{{ $post['category'] }}</span>
                     <span>{{ $post['reading_time'] }}</span>
                     <span id="post-view-count">{{ number_format($post['view_count'] ?? 0) }} vistas</span>
-                    <span id="post-share-count">{{ number_format($post['share_count'] ?? 0) }} compartidos</span>
                 </div>
                 <h1 style="margin: 1.8rem 0 2rem;">{{ $post['title'] }}</h1>
 
@@ -58,41 +54,6 @@
                     <p>Podemos revisar tu sitio actual y proponerte una direcci&oacute;n visual y estructural m&aacute;s
                         clara.</p>
                     <a href="/contacto" class="btn btn-primary" style="margin-top: 1.6rem;">Hablar del proyecto</a>
-                </div>
-
-                <div class="surface-card sidebar-card" data-reveal>
-                    <span class="eyebrow">Compartir</span>
-                    <h3>Lleva este articulo a tu red</h3>
-                    <p>Comparte esta entrada por WhatsApp, LinkedIn, Facebook, X o copia el enlace.</p>
-                    <div class="share-grid" id="share-grid" data-share-url="{{ $shareUrl }}"
-                        data-share-title="{{ $shareTitle }}" data-share-endpoint="{{ $shareEndpoint }}">
-                        <a href="#" data-share-network="whatsapp" target="_blank" rel="noopener noreferrer"
-                            class="share-btn share-btn--whatsapp" aria-label="Compartir por WhatsApp">
-                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                            <span>WhatsApp</span>
-                        </a>
-                        <a href="#" data-share-network="linkedin" target="_blank" rel="noopener noreferrer"
-                            class="share-btn share-btn--linkedin" aria-label="Compartir en LinkedIn">
-                            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="#" data-share-network="facebook" target="_blank" rel="noopener noreferrer"
-                            class="share-btn share-btn--facebook" aria-label="Compartir en Facebook">
-                            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-                            <span>Facebook</span>
-                        </a>
-                        <a href="#" data-share-network="x" target="_blank" rel="noopener noreferrer"
-                            class="share-btn share-btn--x" aria-label="Compartir en X">
-                            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-                            <span>X</span>
-                        </a>
-                        <button type="button" class="share-btn share-btn--copy" id="copy-article-link"
-                            data-url="{{ $shareUrl }}" aria-label="Copiar enlace del articulo">
-                            <i class="fa-solid fa-link" aria-hidden="true"></i>
-                            <span>Copiar enlace</span>
-                        </button>
-                    </div>
-                    <p class="share-feedback" id="share-feedback" hidden>Enlace copiado al portapapeles.</p>
                 </div>
             </aside>
         </div>
@@ -135,93 +96,3 @@
         </div>
     </section>
 @endsection
-
-@push('page-scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const shareGrid = document.getElementById('share-grid');
-    const copyButton = document.getElementById('copy-article-link');
-    const feedback = document.getElementById('share-feedback');
-    const shareCountNode = document.getElementById('post-share-count');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-    if (!shareGrid || !copyButton || !feedback) {
-        return;
-    }
-
-    const shareUrl = shareGrid.dataset.shareUrl || window.location.href;
-    const shareTitle = shareGrid.dataset.shareTitle || document.title;
-    const shareEndpoint = shareGrid.dataset.shareEndpoint || '';
-
-    const encodedUrl = encodeURIComponent(shareUrl);
-
-    const shareMessage =
-        'Acabo de leer este blog sobre "' + shareTitle + '" y es muy interesante, te comparto el link: ' + shareUrl;
-
-    const shareTargets = {
-        whatsapp: 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareMessage),
-        linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodedUrl,
-        facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl,
-        x: 'https://twitter.com/intent/tweet?text=' +
-            encodeURIComponent('Acabo de leer este blog sobre "' + shareTitle + '".') +
-            '&url=' + encodedUrl
-    };
-
-    shareGrid.querySelectorAll('[data-share-network]').forEach(function(link) {
-        const network = link.dataset.shareNetwork;
-        const targetUrl = shareTargets[network];
-
-        if (targetUrl) {
-            link.href = targetUrl;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-        }
-
-        link.addEventListener('click', function() {
-            if (!shareEndpoint) {
-                return;
-            }
-
-            fetch(shareEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken || '',
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(function(response) {
-                    return response.ok ? response.json() : null;
-                })
-                .then(function(payload) {
-                    if (!payload || !shareCountNode) {
-                        return;
-                    }
-
-                    shareCountNode.textContent = Number(payload.share_count || 0).toLocaleString('en-US') +
-                        ' compartidos';
-                })
-                .catch(function() {});
-        });
-    });
-
-    copyButton.addEventListener('click', async function() {
-        const url = copyButton.dataset.url || shareUrl;
-
-        if (!url) return;
-
-        try {
-            await navigator.clipboard.writeText(url);
-            feedback.hidden = false;
-            feedback.textContent = 'Enlace copiado al portapapeles.';
-        } catch (error) {
-            feedback.hidden = false;
-            feedback.textContent = 'No se pudo copiar automáticamente. Copia el enlace manualmente.';
-        }
-
-        setTimeout(function() {
-            feedback.hidden = true;
-        }, 2400);
-    });
-});
-</script>
-@endpush
