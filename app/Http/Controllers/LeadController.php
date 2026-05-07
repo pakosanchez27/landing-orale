@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\LeadActivity;
 use App\Models\LeadTask;
 use App\Models\Lead;
+use App\Models\LeadSource;
 use App\Models\LeadStatus;
 use App\Models\IndustriaModel;
 use App\Models\User;
@@ -220,6 +221,7 @@ class LeadController extends Controller
             'users' => Schema::hasTable('users') ? User::query()->orderBy('name')->get(['id', 'name']) : collect(),
             'industries' => Schema::hasTable('industrias') ? IndustriaModel::query()->orderBy('nombre')->get(['id', 'nombre']) : collect(),
             'canAssignLeads' => $canAssignLeads,
+            'leadSources' => Schema::hasTable('lead_sources') ? LeadSource::query()->orderBy('name')->get(['id', 'name']) : collect(),
         ]);
     }
 
@@ -237,7 +239,84 @@ class LeadController extends Controller
         return view('admin.leads.contacts', [
             'leads' => $leads,
             'crmReady' => $this->crmTablesAvailable(),
+            'users' => Schema::hasTable('users') ? User::query()->orderBy('name')->get(['id', 'name']) : collect(),
+            'industries' => Schema::hasTable('industrias') ? IndustriaModel::query()->orderBy('nombre')->get(['id', 'nombre']) : collect(),
+            'canAssignLeads' => $this->canAssignLeads(),
+            'leadSources' => Schema::hasTable('lead_sources') ? LeadSource::query()->orderBy('name')->get(['id', 'name']) : collect(),
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        abort_unless($this->crmTablesAvailable(), 404);
+
+        $validated = $request->validate([
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'whatsapp_number' => ['nullable', 'string', 'max:30'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'industry_id' => ['nullable', 'integer', 'exists:industrias,id'],
+            'source_id' => ['nullable', 'integer', 'exists:lead_sources,id'],
+            'interest_package' => ['nullable', 'string', 'max:255'],
+            'budget_range' => ['nullable', 'string', 'max:255'],
+            'needs_summary' => ['nullable', 'string'],
+            'next_follow_up_at' => ['nullable', 'date'],
+        ]);
+
+        if ($this->canAssignLeads()) {
+            $assignmentData = $request->validate([
+                'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
+            ]);
+
+            $validated['assigned_to'] = $assignmentData['assigned_to'] ?? null;
+        }
+
+        $defaultStatus = LeadStatus::query()
+            ->where('key', 'new')
+            ->orWhere('name', 'Nuevo')
+            ->orderBy('sort_order')
+            ->first();
+
+        $defaultSource = LeadSource::query()
+            ->where('key', 'manual')
+            ->orWhere('name', 'Manual')
+            ->first()
+            ?? LeadSource::query()->orderBy('name')->first();
+
+        $lead = Lead::create([
+            'full_name' => $validated['full_name'],
+            'email' => $validated['email'] ?? null,
+            'whatsapp_number' => $validated['whatsapp_number'] ?? null,
+            'company_name' => $validated['company_name'] ?? null,
+            'industry_id' => $validated['industry_id'] ?? null,
+            'source_id' => $validated['source_id'] ?? $defaultSource?->id,
+            'status_id' => $defaultStatus?->id,
+            'assigned_to' => $validated['assigned_to'] ?? null,
+            'created_by' => auth()->id(),
+            'interest_package' => $validated['interest_package'] ?? null,
+            'budget_range' => $validated['budget_range'] ?? null,
+            'needs_summary' => $validated['needs_summary'] ?? null,
+            'next_follow_up_at' => $validated['next_follow_up_at'] ?? null,
+            'origin_meta' => [
+                'created_from' => 'crm_manual',
+            ],
+        ]);
+
+        LeadActivity::create([
+            'lead_id' => $lead->id,
+            'user_id' => auth()->id(),
+            'source_id' => $lead->source_id,
+            'type' => 'created',
+            'title' => 'Lead creado manualmente',
+            'description' => 'Se creo el lead desde el CRM.',
+            'meta' => [
+                'created_from' => 'crm_manual',
+            ],
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('status', 'Lead creado correctamente.');
     }
 
     public function tasks(Request $request)

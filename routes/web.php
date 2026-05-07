@@ -162,6 +162,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/blogs/{postId}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
     Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
     Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
+    Route::post('/admin/crm/leads', [LeadController::class, 'store'])->name('admin.crm.leads.store');
     Route::get('/admin/crm/calendario', [LeadController::class, 'calendar'])->name('admin.crm.calendar');
     Route::post('/admin/crm/calendario/citas', [LeadController::class, 'storeAppointment'])->name('admin.crm.calendar.appointments.store');
     Route::get('/admin/crm/tareas', [LeadController::class, 'tasks'])->name('admin.crm.tasks');

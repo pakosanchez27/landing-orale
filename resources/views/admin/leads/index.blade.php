@@ -15,6 +15,10 @@
         </div>
         <div class="admin-topbar__actions">
             <span class="admin-kpi-pill">{{ number_format($totalLeads) }} leads</span>
+            <button type="button" class="admin-btn admin-btn--primary" id="lead-create-open">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Nuevo lead
+            </button>
         </div>
     </header>
 
@@ -376,6 +380,8 @@
             </div>
         </div>
     </div>
+
+    @include('admin.leads.partials.create-modal')
 @endsection
 
 @push('page-scripts')
@@ -388,6 +394,10 @@
             const editClose = document.getElementById('lead-edit-close');
             const editCancel = document.getElementById('lead-edit-cancel');
             const editForm = document.getElementById('lead-edit-form');
+            const createModal = document.getElementById('lead-create-modal');
+            const createOpen = document.getElementById('lead-create-open');
+            const createClose = document.getElementById('lead-create-close');
+            const createCancel = document.getElementById('lead-create-cancel');
 
             if (!board) {
                 return;
@@ -476,6 +486,15 @@
                 }
 
                 editModal.hidden = !open;
+                document.body.classList.toggle('admin-lock', open);
+            };
+
+            const setCreateModalOpen = (open) => {
+                if (!createModal) {
+                    return;
+                }
+
+                createModal.hidden = !open;
                 document.body.classList.toggle('admin-lock', open);
             };
 
@@ -721,6 +740,9 @@
             detailClose?.addEventListener('click', () => setModalOpen(false));
             editClose?.addEventListener('click', () => setEditModalOpen(false));
             editCancel?.addEventListener('click', () => setEditModalOpen(false));
+            createOpen?.addEventListener('click', () => setCreateModalOpen(true));
+            createClose?.addEventListener('click', () => setCreateModalOpen(false));
+            createCancel?.addEventListener('click', () => setCreateModalOpen(false));
 
             detailModal?.addEventListener('click', (event) => {
                 if (event.target === detailModal) {
@@ -734,6 +756,12 @@
                 }
             });
 
+            createModal?.addEventListener('click', (event) => {
+                if (event.target === createModal) {
+                    setCreateModalOpen(false);
+                }
+            });
+
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && detailModal && !detailModal.hidden) {
                     setModalOpen(false);
@@ -742,7 +770,15 @@
                  if (event.key === 'Escape' && editModal && !editModal.hidden) {
                     setEditModalOpen(false);
                 }
+
+                if (event.key === 'Escape' && createModal && !createModal.hidden) {
+                    setCreateModalOpen(false);
+                }
             });
+
+            if (createModal && !createModal.hidden) {
+                document.body.classList.add('admin-lock');
+            }
 
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('[data-card-menu]')) {
