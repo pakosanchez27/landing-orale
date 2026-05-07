@@ -163,6 +163,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
     Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
     Route::get('/admin/crm/calendario', [LeadController::class, 'calendar'])->name('admin.crm.calendar');
+    Route::post('/admin/crm/calendario/citas', [LeadController::class, 'storeAppointment'])->name('admin.crm.calendar.appointments.store');
     Route::get('/admin/crm/tareas', [LeadController::class, 'tasks'])->name('admin.crm.tasks');
     Route::get('/admin/crm/contactos', [LeadController::class, 'contacts'])->name('admin.crm.contacts');
     Route::get('/admin/crm/api-docs', [LeadController::class, 'apiDocs'])->name('admin.crm.api-docs');

@@ -454,6 +454,7 @@ class LeadController extends Controller
         $appointmentsByDay = collect();
         $dailyTotals = collect();
         $upcomingAppointments = collect();
+        $leadOptions = collect();
 
         if ($calendarReady) {
             $calendarStart = $monthDate->copy()->startOfWeek(Carbon::MONDAY);
@@ -495,6 +496,10 @@ class LeadController extends Controller
                 ->orderBy('starts_at')
                 ->take(8)
                 ->get();
+
+            $leadOptions = Lead::query()
+                ->orderBy('full_name')
+                ->get(['id', 'full_name']);
         }
 
         return view('admin.leads.calendar', [
@@ -504,10 +509,74 @@ class LeadController extends Controller
             'dailyTotals' => $dailyTotals,
             'appointments' => $appointments,
             'upcomingAppointments' => $upcomingAppointments,
+            'leadOptions' => $leadOptions,
+            'appointmentStatusOptions' => [
+                'scheduled' => 'Programada',
+                'confirmed' => 'Confirmada',
+                'completed' => 'Completada',
+                'cancelled' => 'Cancelada',
+            ],
+            'appointmentChannelOptions' => [
+                'google_meet' => 'Google Meet',
+                'zoom' => 'Zoom',
+                'whatsapp' => 'WhatsApp',
+                'call' => 'Llamada',
+                'office' => 'Presencial',
+            ],
             'previousMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->subMonth()->format('Y-m')]),
             'nextMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->addMonth()->format('Y-m')]),
             'currentMonthUrl' => route('admin.crm.calendar', ['month' => Carbon::now()->format('Y-m')]),
         ]);
+    }
+
+    public function storeAppointment(Request $request)
+    {
+        abort_unless($this->crmTablesAvailable() && Schema::hasTable('appointments'), 404);
+
+        $validated = $request->validate([
+            'lead_id' => ['required', 'integer', 'exists:leads,id'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
+            'channel' => ['required', 'string', 'max:60'],
+            'meeting_link' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'max:60'],
+            'follow_up_note' => ['nullable', 'string', 'min:3'],
+        ]);
+
+        $lead = Lead::query()->with('source')->findOrFail($validated['lead_id']);
+
+        $appointment = Appointment::create([
+            'lead_id' => $lead->id,
+            'created_by' => auth()->id(),
+            'scheduled_by_source_id' => $lead->source_id,
+            'starts_at' => $validated['starts_at'],
+            'ends_at' => $validated['ends_at'] ?? null,
+            'channel' => $validated['channel'],
+            'meeting_link' => $validated['meeting_link'] ?? null,
+            'status' => $validated['status'],
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        LeadActivity::create([
+            'lead_id' => $lead->id,
+            'user_id' => auth()->id(),
+            'source_id' => $lead->source_id,
+            'type' => 'appointment_created',
+            'title' => 'Cita agendada desde CRM',
+            'description' => $validated['notes'] ?? 'Cita registrada desde el calendario del CRM.',
+            'meta' => [
+                'appointment_id' => $appointment->id,
+                'starts_at' => $appointment->starts_at?->toIso8601String(),
+                'channel' => $appointment->channel,
+                'follow_up_note' => $validated['follow_up_note'] ?? null,
+                'status' => $appointment->status,
+            ],
+        ]);
+
+        return redirect()
+            ->route('admin.crm.calendar', ['month' => Carbon::parse($validated['starts_at'])->format('Y-m')])
+            ->with('status', 'Cita registrada correctamente.');
     }
 
     public function updateStatus(Request $request, Lead $lead): JsonResponse

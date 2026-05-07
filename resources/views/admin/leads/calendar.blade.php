@@ -22,6 +22,12 @@
     </header>
 
     <main class="admin-content">
+        @if (session('status'))
+            <div class="admin-alert admin-alert--success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         @if (! $calendarReady)
             <div class="admin-alert admin-alert--error">
                 El calendario CRM no est&aacute; disponible porque faltan las tablas necesarias del sistema.
@@ -81,6 +87,88 @@
             </article>
 
             <div class="crm-calendar-sidebar">
+                <article class="admin-panel crm-calendar-form">
+                    <div class="admin-panel__header">
+                        <div>
+                            <h2>Agendar cita</h2>
+                            <span class="admin-link">Registra una cita nueva y vinc&uacute;lala directamente al lead.</span>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('admin.crm.calendar.appointments.store') }}" method="POST" class="admin-form">
+                        @csrf
+
+                        <label class="admin-field">
+                            Lead
+                            <select name="lead_id" required>
+                                <option value="">Selecciona un lead</option>
+                                @foreach ($leadOptions as $lead)
+                                    <option value="{{ $lead->id }}" @selected((string) old('lead_id') === (string) $lead->id)>
+                                        {{ $lead->full_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </label>
+
+                        <div class="admin-form__row">
+                            <label class="admin-field">
+                                Inicio
+                                <input type="datetime-local" name="starts_at" value="{{ old('starts_at') }}" required />
+                            </label>
+
+                            <label class="admin-field">
+                                Fin
+                                <input type="datetime-local" name="ends_at" value="{{ old('ends_at') }}" />
+                            </label>
+                        </div>
+
+                        <div class="admin-form__row">
+                            <label class="admin-field">
+                                Canal
+                                <select name="channel" required>
+                                    @foreach ($appointmentChannelOptions as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('channel', 'google_meet') === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </label>
+
+                            <label class="admin-field">
+                                Estado
+                                <select name="status" required>
+                                    @foreach ($appointmentStatusOptions as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('status', 'scheduled') === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </label>
+                        </div>
+
+                        <label class="admin-field">
+                            Enlace de reunion
+                            <input type="text" name="meeting_link" value="{{ old('meeting_link') }}" maxlength="255" placeholder="https://..." />
+                        </label>
+
+                        <label class="admin-field">
+                            Notas
+                            <textarea name="notes" class="admin-input admin-textarea" rows="3">{{ old('notes') }}</textarea>
+                        </label>
+
+                        <label class="admin-field">
+                            Nota de seguimiento
+                            <textarea name="follow_up_note" class="admin-input admin-textarea" rows="2">{{ old('follow_up_note') }}</textarea>
+                        </label>
+
+                        @if ($errors->any())
+                            <div class="admin-alert admin-alert--error">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
+
+                        <div class="admin-form__actions">
+                            <button type="submit" class="admin-btn admin-btn--primary">Guardar cita</button>
+                        </div>
+                    </form>
+                </article>
+
                 <article class="admin-panel crm-calendar-summary">
                     <div class="admin-panel__header">
                         <div>
