@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Appointment;
 use App\Models\LeadActivity;
 use App\Models\Lead;
 use App\Models\LeadStatus;
@@ -244,6 +245,81 @@ class LeadController extends Controller
 
         return view('admin.leads.api-docs', [
             'baseApiUrl' => url('/api/crm/bot'),
+        ]);
+    }
+
+    public function calendar(Request $request)
+    {
+        $calendarReady = $this->crmTablesAvailable() && Schema::hasTable('appointments');
+        $selectedMonth = $request->query('month');
+        $monthDate = Carbon::now()->startOfMonth();
+
+        if (is_string($selectedMonth) && preg_match('/^\d{4}-\d{2}$/', $selectedMonth) === 1) {
+            try {
+                $monthDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth();
+            } catch (\Throwable $exception) {
+                $monthDate = Carbon::now()->startOfMonth();
+            }
+        }
+
+        $calendarDays = collect();
+        $appointments = collect();
+        $appointmentsByDay = collect();
+        $dailyTotals = collect();
+        $upcomingAppointments = collect();
+
+        if ($calendarReady) {
+            $calendarStart = $monthDate->copy()->startOfWeek(Carbon::MONDAY);
+            $calendarEnd = $monthDate->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
+
+            $appointments = Appointment::query()
+                ->with(['lead', 'scheduledBySource'])
+                ->whereBetween('starts_at', [$calendarStart->copy()->startOfDay(), $calendarEnd->copy()->endOfDay()])
+                ->orderBy('starts_at')
+                ->get();
+
+            $appointmentsByDay = $appointments
+                ->groupBy(fn (Appointment $appointment) => $appointment->starts_at?->format('Y-m-d'));
+
+            $dailyTotals = $appointmentsByDay->map(fn ($items) => $items->count());
+
+            $calendarDays = collect();
+            $cursor = $calendarStart->copy();
+
+            while ($cursor->lte($calendarEnd)) {
+                $dayKey = $cursor->format('Y-m-d');
+                $dayAppointments = $appointmentsByDay->get($dayKey, collect());
+
+                $calendarDays->push([
+                    'date' => $cursor->copy(),
+                    'key' => $dayKey,
+                    'isCurrentMonth' => $cursor->month === $monthDate->month,
+                    'isToday' => $cursor->isToday(),
+                    'appointments' => $dayAppointments->take(3),
+                    'extraCount' => max($dayAppointments->count() - 3, 0),
+                ]);
+
+                $cursor->addDay();
+            }
+
+            $upcomingAppointments = Appointment::query()
+                ->with(['lead', 'scheduledBySource'])
+                ->where('starts_at', '>=', Carbon::now()->startOfDay())
+                ->orderBy('starts_at')
+                ->take(8)
+                ->get();
+        }
+
+        return view('admin.leads.calendar', [
+            'calendarReady' => $calendarReady,
+            'monthDate' => $monthDate,
+            'calendarDays' => $calendarDays,
+            'dailyTotals' => $dailyTotals,
+            'appointments' => $appointments,
+            'upcomingAppointments' => $upcomingAppointments,
+            'previousMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->subMonth()->format('Y-m')]),
+            'nextMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->addMonth()->format('Y-m')]),
+            'currentMonthUrl' => route('admin.crm.calendar', ['month' => Carbon::now()->format('Y-m')]),
         ]);
     }
 

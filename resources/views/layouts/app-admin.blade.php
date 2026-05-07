@@ -89,6 +89,10 @@
                             <i class="fa-solid fa-chart-gantt" aria-hidden="true"></i>
                             <span class="admin-nav__text">Pipeline</span>
                         </a>
+                        <a href="{{ route('admin.crm.calendar') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm.calendar') ? 'is-active' : '' }}">
+                            <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                            <span class="admin-nav__text">Calendario</span>
+                        </a>
                         <a href="{{ route('admin.crm.contacts') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.crm.contacts') ? 'is-active' : '' }}">
                             <i class="fa-solid fa-address-book" aria-hidden="true"></i>
                             <span class="admin-nav__text">Contactos</span>
