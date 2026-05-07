@@ -163,8 +163,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
     Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
     Route::get('/admin/crm/calendario', [LeadController::class, 'calendar'])->name('admin.crm.calendar');
+    Route::get('/admin/crm/tareas', [LeadController::class, 'tasks'])->name('admin.crm.tasks');
     Route::get('/admin/crm/contactos', [LeadController::class, 'contacts'])->name('admin.crm.contacts');
     Route::get('/admin/crm/api-docs', [LeadController::class, 'apiDocs'])->name('admin.crm.api-docs');
+    Route::post('/admin/crm/tareas', [LeadController::class, 'storeTask'])->name('admin.crm.tasks.store');
+    Route::patch('/admin/crm/tareas/{task}/status', [LeadController::class, 'updateTaskStatus'])->name('admin.crm.tasks.status');
     Route::patch('/admin/crm/leads/{lead}/status', [LeadController::class, 'updateStatus'])->name('admin.crm.leads.status');
     Route::patch('/admin/crm/leads/{lead}', [LeadController::class, 'update'])->name('admin.crm.leads.update');
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use App\Models\LeadActivity;
+use App\Models\LeadTask;
 use App\Models\Lead;
 use App\Models\LeadStatus;
 use App\Models\IndustriaModel;
@@ -239,6 +240,91 @@ class LeadController extends Controller
         ]);
     }
 
+    public function tasks(Request $request)
+    {
+        $tasksReady = $this->crmTablesAvailable()
+            && Schema::hasTable('lead_tasks')
+            && Schema::hasTable('users');
+        $canCreateTasks = $this->canManageTasks();
+
+        $tasks = collect();
+        $openTasks = collect();
+        $inProgressTasks = collect();
+        $completedTasks = collect();
+        $leadOptions = collect();
+        $userOptions = collect();
+        $summary = [
+            'total' => 0,
+            'pending' => 0,
+            'in_progress' => 0,
+            'completed' => 0,
+            'overdue' => 0,
+        ];
+
+        if ($tasksReady) {
+            $tasks = LeadTask::query()
+                ->with(['lead', 'assignedUser', 'creator'])
+                ->orderByRaw('completed_at IS NULL DESC')
+                ->orderByRaw('due_at IS NULL, due_at ASC')
+                ->latest()
+                ->get();
+
+            $openTasks = $tasks->where('status', 'pending')->values();
+            $inProgressTasks = $tasks->where('status', 'in_progress')->values();
+            $completedTasks = $tasks->where('status', 'completed')->values();
+
+            $summary = [
+                'total' => $tasks->count(),
+                'pending' => $openTasks->count(),
+                'in_progress' => $inProgressTasks->count(),
+                'completed' => $completedTasks->count(),
+                'overdue' => $tasks->filter(function (LeadTask $task) {
+                    return $task->status !== 'completed'
+                        && $task->due_at
+                        && $task->due_at->isPast();
+                })->count(),
+            ];
+
+            $leadOptions = Lead::query()
+                ->orderBy('full_name')
+                ->get(['id', 'full_name']);
+
+            $userOptions = User::query()
+                ->orderBy('name')
+                ->get(['id', 'name']);
+        }
+
+        return view('admin.leads.tasks', [
+            'tasksReady' => $tasksReady,
+            'canCreateTasks' => $canCreateTasks,
+            'tasks' => $tasks,
+            'openTasks' => $openTasks,
+            'inProgressTasks' => $inProgressTasks,
+            'completedTasks' => $completedTasks,
+            'leadOptions' => $leadOptions,
+            'userOptions' => $userOptions,
+            'summary' => $summary,
+            'statusOptions' => [
+                'pending' => 'Pendiente',
+                'in_progress' => 'En progreso',
+                'completed' => 'Completada',
+            ],
+            'priorityOptions' => [
+                'low' => 'Baja',
+                'medium' => 'Media',
+                'high' => 'Alta',
+                'urgent' => 'Urgente',
+            ],
+            'typeOptions' => [
+                'follow_up' => 'Seguimiento',
+                'call' => 'Llamada',
+                'meeting' => 'Reunion',
+                'proposal' => 'Propuesta',
+                'internal' => 'Interna',
+            ],
+        ]);
+    }
+
     public function apiDocs()
     {
         abort_unless($this->isSuperAdmin(), 403);
@@ -246,6 +332,107 @@ class LeadController extends Controller
         return view('admin.leads.api-docs', [
             'baseApiUrl' => url('/api/crm/bot'),
         ]);
+    }
+
+    public function storeTask(Request $request)
+    {
+        abort_unless(
+            $this->crmTablesAvailable() && Schema::hasTable('lead_tasks') && Schema::hasTable('users'),
+            404
+        );
+        abort_unless($this->canManageTasks(), 403);
+
+        $validated = $request->validate([
+            'lead_id' => ['required', 'integer', 'exists:leads,id'],
+            'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
+            'type' => ['required', 'string', 'max:50'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'due_at' => ['nullable', 'date'],
+            'status' => ['required', 'in:pending,in_progress,completed'],
+            'priority' => ['required', 'in:low,medium,high,urgent'],
+        ]);
+
+        $task = LeadTask::create([
+            'lead_id' => $validated['lead_id'],
+            'assigned_to' => $validated['assigned_to'] ?? null,
+            'created_by' => auth()->id(),
+            'type' => $validated['type'],
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'due_at' => $validated['due_at'] ?? null,
+            'status' => $validated['status'],
+            'priority' => $validated['priority'],
+            'completed_at' => ($validated['status'] ?? 'pending') === 'completed' ? now() : null,
+        ]);
+
+        $task->loadMissing(['lead', 'assignedUser']);
+
+        $this->recordTaskActivity(
+            $task,
+            'task_created',
+            'Tarea creada en CRM',
+            sprintf(
+                'Se creo la tarea "%s"%s.',
+                $task->title,
+                $task->assignedUser?->name ? ' para ' . $task->assignedUser->name : ''
+            ),
+            [
+                'task_id' => $task->id,
+                'task_status' => $task->status,
+                'task_priority' => $task->priority,
+                'task_type' => $task->type,
+            ]
+        );
+
+        return redirect()
+            ->route('admin.crm.tasks')
+            ->with('status', 'Tarea creada correctamente.');
+    }
+
+    public function updateTaskStatus(Request $request, LeadTask $task)
+    {
+        abort_unless(
+            $this->crmTablesAvailable() && Schema::hasTable('lead_tasks') && Schema::hasTable('users'),
+            404
+        );
+        abort_unless($this->canUpdateTask($task), 403);
+
+        $validated = $request->validate([
+            'status' => ['required', 'in:pending,in_progress,completed'],
+        ]);
+
+        $previousStatus = $task->status;
+        $newStatus = $validated['status'];
+
+        $task->status = $newStatus;
+        $task->completed_at = $newStatus === 'completed' ? now() : null;
+        $task->save();
+
+        $task->loadMissing(['lead', 'assignedUser']);
+
+        if ($previousStatus !== $newStatus) {
+            $this->recordTaskActivity(
+                $task,
+                'task_status_changed',
+                'Estado de tarea actualizado',
+                sprintf(
+                    'La tarea "%s" cambio de "%s" a "%s".',
+                    $task->title,
+                    $previousStatus,
+                    $newStatus
+                ),
+                [
+                    'task_id' => $task->id,
+                    'previous_status' => $previousStatus,
+                    'new_status' => $newStatus,
+                ]
+            );
+        }
+
+        return redirect()
+            ->route('admin.crm.tasks')
+            ->with('status', 'Estado de la tarea actualizado.');
     }
 
     public function calendar(Request $request)
@@ -472,9 +659,44 @@ class LeadController extends Controller
         return in_array((int) auth()->user()->role_id, [0, 1], true);
     }
 
+    private function canManageTasks(): bool
+    {
+        if (! auth()->check()) {
+            return false;
+        }
+
+        return in_array((int) auth()->user()->role_id, [0, 1], true);
+    }
+
+    private function canUpdateTask(LeadTask $task): bool
+    {
+        if (! auth()->check()) {
+            return false;
+        }
+
+        if ($this->canManageTasks()) {
+            return true;
+        }
+
+        return (int) auth()->id() === (int) $task->assigned_to;
+    }
+
     private function isSuperAdmin(): bool
     {
         return auth()->check() && (int) auth()->user()->role_id === 0;
+    }
+
+    private function recordTaskActivity(LeadTask $task, string $type, string $title, ?string $description = null, array $meta = []): void
+    {
+        LeadActivity::create([
+            'lead_id' => $task->lead_id,
+            'user_id' => auth()->id(),
+            'source_id' => $task->lead?->source_id,
+            'type' => $type,
+            'title' => $title,
+            'description' => $description,
+            'meta' => $meta,
+        ]);
     }
 
     private function formatDelta(float|int $current, float|int $previous, bool $isPercentage = false): array

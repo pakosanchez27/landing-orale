@@ -2996,3 +2996,185 @@ button {
         text-align: left;
     }
 }
+
+/* =========================
+   CRM: TAREAS
+   ========================= */
+.crm-tasks-page {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    align-items: start;
+}
+
+.crm-task-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.crm-task-summary-wrap {
+    display: grid;
+}
+
+.crm-task-metric {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.4rem;
+    border-radius: 1.8rem;
+    border: 1px solid rgba(23, 26, 36, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 249, 255, 0.9));
+}
+
+.crm-task-metric span {
+    color: #667085;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.crm-task-metric strong {
+    color: var(--negro);
+    font-family: var(--fuente-headings);
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+.crm-task-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.6rem;
+}
+
+.crm-task-column {
+    display: grid;
+    gap: 1.2rem;
+    align-content: start;
+}
+
+.crm-task-column__header {
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(23, 26, 36, 0.08);
+}
+
+.crm-task-column__header h3 {
+    margin: 0 0 0.4rem;
+    color: var(--negro);
+    font-size: 1.9rem;
+}
+
+.crm-task-column__header span {
+    color: var(--color-texto-secundario);
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.crm-task-column__body {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.crm-task-card {
+    display: grid;
+    gap: 1.2rem;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(23, 26, 36, 0.08);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 16px 30px rgba(31, 41, 55, 0.05);
+}
+
+.crm-task-card.is-overdue {
+    border-color: rgba(191, 63, 99, 0.25);
+    box-shadow: 0 18px 36px rgba(191, 63, 99, 0.08);
+}
+
+.crm-task-card__head,
+.crm-task-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.crm-task-card h4 {
+    margin: 0;
+    color: var(--negro);
+    font-size: 1.6rem;
+}
+
+.crm-task-card p {
+    color: #5c6677;
+    font-size: 1.35rem;
+    line-height: 1.55;
+}
+
+.crm-task-card__meta {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.crm-task-card__meta strong {
+    color: var(--negro);
+    font-size: 1.35rem;
+}
+
+.crm-task-card__meta span {
+    color: #667085;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.crm-task-card__locked {
+    color: #8a6270;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 1rem 1.2rem;
+    border-radius: 1.4rem;
+    background: rgba(191, 63, 99, 0.08);
+}
+
+.crm-task-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.crm-task-chip--type {
+    color: #115dc8;
+    background: rgba(46, 143, 255, 0.1);
+}
+
+.crm-task-chip--low {
+    color: #15803d;
+    background: rgba(21, 128, 61, 0.1);
+}
+
+.crm-task-chip--medium {
+    color: #b45309;
+    background: rgba(217, 119, 6, 0.12);
+}
+
+.crm-task-chip--high {
+    color: #c2410c;
+    background: rgba(234, 88, 12, 0.12);
+}
+
+.crm-task-chip--urgent {
+    color: #b91c1c;
+    background: rgba(220, 38, 38, 0.12);
+}
+
+@media (max-width: 1180px) {
+    .crm-task-board {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .crm-task-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
