@@ -405,8 +405,23 @@
 
             const statusUrlTemplate = @json(route('admin.crm.leads.status', ['lead' => '__LEAD__']));
             const updateUrlTemplate = @json(route('admin.crm.leads.update', ['lead' => '__LEAD__']));
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             let dragState = null;
+            const buildJsonRequest = (payload) => ({
+                method: 'PATCH',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    _token: csrfToken,
+                    ...payload,
+                }),
+            });
+
             const detailMap = {
                 title: document.getElementById('lead-detail-title'),
                 whatsapp: document.getElementById('lead-detail-whatsapp'),
@@ -596,20 +611,19 @@
                 card.classList.add('is-saving');
 
                 try {
-                    const response = await fetch(statusUrlTemplate.replace('__LEAD__', leadId), {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
-                        body: JSON.stringify({
+                    const response = await fetch(
+                        statusUrlTemplate.replace('__LEAD__', leadId),
+                        buildJsonRequest({
                             status_id: Number(targetStatusId),
                             follow_up_note: followUpNote,
-                        }),
-                    });
+                        })
+                    );
 
                     if (!response.ok) {
+                        if (response.status === 419) {
+                            throw new Error('La sesion o el token de seguridad vencio. Recarga la pagina e intentalo de nuevo.');
+                        }
+
                         throw new Error('No se pudo actualizar el estado del lead.');
                     }
 
@@ -815,14 +829,9 @@
                 }
 
                 try {
-                    const response = await fetch(updateUrlTemplate.replace('__LEAD__', leadId), {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
-                        body: JSON.stringify({
+                    const response = await fetch(
+                        updateUrlTemplate.replace('__LEAD__', leadId),
+                        buildJsonRequest({
                             full_name: editMap.fullName.value,
                             email: editMap.email.value || null,
                             whatsapp_number: editMap.whatsapp.value || null,
@@ -835,10 +844,14 @@
                             follow_up_note: isStatusChange ? editMap.followUpNote.value.trim() : null,
                             next_follow_up_at: editMap.followup.value || null,
                             lost_reason: editMap.lostReason.value || null,
-                        }),
-                    });
+                        })
+                    );
 
                     if (!response.ok) {
+                        if (response.status === 419) {
+                            throw new Error('La sesion o el token de seguridad vencio. Recarga la pagina e intentalo de nuevo.');
+                        }
+
                         throw new Error('No se pudieron guardar los cambios del lead.');
                     }
 

@@ -29,7 +29,6 @@ class Lead extends Model
         'needs_summary',
         'last_contact_at',
         'next_follow_up_at',
-        'qualified_at',
         'won_at',
         'lost_at',
         'lost_reason',
@@ -41,7 +40,6 @@ class Lead extends Model
         'origin_meta' => 'array',
         'last_contact_at' => 'datetime',
         'next_follow_up_at' => 'datetime',
-        'qualified_at' => 'datetime',
         'won_at' => 'datetime',
         'lost_at' => 'datetime',
     ];

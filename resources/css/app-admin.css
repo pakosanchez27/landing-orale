@@ -2140,12 +2140,6 @@ button {
     border-color: rgba(15, 159, 143, 0.12);
 }
 
-.crm-status--qualified {
-    color: #2563eb;
-    background: rgba(37, 99, 235, 0.08);
-    border-color: rgba(37, 99, 235, 0.12);
-}
-
 .crm-status--pending_contact,
 .crm-status--contacted,
 .crm-status--proposal_sent {

@@ -133,8 +133,8 @@ Content-Type: application/json</code></pre>
                 </div>
 
                 <pre class="crm-docs__code"><code>{
-  "status": "qualified",
-  "follow_up_note": "El lead confirmo interes y cumple con el perfil.",
+  "status": "contacted",
+  "follow_up_note": "El lead respondio y acepto continuar con el seguimiento.",
   "source": "bot"
 }</code></pre>
 
@@ -142,7 +142,6 @@ Content-Type: application/json</code></pre>
                     <span>new</span>
                     <span>pending_contact</span>
                     <span>contacted</span>
-                    <span>qualified</span>
                     <span>scheduled</span>
                     <span>proposal_sent</span>
                     <span>won</span>
@@ -187,7 +186,7 @@ Content-Type: application/json</code></pre>
                     <li>Recibir mensaje del canal origen.</li>
                     <li>Hacer `upsert` del lead en el CRM.</li>
                     <li>Guardar actividad relevante del bot.</li>
-                    <li>Si califica, cambiar estado con nota.</li>
+                    <li>Si avanza en el proceso, cambiar estado con nota.</li>
                     <li>Si agenda llamada, crear appointment.</li>
                 </ol>
             </article>

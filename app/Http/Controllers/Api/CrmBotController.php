@@ -35,13 +35,10 @@ class CrmBotController extends Controller
             'needs_summary' => ['nullable', 'string'],
             'last_contact_at' => ['nullable', 'date'],
             'next_follow_up_at' => ['nullable', 'date'],
-            'qualified_at' => ['nullable', 'date'],
             'won_at' => ['nullable', 'date'],
             'lost_at' => ['nullable', 'date'],
             'lost_reason' => ['nullable', 'string', 'max:255'],
             'bot_session_id' => ['nullable', 'string', 'max:255'],
-            'qualification_result' => ['nullable', 'string', 'max:255'],
-            'qualification_score' => ['nullable', 'integer', 'min:0', 'max:100'],
             'origin_meta' => ['nullable', 'array'],
         ]);
 
@@ -92,7 +89,6 @@ class CrmBotController extends Controller
             'needs_summary' => $validated['needs_summary'] ?? $lead->needs_summary,
             'last_contact_at' => $validated['last_contact_at'] ?? $lead->last_contact_at,
             'next_follow_up_at' => $validated['next_follow_up_at'] ?? $lead->next_follow_up_at,
-            'qualified_at' => $validated['qualified_at'] ?? $lead->qualified_at,
             'won_at' => $validated['won_at'] ?? $lead->won_at,
             'lost_at' => $validated['lost_at'] ?? $lead->lost_at,
             'lost_reason' => $validated['lost_reason'] ?? $lead->lost_reason,
@@ -344,8 +340,6 @@ class CrmBotController extends Controller
             ],
             [
                 'provider' => 'n8n',
-                'qualification_result' => $validated['qualification_result'] ?? null,
-                'qualification_score' => $validated['qualification_score'] ?? ($validated['score'] ?? null),
                 'collected_data' => $validated['origin_meta'] ?? null,
                 'started_at' => now(),
             ]

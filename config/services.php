@@ -44,4 +44,8 @@ return [
         'token' => env('CRM_BOT_API_TOKEN'),
     ],
 
+    'lead_notifications' => [
+        'to' => env('LEAD_NOTIFICATION_EMAIL', 'javier.sanchezjps27@gmail.com'),
+    ],
+
 ];
