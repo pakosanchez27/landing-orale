@@ -72,7 +72,7 @@ it('returns exists false when no lead matches the provided phone', function () {
         ->getJson('/api/crm/bot/leads/search?phone=0000000000');
 
     $response
-        ->assertOk()
+        ->assertNotFound()
         ->assertJsonPath('ok', true)
         ->assertJsonPath('data.exists', false)
         ->assertJsonPath('data.count', 0)

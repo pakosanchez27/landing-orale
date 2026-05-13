@@ -56,17 +56,19 @@ class CrmBotController extends Controller
             ->orderByDesc('updated_at')
             ->get();
 
+        $exists = $leads->isNotEmpty();
+
         return response()->json([
             'ok' => true,
-            'message' => $leads->isNotEmpty()
+            'message' => $exists
                 ? 'Lead(s) encontrado(s) correctamente.'
                 : 'No se encontraron leads con ese telefono.',
             'data' => [
-                'exists' => $leads->isNotEmpty(),
+                'exists' => $exists,
                 'count' => $leads->count(),
                 'leads' => $leads->map(fn(Lead $lead) => $this->transformLead($lead))->values(),
             ],
-        ]);
+        ], $exists ? 200 : 404);
     }
 
     public function upsertLead(Request $request): JsonResponse

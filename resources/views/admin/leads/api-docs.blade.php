@@ -71,6 +71,7 @@ Content-Type: application/json</code></pre>
                 </div>
 
                 <p class="crm-docs__copy">Busca coincidencias por <code>phone_e164</code>, <code>phone_number</code> o <code>whatsapp_number</code>.</p>
+                <p class="crm-docs__copy">Responde con HTTP <code>200</code> si encuentra al menos un lead y con HTTP <code>404</code> si no hay coincidencias.</p>
 
                 <pre class="crm-docs__code"><code>{
   "phone": "5551234567",
@@ -105,6 +106,16 @@ Content-Type: application/json</code></pre>
         ]
       }
     ]
+  }
+}</code></pre>
+
+                <pre class="crm-docs__code"><code>{
+  "ok": true,
+  "message": "No se encontraron leads con ese telefono.",
+  "data": {
+    "exists": false,
+    "count": 0,
+    "leads": []
   }
 }</code></pre>
 
