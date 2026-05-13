@@ -27,6 +27,7 @@ class Lead extends Model
         'interest_package',
         'budget_range',
         'needs_summary',
+        'bot',
         'last_contact_at',
         'next_follow_up_at',
         'won_at',
@@ -37,6 +38,7 @@ class Lead extends Model
 
     protected $casts = [
         'score' => 'integer',
+        'bot' => 'boolean',
         'origin_meta' => 'array',
         'last_contact_at' => 'datetime',
         'next_follow_up_at' => 'datetime',
