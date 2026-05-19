@@ -29,7 +29,6 @@ return new class extends Migration
             $table->text('needs_summary')->nullable();
             $table->timestamp('last_contact_at')->nullable();
             $table->timestamp('next_follow_up_at')->nullable()->index();
-            $table->timestamp('qualified_at')->nullable();
             $table->timestamp('won_at')->nullable();
             $table->timestamp('lost_at')->nullable();
             $table->string('lost_reason')->nullable();

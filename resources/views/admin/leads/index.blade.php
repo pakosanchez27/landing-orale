@@ -15,6 +15,10 @@
         </div>
         <div class="admin-topbar__actions">
             <span class="admin-kpi-pill">{{ number_format($totalLeads) }} leads</span>
+            <button type="button" class="admin-btn admin-btn--primary" id="lead-create-open">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Nuevo lead
+            </button>
         </div>
     </header>
 
@@ -376,6 +380,8 @@
             </div>
         </div>
     </div>
+
+    @include('admin.leads.partials.create-modal')
 @endsection
 
 @push('page-scripts')
@@ -388,6 +394,10 @@
             const editClose = document.getElementById('lead-edit-close');
             const editCancel = document.getElementById('lead-edit-cancel');
             const editForm = document.getElementById('lead-edit-form');
+            const createModal = document.getElementById('lead-create-modal');
+            const createOpen = document.getElementById('lead-create-open');
+            const createClose = document.getElementById('lead-create-close');
+            const createCancel = document.getElementById('lead-create-cancel');
 
             if (!board) {
                 return;
@@ -395,8 +405,23 @@
 
             const statusUrlTemplate = @json(route('admin.crm.leads.status', ['lead' => '__LEAD__']));
             const updateUrlTemplate = @json(route('admin.crm.leads.update', ['lead' => '__LEAD__']));
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             let dragState = null;
+            const buildJsonRequest = (payload) => ({
+                method: 'PATCH',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    _token: csrfToken,
+                    ...payload,
+                }),
+            });
+
             const detailMap = {
                 title: document.getElementById('lead-detail-title'),
                 whatsapp: document.getElementById('lead-detail-whatsapp'),
@@ -476,6 +501,15 @@
                 }
 
                 editModal.hidden = !open;
+                document.body.classList.toggle('admin-lock', open);
+            };
+
+            const setCreateModalOpen = (open) => {
+                if (!createModal) {
+                    return;
+                }
+
+                createModal.hidden = !open;
                 document.body.classList.toggle('admin-lock', open);
             };
 
@@ -577,20 +611,19 @@
                 card.classList.add('is-saving');
 
                 try {
-                    const response = await fetch(statusUrlTemplate.replace('__LEAD__', leadId), {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
-                        body: JSON.stringify({
+                    const response = await fetch(
+                        statusUrlTemplate.replace('__LEAD__', leadId),
+                        buildJsonRequest({
                             status_id: Number(targetStatusId),
                             follow_up_note: followUpNote,
-                        }),
-                    });
+                        })
+                    );
 
                     if (!response.ok) {
+                        if (response.status === 419) {
+                            throw new Error('La sesion o el token de seguridad vencio. Recarga la pagina e intentalo de nuevo.');
+                        }
+
                         throw new Error('No se pudo actualizar el estado del lead.');
                     }
 
@@ -721,6 +754,9 @@
             detailClose?.addEventListener('click', () => setModalOpen(false));
             editClose?.addEventListener('click', () => setEditModalOpen(false));
             editCancel?.addEventListener('click', () => setEditModalOpen(false));
+            createOpen?.addEventListener('click', () => setCreateModalOpen(true));
+            createClose?.addEventListener('click', () => setCreateModalOpen(false));
+            createCancel?.addEventListener('click', () => setCreateModalOpen(false));
 
             detailModal?.addEventListener('click', (event) => {
                 if (event.target === detailModal) {
@@ -734,6 +770,12 @@
                 }
             });
 
+            createModal?.addEventListener('click', (event) => {
+                if (event.target === createModal) {
+                    setCreateModalOpen(false);
+                }
+            });
+
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && detailModal && !detailModal.hidden) {
                     setModalOpen(false);
@@ -742,7 +784,15 @@
                  if (event.key === 'Escape' && editModal && !editModal.hidden) {
                     setEditModalOpen(false);
                 }
+
+                if (event.key === 'Escape' && createModal && !createModal.hidden) {
+                    setCreateModalOpen(false);
+                }
             });
+
+            if (createModal && !createModal.hidden) {
+                document.body.classList.add('admin-lock');
+            }
 
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('[data-card-menu]')) {
@@ -779,14 +829,9 @@
                 }
 
                 try {
-                    const response = await fetch(updateUrlTemplate.replace('__LEAD__', leadId), {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
-                        body: JSON.stringify({
+                    const response = await fetch(
+                        updateUrlTemplate.replace('__LEAD__', leadId),
+                        buildJsonRequest({
                             full_name: editMap.fullName.value,
                             email: editMap.email.value || null,
                             whatsapp_number: editMap.whatsapp.value || null,
@@ -799,10 +844,14 @@
                             follow_up_note: isStatusChange ? editMap.followUpNote.value.trim() : null,
                             next_follow_up_at: editMap.followup.value || null,
                             lost_reason: editMap.lostReason.value || null,
-                        }),
-                    });
+                        })
+                    );
 
                     if (!response.ok) {
+                        if (response.status === 419) {
+                            throw new Error('La sesion o el token de seguridad vencio. Recarga la pagina e intentalo de nuevo.');
+                        }
+
                         throw new Error('No se pudieron guardar los cambios del lead.');
                     }
 

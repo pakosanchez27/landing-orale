@@ -17,6 +17,60 @@ use Illuminate\Validation\ValidationException;
 
 class CrmBotController extends Controller
 {
+    public function findLeadByPhone(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'phone' => ['required', 'string', 'max:30'],
+            'phone_country_code' => ['nullable', 'string', 'max:10'],
+        ]);
+
+        $phone = trim($validated['phone']);
+        $normalizedPhone = $this->normalizePhone($phone, $validated['phone_country_code'] ?? null);
+        $phoneDigits = preg_replace('/\D+/', '', $phone);
+
+        $leads = Lead::query()
+            ->with([
+                'status',
+                'source',
+                'industry',
+                'assignedUser',
+                'creator',
+                'activities' => fn($query) => $query
+                    ->with(['source', 'user'])
+                    ->latest(),
+            ])
+            ->where(function ($query) use ($normalizedPhone, $phone, $phoneDigits) {
+                if ($normalizedPhone) {
+                    $query->where('phone_e164', $normalizedPhone);
+                }
+
+                if ($phoneDigits !== '') {
+                    $query->orWhereRaw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(phone_number, ' ', ''), '-', ''), '(', ''), ')', ''), '+', '') LIKE ?", ['%' . $phoneDigits . '%'])
+                        ->orWhereRaw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(whatsapp_number, ' ', ''), '-', ''), '(', ''), ')', ''), '+', '') LIKE ?", ['%' . $phoneDigits . '%'])
+                        ->orWhereRaw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(phone_e164, ' ', ''), '-', ''), '(', ''), ')', ''), '+', '') LIKE ?", ['%' . $phoneDigits . '%']);
+                } elseif ($phone !== '') {
+                    $query->orWhere('phone_number', 'like', '%' . $phone . '%')
+                        ->orWhere('whatsapp_number', 'like', '%' . $phone . '%');
+                }
+            })
+            ->orderByDesc('updated_at')
+            ->get();
+
+        $exists = $leads->isNotEmpty();
+
+        return response()->json([
+            'ok' => true,
+            'message' => $exists
+                ? 'Lead(s) encontrado(s) correctamente.'
+                : 'No se encontraron leads con ese telefono.',
+            'data' => [
+                'exists' => $exists,
+                'count' => $leads->count(),
+                'leads' => $leads->map(fn(Lead $lead) => $this->transformLead($lead))->values(),
+            ],
+        ], $exists ? 200 : 404);
+    }
+
     public function upsertLead(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -28,20 +82,17 @@ class CrmBotController extends Controller
             'company_name' => ['nullable', 'string', 'max:255'],
             'industry_id' => ['nullable', 'integer', 'exists:industrias,id'],
             'source' => ['nullable', 'string', 'max:60'],
-            'status' => ['nullable', 'string', 'max:60'],
+            'status' => ['nullable'],
             'score' => ['nullable', 'integer', 'min:0', 'max:100'],
             'interest_package' => ['nullable', 'string', 'max:255'],
             'budget_range' => ['nullable', 'string', 'max:255'],
             'needs_summary' => ['nullable', 'string'],
             'last_contact_at' => ['nullable', 'date'],
             'next_follow_up_at' => ['nullable', 'date'],
-            'qualified_at' => ['nullable', 'date'],
             'won_at' => ['nullable', 'date'],
             'lost_at' => ['nullable', 'date'],
             'lost_reason' => ['nullable', 'string', 'max:255'],
             'bot_session_id' => ['nullable', 'string', 'max:255'],
-            'qualification_result' => ['nullable', 'string', 'max:255'],
-            'qualification_score' => ['nullable', 'integer', 'min:0', 'max:100'],
             'origin_meta' => ['nullable', 'array'],
         ]);
 
@@ -92,7 +143,6 @@ class CrmBotController extends Controller
             'needs_summary' => $validated['needs_summary'] ?? $lead->needs_summary,
             'last_contact_at' => $validated['last_contact_at'] ?? $lead->last_contact_at,
             'next_follow_up_at' => $validated['next_follow_up_at'] ?? $lead->next_follow_up_at,
-            'qualified_at' => $validated['qualified_at'] ?? $lead->qualified_at,
             'won_at' => $validated['won_at'] ?? $lead->won_at,
             'lost_at' => $validated['lost_at'] ?? $lead->lost_at,
             'lost_reason' => $validated['lost_reason'] ?? $lead->lost_reason,
@@ -100,7 +150,7 @@ class CrmBotController extends Controller
                 ...($lead->origin_meta ?? []),
                 ...($validated['origin_meta'] ?? []),
                 'last_ingested_from' => 'bot',
-            ], fn ($value) => $value !== null && $value !== ''),
+            ], fn($value) => $value !== null && $value !== ''),
         ]);
         $lead->save();
 
@@ -287,11 +337,20 @@ class CrmBotController extends Controller
         );
     }
 
-    private function resolveStatus(string $value): LeadStatus
+    private function resolveStatus(int|string|null $value): LeadStatus
     {
+        if (blank($value)) {
+            $value = 'new';
+        }
+
         $status = LeadStatus::query()
-            ->where('key', Str::slug($value, '_'))
-            ->orWhere('name', $value)
+            ->when(
+                is_numeric($value),
+                fn($query) => $query->where('id', (int) $value),
+                fn($query) => $query
+                    ->where('key', Str::slug((string) $value, '_'))
+                    ->orWhere('name', (string) $value)
+            )
             ->first();
 
         if (! $status) {
@@ -335,11 +394,81 @@ class CrmBotController extends Controller
             ],
             [
                 'provider' => 'n8n',
-                'qualification_result' => $validated['qualification_result'] ?? null,
-                'qualification_score' => $validated['qualification_score'] ?? ($validated['score'] ?? null),
                 'collected_data' => $validated['origin_meta'] ?? null,
                 'started_at' => now(),
             ]
         );
+    }
+
+    private function transformLead(Lead $lead): array
+    {
+        return [
+            'id' => $lead->id,
+            'uuid' => $lead->uuid,
+            'full_name' => $lead->full_name,
+            'email' => $lead->email,
+            'phone_country_code' => $lead->phone_country_code,
+            'phone_number' => $lead->phone_number,
+            'phone_e164' => $lead->phone_e164,
+            'whatsapp_number' => $lead->whatsapp_number,
+            'company_name' => $lead->company_name,
+            'score' => $lead->score,
+            'interest_package' => $lead->interest_package,
+            'budget_range' => $lead->budget_range,
+            'needs_summary' => $lead->needs_summary,
+            'last_contact_at' => $lead->last_contact_at?->toIso8601String(),
+            'next_follow_up_at' => $lead->next_follow_up_at?->toIso8601String(),
+            'won_at' => $lead->won_at?->toIso8601String(),
+            'lost_at' => $lead->lost_at?->toIso8601String(),
+            'lost_reason' => $lead->lost_reason,
+            'origin_meta' => $lead->origin_meta,
+            'created_at' => $lead->created_at?->toIso8601String(),
+            'updated_at' => $lead->updated_at?->toIso8601String(),
+            'status' => $lead->status ? [
+                'id' => $lead->status->id,
+                'key' => $lead->status->key,
+                'name' => $lead->status->name,
+                'color' => $lead->status->color,
+                'is_closed' => $lead->status->is_closed,
+            ] : null,
+            'source' => $lead->source ? [
+                'id' => $lead->source->id,
+                'key' => $lead->source->key,
+                'name' => $lead->source->name,
+            ] : null,
+            'industry' => $lead->industry ? [
+                'id' => $lead->industry->id,
+                'nombre' => $lead->industry->nombre,
+            ] : null,
+            'assigned_user' => $lead->assignedUser ? [
+                'id' => $lead->assignedUser->id,
+                'name' => $lead->assignedUser->name,
+                'email' => $lead->assignedUser->email,
+            ] : null,
+            'created_by' => $lead->creator ? [
+                'id' => $lead->creator->id,
+                'name' => $lead->creator->name,
+                'email' => $lead->creator->email,
+            ] : null,
+            'activities' => $lead->activities->map(fn(LeadActivity $activity) => [
+                'id' => $activity->id,
+                'type' => $activity->type,
+                'title' => $activity->title,
+                'description' => $activity->description,
+                'meta' => $activity->meta,
+                'created_at' => $activity->created_at?->toIso8601String(),
+                'updated_at' => $activity->updated_at?->toIso8601String(),
+                'source' => $activity->source ? [
+                    'id' => $activity->source->id,
+                    'key' => $activity->source->key,
+                    'name' => $activity->source->name,
+                ] : null,
+                'user' => $activity->user ? [
+                    'id' => $activity->user->id,
+                    'name' => $activity->user->name,
+                    'email' => $activity->user->email,
+                ] : null,
+            ])->values(),
+        ];
     }
 }

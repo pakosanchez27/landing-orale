@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Appointment;
 use App\Models\LeadActivity;
+use App\Models\LeadTask;
 use App\Models\Lead;
+use App\Models\LeadSource;
 use App\Models\LeadStatus;
 use App\Models\IndustriaModel;
 use App\Models\User;
@@ -218,6 +221,7 @@ class LeadController extends Controller
             'users' => Schema::hasTable('users') ? User::query()->orderBy('name')->get(['id', 'name']) : collect(),
             'industries' => Schema::hasTable('industrias') ? IndustriaModel::query()->orderBy('nombre')->get(['id', 'nombre']) : collect(),
             'canAssignLeads' => $canAssignLeads,
+            'leadSources' => Schema::hasTable('lead_sources') ? LeadSource::query()->orderBy('name')->get(['id', 'name']) : collect(),
         ]);
     }
 
@@ -235,6 +239,168 @@ class LeadController extends Controller
         return view('admin.leads.contacts', [
             'leads' => $leads,
             'crmReady' => $this->crmTablesAvailable(),
+            'users' => Schema::hasTable('users') ? User::query()->orderBy('name')->get(['id', 'name']) : collect(),
+            'industries' => Schema::hasTable('industrias') ? IndustriaModel::query()->orderBy('nombre')->get(['id', 'nombre']) : collect(),
+            'canAssignLeads' => $this->canAssignLeads(),
+            'leadSources' => Schema::hasTable('lead_sources') ? LeadSource::query()->orderBy('name')->get(['id', 'name']) : collect(),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        abort_unless($this->crmTablesAvailable(), 404);
+
+        $validated = $request->validate([
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'whatsapp_number' => ['nullable', 'string', 'max:30'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'industry_id' => ['nullable', 'integer', 'exists:industrias,id'],
+            'source_id' => ['nullable', 'integer', 'exists:lead_sources,id'],
+            'interest_package' => ['nullable', 'string', 'max:255'],
+            'budget_range' => ['nullable', 'string', 'max:255'],
+            'needs_summary' => ['nullable', 'string'],
+            'next_follow_up_at' => ['nullable', 'date'],
+        ]);
+
+        if ($this->canAssignLeads()) {
+            $assignmentData = $request->validate([
+                'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
+            ]);
+
+            $validated['assigned_to'] = $assignmentData['assigned_to'] ?? null;
+        }
+
+        $defaultStatus = LeadStatus::query()
+            ->where('key', 'new')
+            ->orWhere('name', 'Nuevo')
+            ->orderBy('sort_order')
+            ->first();
+
+        $defaultSource = LeadSource::query()
+            ->where('key', 'manual')
+            ->orWhere('name', 'Manual')
+            ->first()
+            ?? LeadSource::query()->orderBy('name')->first();
+
+        $lead = Lead::create([
+            'full_name' => $validated['full_name'],
+            'email' => $validated['email'] ?? null,
+            'whatsapp_number' => $validated['whatsapp_number'] ?? null,
+            'company_name' => $validated['company_name'] ?? null,
+            'industry_id' => $validated['industry_id'] ?? null,
+            'source_id' => $validated['source_id'] ?? $defaultSource?->id,
+            'status_id' => $defaultStatus?->id,
+            'assigned_to' => $validated['assigned_to'] ?? null,
+            'created_by' => auth()->id(),
+            'interest_package' => $validated['interest_package'] ?? null,
+            'budget_range' => $validated['budget_range'] ?? null,
+            'needs_summary' => $validated['needs_summary'] ?? null,
+            'next_follow_up_at' => $validated['next_follow_up_at'] ?? null,
+            'origin_meta' => [
+                'created_from' => 'crm_manual',
+            ],
+        ]);
+
+        LeadActivity::create([
+            'lead_id' => $lead->id,
+            'user_id' => auth()->id(),
+            'source_id' => $lead->source_id,
+            'type' => 'created',
+            'title' => 'Lead creado manualmente',
+            'description' => 'Se creo el lead desde el CRM.',
+            'meta' => [
+                'created_from' => 'crm_manual',
+            ],
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('status', 'Lead creado correctamente.');
+    }
+
+    public function tasks(Request $request)
+    {
+        $tasksReady = $this->crmTablesAvailable()
+            && Schema::hasTable('lead_tasks')
+            && Schema::hasTable('users');
+        $canCreateTasks = $this->canManageTasks();
+
+        $tasks = collect();
+        $openTasks = collect();
+        $inProgressTasks = collect();
+        $completedTasks = collect();
+        $leadOptions = collect();
+        $userOptions = collect();
+        $summary = [
+            'total' => 0,
+            'pending' => 0,
+            'in_progress' => 0,
+            'completed' => 0,
+            'overdue' => 0,
+        ];
+
+        if ($tasksReady) {
+            $tasks = LeadTask::query()
+                ->with(['lead', 'assignedUser', 'creator'])
+                ->orderByRaw('completed_at IS NULL DESC')
+                ->orderByRaw('due_at IS NULL, due_at ASC')
+                ->latest()
+                ->get();
+
+            $openTasks = $tasks->where('status', 'pending')->values();
+            $inProgressTasks = $tasks->where('status', 'in_progress')->values();
+            $completedTasks = $tasks->where('status', 'completed')->values();
+
+            $summary = [
+                'total' => $tasks->count(),
+                'pending' => $openTasks->count(),
+                'in_progress' => $inProgressTasks->count(),
+                'completed' => $completedTasks->count(),
+                'overdue' => $tasks->filter(function (LeadTask $task) {
+                    return $task->status !== 'completed'
+                        && $task->due_at
+                        && $task->due_at->isPast();
+                })->count(),
+            ];
+
+            $leadOptions = Lead::query()
+                ->orderBy('full_name')
+                ->get(['id', 'full_name']);
+
+            $userOptions = User::query()
+                ->orderBy('name')
+                ->get(['id', 'name']);
+        }
+
+        return view('admin.leads.tasks', [
+            'tasksReady' => $tasksReady,
+            'canCreateTasks' => $canCreateTasks,
+            'tasks' => $tasks,
+            'openTasks' => $openTasks,
+            'inProgressTasks' => $inProgressTasks,
+            'completedTasks' => $completedTasks,
+            'leadOptions' => $leadOptions,
+            'userOptions' => $userOptions,
+            'summary' => $summary,
+            'statusOptions' => [
+                'pending' => 'Pendiente',
+                'in_progress' => 'En progreso',
+                'completed' => 'Completada',
+            ],
+            'priorityOptions' => [
+                'low' => 'Baja',
+                'medium' => 'Media',
+                'high' => 'Alta',
+                'urgent' => 'Urgente',
+            ],
+            'typeOptions' => [
+                'follow_up' => 'Seguimiento',
+                'call' => 'Llamada',
+                'meeting' => 'Reunion',
+                'proposal' => 'Propuesta',
+                'internal' => 'Interna',
+            ],
         ]);
     }
 
@@ -245,6 +411,251 @@ class LeadController extends Controller
         return view('admin.leads.api-docs', [
             'baseApiUrl' => url('/api/crm/bot'),
         ]);
+    }
+
+    public function storeTask(Request $request)
+    {
+        abort_unless(
+            $this->crmTablesAvailable() && Schema::hasTable('lead_tasks') && Schema::hasTable('users'),
+            404
+        );
+        abort_unless($this->canManageTasks(), 403);
+
+        $validated = $request->validate([
+            'lead_id' => ['required', 'integer', 'exists:leads,id'],
+            'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
+            'type' => ['required', 'string', 'max:50'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'due_at' => ['nullable', 'date'],
+            'status' => ['required', 'in:pending,in_progress,completed'],
+            'priority' => ['required', 'in:low,medium,high,urgent'],
+        ]);
+
+        $task = LeadTask::create([
+            'lead_id' => $validated['lead_id'],
+            'assigned_to' => $validated['assigned_to'] ?? null,
+            'created_by' => auth()->id(),
+            'type' => $validated['type'],
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'due_at' => $validated['due_at'] ?? null,
+            'status' => $validated['status'],
+            'priority' => $validated['priority'],
+            'completed_at' => ($validated['status'] ?? 'pending') === 'completed' ? now() : null,
+        ]);
+
+        $task->loadMissing(['lead', 'assignedUser']);
+
+        $this->recordTaskActivity(
+            $task,
+            'task_created',
+            'Tarea creada en CRM',
+            sprintf(
+                'Se creo la tarea "%s"%s.',
+                $task->title,
+                $task->assignedUser?->name ? ' para ' . $task->assignedUser->name : ''
+            ),
+            [
+                'task_id' => $task->id,
+                'task_status' => $task->status,
+                'task_priority' => $task->priority,
+                'task_type' => $task->type,
+            ]
+        );
+
+        return redirect()
+            ->route('admin.crm.tasks')
+            ->with('status', 'Tarea creada correctamente.');
+    }
+
+    public function updateTaskStatus(Request $request, LeadTask $task)
+    {
+        abort_unless(
+            $this->crmTablesAvailable() && Schema::hasTable('lead_tasks') && Schema::hasTable('users'),
+            404
+        );
+        abort_unless($this->canUpdateTask($task), 403);
+
+        $validated = $request->validate([
+            'status' => ['required', 'in:pending,in_progress,completed'],
+        ]);
+
+        $previousStatus = $task->status;
+        $newStatus = $validated['status'];
+
+        $task->status = $newStatus;
+        $task->completed_at = $newStatus === 'completed' ? now() : null;
+        $task->save();
+
+        $task->loadMissing(['lead', 'assignedUser']);
+
+        if ($previousStatus !== $newStatus) {
+            $this->recordTaskActivity(
+                $task,
+                'task_status_changed',
+                'Estado de tarea actualizado',
+                sprintf(
+                    'La tarea "%s" cambio de "%s" a "%s".',
+                    $task->title,
+                    $previousStatus,
+                    $newStatus
+                ),
+                [
+                    'task_id' => $task->id,
+                    'previous_status' => $previousStatus,
+                    'new_status' => $newStatus,
+                ]
+            );
+        }
+
+        return redirect()
+            ->route('admin.crm.tasks')
+            ->with('status', 'Estado de la tarea actualizado.');
+    }
+
+    public function calendar(Request $request)
+    {
+        $calendarReady = $this->crmTablesAvailable() && Schema::hasTable('appointments');
+        $selectedMonth = $request->query('month');
+        $monthDate = Carbon::now()->startOfMonth();
+
+        if (is_string($selectedMonth) && preg_match('/^\d{4}-\d{2}$/', $selectedMonth) === 1) {
+            try {
+                $monthDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth();
+            } catch (\Throwable $exception) {
+                $monthDate = Carbon::now()->startOfMonth();
+            }
+        }
+
+        $calendarDays = collect();
+        $appointments = collect();
+        $appointmentsByDay = collect();
+        $dailyTotals = collect();
+        $upcomingAppointments = collect();
+        $leadOptions = collect();
+
+        if ($calendarReady) {
+            $calendarStart = $monthDate->copy()->startOfWeek(Carbon::MONDAY);
+            $calendarEnd = $monthDate->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
+
+            $appointments = Appointment::query()
+                ->with(['lead', 'scheduledBySource'])
+                ->whereBetween('starts_at', [$calendarStart->copy()->startOfDay(), $calendarEnd->copy()->endOfDay()])
+                ->orderBy('starts_at')
+                ->get();
+
+            $appointmentsByDay = $appointments
+                ->groupBy(fn (Appointment $appointment) => $appointment->starts_at?->format('Y-m-d'));
+
+            $dailyTotals = $appointmentsByDay->map(fn ($items) => $items->count());
+
+            $calendarDays = collect();
+            $cursor = $calendarStart->copy();
+
+            while ($cursor->lte($calendarEnd)) {
+                $dayKey = $cursor->format('Y-m-d');
+                $dayAppointments = $appointmentsByDay->get($dayKey, collect());
+
+                $calendarDays->push([
+                    'date' => $cursor->copy(),
+                    'key' => $dayKey,
+                    'isCurrentMonth' => $cursor->month === $monthDate->month,
+                    'isToday' => $cursor->isToday(),
+                    'appointments' => $dayAppointments->take(3),
+                    'extraCount' => max($dayAppointments->count() - 3, 0),
+                ]);
+
+                $cursor->addDay();
+            }
+
+            $upcomingAppointments = Appointment::query()
+                ->with(['lead', 'scheduledBySource'])
+                ->where('starts_at', '>=', Carbon::now()->startOfDay())
+                ->orderBy('starts_at')
+                ->take(8)
+                ->get();
+
+            $leadOptions = Lead::query()
+                ->orderBy('full_name')
+                ->get(['id', 'full_name']);
+        }
+
+        return view('admin.leads.calendar', [
+            'calendarReady' => $calendarReady,
+            'monthDate' => $monthDate,
+            'calendarDays' => $calendarDays,
+            'dailyTotals' => $dailyTotals,
+            'appointments' => $appointments,
+            'upcomingAppointments' => $upcomingAppointments,
+            'leadOptions' => $leadOptions,
+            'appointmentStatusOptions' => [
+                'scheduled' => 'Programada',
+                'confirmed' => 'Confirmada',
+                'completed' => 'Completada',
+                'cancelled' => 'Cancelada',
+            ],
+            'appointmentChannelOptions' => [
+                'google_meet' => 'Google Meet',
+                'zoom' => 'Zoom',
+                'whatsapp' => 'WhatsApp',
+                'call' => 'Llamada',
+                'office' => 'Presencial',
+            ],
+            'previousMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->subMonth()->format('Y-m')]),
+            'nextMonthUrl' => route('admin.crm.calendar', ['month' => $monthDate->copy()->addMonth()->format('Y-m')]),
+            'currentMonthUrl' => route('admin.crm.calendar', ['month' => Carbon::now()->format('Y-m')]),
+        ]);
+    }
+
+    public function storeAppointment(Request $request)
+    {
+        abort_unless($this->crmTablesAvailable() && Schema::hasTable('appointments'), 404);
+
+        $validated = $request->validate([
+            'lead_id' => ['required', 'integer', 'exists:leads,id'],
+            'starts_at' => ['required', 'date'],
+            'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
+            'channel' => ['required', 'string', 'max:60'],
+            'meeting_link' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'max:60'],
+            'follow_up_note' => ['nullable', 'string', 'min:3'],
+        ]);
+
+        $lead = Lead::query()->with('source')->findOrFail($validated['lead_id']);
+
+        $appointment = Appointment::create([
+            'lead_id' => $lead->id,
+            'created_by' => auth()->id(),
+            'scheduled_by_source_id' => $lead->source_id,
+            'starts_at' => $validated['starts_at'],
+            'ends_at' => $validated['ends_at'] ?? null,
+            'channel' => $validated['channel'],
+            'meeting_link' => $validated['meeting_link'] ?? null,
+            'status' => $validated['status'],
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        LeadActivity::create([
+            'lead_id' => $lead->id,
+            'user_id' => auth()->id(),
+            'source_id' => $lead->source_id,
+            'type' => 'appointment_created',
+            'title' => 'Cita agendada desde CRM',
+            'description' => $validated['notes'] ?? 'Cita registrada desde el calendario del CRM.',
+            'meta' => [
+                'appointment_id' => $appointment->id,
+                'starts_at' => $appointment->starts_at?->toIso8601String(),
+                'channel' => $appointment->channel,
+                'follow_up_note' => $validated['follow_up_note'] ?? null,
+                'status' => $appointment->status,
+            ],
+        ]);
+
+        return redirect()
+            ->route('admin.crm.calendar', ['month' => Carbon::parse($validated['starts_at'])->format('Y-m')])
+            ->with('status', 'Cita registrada correctamente.');
     }
 
     public function updateStatus(Request $request, Lead $lead): JsonResponse
@@ -396,9 +807,44 @@ class LeadController extends Controller
         return in_array((int) auth()->user()->role_id, [0, 1], true);
     }
 
+    private function canManageTasks(): bool
+    {
+        if (! auth()->check()) {
+            return false;
+        }
+
+        return in_array((int) auth()->user()->role_id, [0, 1], true);
+    }
+
+    private function canUpdateTask(LeadTask $task): bool
+    {
+        if (! auth()->check()) {
+            return false;
+        }
+
+        if ($this->canManageTasks()) {
+            return true;
+        }
+
+        return (int) auth()->id() === (int) $task->assigned_to;
+    }
+
     private function isSuperAdmin(): bool
     {
         return auth()->check() && (int) auth()->user()->role_id === 0;
+    }
+
+    private function recordTaskActivity(LeadTask $task, string $type, string $title, ?string $description = null, array $meta = []): void
+    {
+        LeadActivity::create([
+            'lead_id' => $task->lead_id,
+            'user_id' => auth()->id(),
+            'source_id' => $task->lead?->source_id,
+            'type' => $type,
+            'title' => $title,
+            'description' => $description,
+            'meta' => $meta,
+        ]);
     }
 
     private function formatDelta(float|int $current, float|int $previous, bool $isPercentage = false): array

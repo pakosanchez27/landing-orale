@@ -81,7 +81,6 @@ class FormularioController extends Controller
 
         $equipo = [
             'contacto@oraleweb.com',
-            'javier.sanchezjps27@gmail.com',
         ];
 
 

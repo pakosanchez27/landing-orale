@@ -11,15 +11,12 @@ class LeadBotSession extends Model
         'lead_id',
         'provider',
         'session_id',
-        'qualification_result',
-        'qualification_score',
         'collected_data',
         'started_at',
         'ended_at',
     ];
 
     protected $casts = [
-        'qualification_score' => 'integer',
         'collected_data' => 'array',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',

@@ -60,7 +60,74 @@ Content-Type: application/json</code></pre>
             <article class="admin-panel crm-docs__section">
                 <div class="admin-panel__header">
                     <div>
-                        <h2>1. Crear o actualizar lead</h2>
+                        <h2>1. Buscar lead por tel&eacute;fono</h2>
+                        <span class="admin-link">Permite validar si el lead ya existe y devuelve sus datos, estado y actividades.</span>
+                    </div>
+                </div>
+
+                <div class="crm-docs__endpoint">
+                    <strong>GET</strong>
+                    <code>{{ $baseApiUrl }}/leads/search?phone=5551234567&amp;phone_country_code=52</code>
+                </div>
+
+                <p class="crm-docs__copy">Busca coincidencias por <code>phone_e164</code>, <code>phone_number</code> o <code>whatsapp_number</code>.</p>
+                <p class="crm-docs__copy">Responde con HTTP <code>200</code> si encuentra al menos un lead y con HTTP <code>404</code> si no hay coincidencias.</p>
+
+                <pre class="crm-docs__code"><code>{
+  "phone": "5551234567",
+  "phone_country_code": "52"
+}</code></pre>
+
+                <pre class="crm-docs__code"><code>{
+  "ok": true,
+  "message": "Lead(s) encontrado(s) correctamente.",
+  "data": {
+    "exists": true,
+    "count": 1,
+    "leads": [
+      {
+        "id": 1,
+        "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "full_name": "Juan Perez",
+        "email": "juan@correo.com",
+        "phone_e164": "+525551234567",
+        "whatsapp_number": "5551234567",
+        "status": {
+          "id": 1,
+          "key": "new",
+          "name": "Nuevo lead"
+        },
+        "activities": [
+          {
+            "id": 10,
+            "type": "created",
+            "title": "Lead creado"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+
+                <pre class="crm-docs__code"><code>{
+  "ok": true,
+  "message": "No se encontraron leads con ese telefono.",
+  "data": {
+    "exists": false,
+    "count": 0,
+    "leads": []
+  }
+}</code></pre>
+
+                <pre class="crm-docs__code"><code>curl.exe -X GET "{{ $baseApiUrl }}/leads/search?phone=5551234567&amp;phone_country_code=52" ^
+  -H "Authorization: Bearer TU_TOKEN" ^
+  -H "Accept: application/json"</code></pre>
+            </article>
+
+            <article class="admin-panel crm-docs__section">
+                <div class="admin-panel__header">
+                    <div>
+                        <h2>2. Crear o actualizar lead</h2>
                         <span class="admin-link">Endpoint principal para que el bot inserte o sincronice leads.</span>
                     </div>
                 </div>
@@ -98,7 +165,7 @@ Content-Type: application/json</code></pre>
             <article class="admin-panel crm-docs__section">
                 <div class="admin-panel__header">
                     <div>
-                        <h2>2. Registrar actividad</h2>
+                        <h2>3. Registrar actividad</h2>
                         <span class="admin-link">Guarda notas o eventos del bot en el historial del lead.</span>
                     </div>
                 </div>
@@ -122,7 +189,7 @@ Content-Type: application/json</code></pre>
             <article class="admin-panel crm-docs__section">
                 <div class="admin-panel__header">
                     <div>
-                        <h2>3. Cambiar estado del lead</h2>
+                        <h2>4. Cambiar estado del lead</h2>
                         <span class="admin-link">Mueve al lead entre fases del CRM y exige nota de seguimiento.</span>
                     </div>
                 </div>
@@ -133,8 +200,8 @@ Content-Type: application/json</code></pre>
                 </div>
 
                 <pre class="crm-docs__code"><code>{
-  "status": "qualified",
-  "follow_up_note": "El lead confirmo interes y cumple con el perfil.",
+  "status": "contacted",
+  "follow_up_note": "El lead respondio y acepto continuar con el seguimiento.",
   "source": "bot"
 }</code></pre>
 
@@ -142,7 +209,6 @@ Content-Type: application/json</code></pre>
                     <span>new</span>
                     <span>pending_contact</span>
                     <span>contacted</span>
-                    <span>qualified</span>
                     <span>scheduled</span>
                     <span>proposal_sent</span>
                     <span>won</span>
@@ -153,7 +219,7 @@ Content-Type: application/json</code></pre>
             <article class="admin-panel crm-docs__section">
                 <div class="admin-panel__header">
                     <div>
-                        <h2>4. Agendar cita</h2>
+                        <h2>5. Agendar cita</h2>
                         <span class="admin-link">Crea una cita en el CRM cuando el bot consiga fecha y hora.</span>
                     </div>
                 </div>
@@ -185,9 +251,10 @@ Content-Type: application/json</code></pre>
 
                 <ol class="crm-docs__steps">
                     <li>Recibir mensaje del canal origen.</li>
+                    <li>Buscar si el lead ya existe por tel&eacute;fono.</li>
                     <li>Hacer `upsert` del lead en el CRM.</li>
                     <li>Guardar actividad relevante del bot.</li>
-                    <li>Si califica, cambiar estado con nota.</li>
+                    <li>Si avanza en el proceso, cambiar estado con nota.</li>
                     <li>Si agenda llamada, crear appointment.</li>
                 </ol>
             </article>

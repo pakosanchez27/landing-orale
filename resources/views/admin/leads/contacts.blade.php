@@ -15,10 +15,20 @@
         </div>
         <div class="admin-topbar__actions">
             <span class="admin-kpi-pill">{{ number_format($leads->count()) }} contactos</span>
+            <button type="button" class="admin-btn admin-btn--primary" id="lead-create-open">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Nuevo lead
+            </button>
         </div>
     </header>
 
     <main class="admin-content">
+        @if (session('status'))
+            <div class="admin-alert admin-alert--success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         @if (! $crmReady)
             <div class="admin-alert admin-alert--error">
                 La secci&oacute;n de contactos a&uacute;n no est&aacute; disponible porque faltan las tablas del CRM. Ejecuta las migraciones para habilitarla.
@@ -111,11 +121,47 @@
             </div>
         </section>
     </main>
+
+    @include('admin.leads.partials.create-modal')
 @endsection
 
 @push('page-scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const createModal = document.getElementById('lead-create-modal');
+            const createOpen = document.getElementById('lead-create-open');
+            const createClose = document.getElementById('lead-create-close');
+            const createCancel = document.getElementById('lead-create-cancel');
+
+            const setCreateModalOpen = (open) => {
+                if (!createModal) {
+                    return;
+                }
+
+                createModal.hidden = !open;
+                document.body.classList.toggle('admin-lock', open);
+            };
+
+            createOpen?.addEventListener('click', () => setCreateModalOpen(true));
+            createClose?.addEventListener('click', () => setCreateModalOpen(false));
+            createCancel?.addEventListener('click', () => setCreateModalOpen(false));
+
+            createModal?.addEventListener('click', (event) => {
+                if (event.target === createModal) {
+                    setCreateModalOpen(false);
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && createModal && !createModal.hidden) {
+                    setCreateModalOpen(false);
+                }
+            });
+
+            if (createModal && !createModal.hidden) {
+                document.body.classList.add('admin-lock');
+            }
+
             if (window.DataTable && document.getElementById('crm-contacts-table')) {
                 new window.DataTable('#crm-contacts-table', {
                     autoWidth: false,
