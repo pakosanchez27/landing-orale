@@ -27,10 +27,7 @@
                 </div>
 
                 <div class="contact-list">
-                    <div>
-                        <h3>WhatsApp</h3>
-                        <p>Ideal para resolver dudas r&aacute;pidas y avanzar con una primera conversaci&oacute;n.</p>
-                    </div>
+
                     <div>
                         <h3>Correo</h3>
                         <p>Perfecto si quieres compartir informaci&oacute;n del proyecto con m&aacute;s detalle.</p>
@@ -44,6 +41,15 @@
                 <div class="contact-links" style="margin-top: 2rem;">
                     <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer">WhatsApp +52 55 1248 0210</a>
                     <a href="mailto:contacto@oraleweb.com">contacto@oraleweb.com</a>
+                </div>
+
+                <div class="contact-bot-card" style="margin-top: 2rem;">
+                    <h3>Habla con Ali por WhatsApp</h3>
+                    <p>Ali te ayuda a resolver dudas frecuentes de forma inmediata y a orientarte sobre nuestros servicios.</p>
+                    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="contact-bot-card__link">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        <span>Quiero escribirle a Ali</span>
+                    </a>
                 </div>
 
                 <div class="footer-social" style="margin-top: 2rem;">

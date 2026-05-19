@@ -66,6 +66,51 @@
     </section>
 
     <section class="section">
+        <div class="shell ali-spotlight" data-reveal>
+            <div class="ali-spotlight__grid">
+                <div class="ali-spotlight__copy">
+                    <span class="eyebrow">Asistente de IA</span>
+                    <h2>Conoce a Ali, nuestro asistente de IA.</h2>
+                    <p>Ali est&aacute; lista para responder dudas, explicarte nuestros servicios y ayudarte a encontrar la mejor opci&oacute;n para tu negocio en minutos.</p>
+
+                    <div class="ali-spotlight__highlights">
+                        <article class="ali-spotlight__highlight">
+                            <strong>Respuestas al instante</strong>
+                            <span>Obt&eacute;n orientaci&oacute;n r&aacute;pida sin esperar una llamada o correo.</span>
+                        </article>
+                        <article class="ali-spotlight__highlight">
+                            <strong>Gu&iacute;a clara</strong>
+                            <span>Te ayuda a entender qu&eacute; servicio o tipo de web puede encajar contigo.</span>
+                        </article>
+                        <article class="ali-spotlight__highlight">
+                            <strong>Disponible por WhatsApp</strong>
+                            <span>Empieza la conversaci&oacute;n en el canal m&aacute;s c&oacute;modo para ti.</span>
+                        </article>
+                    </div>
+
+                    <div class="dual-actions">
+                        <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Hablar con Ali</a>
+                    </div>
+                </div>
+
+                <div class="ali-spotlight__visual art-frame">
+                    <div class="ali-spotlight__badge">
+                        <span>Ali</span>
+                        <strong>Asistente IA</strong>
+                    </div>
+                    <div class="ali-spotlight__bubble ali-spotlight__bubble--primary">
+                        <span>Tengo dudas sobre su servicio</span>
+                    </div>
+                    <div class="ali-spotlight__bubble ali-spotlight__bubble--reply">
+                        <strong>Ali responde</strong>
+                        <p>Te oriento r&aacute;pido para que sepas qu&eacute; opci&oacute;n te conviene m&aacute;s.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
         <div class="shell">
             <div class="section-intro" data-reveal>
                 <span class="eyebrow">Servicios</span>
