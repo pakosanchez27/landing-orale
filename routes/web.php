@@ -114,6 +114,10 @@ Route::get('/linktree', function () {
     return view('pages.linktree');
 });
 
+Route::get('demo/veterinaria', function () {
+    return view('demos.veterinaria');
+});
+
 Route::get('/enviar-formulario', function () {
     return redirect('/contacto');
 });
