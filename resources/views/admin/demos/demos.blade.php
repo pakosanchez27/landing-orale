@@ -39,7 +39,7 @@
             <section class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 @forelse ($demos as $demo)
                     @php
-                        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                        $demoImage = $demo->imagen_url;
                     @endphp
                     <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm ">
                         <div class="aspect-[16/10] overflow-hidden bg-slate-100">

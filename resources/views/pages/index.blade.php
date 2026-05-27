@@ -184,7 +184,7 @@
             <div class="card-grid grid-3">
                 @forelse ($demos->take(6) as $demo)
                     @php
-                        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+                        $demoImage = $demo->imagen_url;
                     @endphp
                     <article class="portfolio-card" data-reveal>
                         <img src="{{ $demoImage }}" alt="{{ $demo->titulo }}" loading="lazy" />

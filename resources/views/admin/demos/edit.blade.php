@@ -6,7 +6,7 @@
 
 @section('content')
     @php
-        $demoImage = \Illuminate\Support\Str::startsWith($demo->imagen, ['http://', 'https://']) ? $demo->imagen : asset($demo->imagen);
+        $demoImage = $demo->imagen_url;
     @endphp
     <header class="admin-topbar">
         <a class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">

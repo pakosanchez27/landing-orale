@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormularioDemosRequest;
 use App\Models\DemoModel;
 use App\Models\IndustriaModel;
-use App\Support\PublicUploadPath;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DemosController extends Controller
 {
@@ -55,7 +53,7 @@ class DemosController extends Controller
         unset($data['industria']);
         $data['id_usuario'] = auth()->id();
 
-        // La imagen se mueve manualmente a public/img/demos y se guarda la ruta relativa.
+        // La imagen se guarda en storage/app/public/demos y la BD conserva la ruta relativa.
         $storedImagePath = $this->storeDemoImage($request);
 
         if ($storedImagePath !== null) {
@@ -108,6 +106,7 @@ class DemosController extends Controller
         $storedImagePath = $this->storeDemoImage($request);
 
         if ($storedImagePath !== null) {
+            $this->deleteDemoImage($demo->imagen);
             $data['imagen'] = $storedImagePath;
         } else {
             unset($data['imagen']);
@@ -129,11 +128,7 @@ class DemosController extends Controller
         $demo = DemoModel::findOrFail($id);
         abort_unless($this->canManageDemo($demo), 403);
 
-        $imagePath = PublicUploadPath::make($demo->imagen ?? '');
-
-        if ($demo->imagen && File::exists($imagePath)) {
-            File::delete($imagePath);
-        }
+        $this->deleteDemoImage($demo->imagen);
 
         $demo->delete();
 
@@ -153,12 +148,6 @@ class DemosController extends Controller
 
     private function storeDemoImage(FormularioDemosRequest $request): ?string
     {
-        $directory = PublicUploadPath::make('img/demos');
-
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
         $base64Image = $request->input('imagen_base64');
 
         if (!$base64Image) {
@@ -178,8 +167,59 @@ class DemosController extends Controller
         }
 
         $filename = uniqid('demo_', true) . '.' . $extension;
-        file_put_contents($directory . DIRECTORY_SEPARATOR . $filename, $binary);
+        $relativePath = 'demos/' . $filename;
+        Storage::disk('public')->put($relativePath, $binary);
 
-        return url('img/demos/' . $filename);
+        return $relativePath;
+    }
+
+    private function deleteDemoImage(?string $imagePath): void
+    {
+        if (!$imagePath) {
+            return;
+        }
+
+        $relativePath = $this->normalizeDemoImagePath($imagePath);
+
+        if (!$relativePath) {
+            return;
+        }
+
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
+        }
+    }
+
+    private function normalizeDemoImagePath(string $imagePath): ?string
+    {
+        $path = trim($imagePath);
+
+        if ($path === '') {
+            return null;
+        }
+
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            $path = parse_url($path, PHP_URL_PATH) ?: '';
+        }
+
+        $path = trim(str_replace('\\', '/', $path), '/');
+
+        if ($path === '') {
+            return null;
+        }
+
+        if (str_starts_with($path, 'storage/')) {
+            return substr($path, strlen('storage/'));
+        }
+
+        if (str_starts_with($path, 'img/demos/')) {
+            return 'demos/' . basename($path);
+        }
+
+        if (str_starts_with($path, 'demos/')) {
+            return $path;
+        }
+
+        return null;
     }
 }
