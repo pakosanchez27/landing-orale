@@ -1,12 +1,11 @@
-@extends('layouts.app-admin')
+﻿@extends('layouts.app-admin')
 
 @section('titulo', 'Mi perfil')
 
 @section('content')
     @php
-        $user = $user ?? auth()->user();
+        $user = auth()->user();
         $avatar = $user && $user->imagen ? asset($user->imagen) : asset('img/perfil.jpg');
-        $socialLinks = $user?->socialLinks;
     @endphp
 
     <div class="admin-topbar">
@@ -21,7 +20,7 @@
             <div class="admin-card__header">
                 <div>
                     <h2 class="admin-card__title">Mi perfil</h2>
-                    <p class="admin-card__subtitle">Actualiza tus datos, seguridad y redes sociales.</p>
+                    <p class="admin-card__subtitle">Actualiza tus datos y seguridad</p>
                 </div>
             </div>
 
@@ -62,59 +61,6 @@
 
                 <div class="admin-form__divider"></div>
 
-                <div class="admin-card__header">
-                    <div>
-                        <h2 class="admin-card__title">Redes sociales</h2>
-                        <p class="admin-card__subtitle">Se mostraran como iconos en la seccion de autor del blog.</p>
-                    </div>
-                </div>
-
-                <div class="admin-form__row">
-                    <div class="admin-form__group">
-                        <label class="admin-label">Facebook</label>
-                        <input type="url" name="facebook_url" value="{{ old('facebook_url', $socialLinks?->facebook_url) }}" class="admin-input" placeholder="https://facebook.com/tu-perfil" />
-                        @error('facebook_url')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="admin-form__group">
-                        <label class="admin-label">Instagram</label>
-                        <input type="url" name="instagram_url" value="{{ old('instagram_url', $socialLinks?->instagram_url) }}" class="admin-input" placeholder="https://instagram.com/tu-perfil" />
-                        @error('instagram_url')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="admin-form__row">
-                    <div class="admin-form__group">
-                        <label class="admin-label">LinkedIn</label>
-                        <input type="url" name="linkedin_url" value="{{ old('linkedin_url', $socialLinks?->linkedin_url) }}" class="admin-input" placeholder="https://linkedin.com/in/tu-perfil" />
-                        @error('linkedin_url')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="admin-form__group">
-                        <label class="admin-label">X</label>
-                        <input type="url" name="x_url" value="{{ old('x_url', $socialLinks?->x_url) }}" class="admin-input" placeholder="https://x.com/tu-perfil" />
-                        @error('x_url')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="admin-form__row">
-                    <div class="admin-form__group">
-                        <label class="admin-label">YouTube</label>
-                        <input type="url" name="youtube_url" value="{{ old('youtube_url', $socialLinks?->youtube_url) }}" class="admin-input" placeholder="https://youtube.com/@tu-canal" />
-                        @error('youtube_url')
-                            <p class="admin-error">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="admin-form__divider"></div>
-
                 <div class="admin-form__row">
                     <div class="admin-form__group">
                         <label class="admin-label">Contraseña actual</label>
@@ -125,7 +71,7 @@
                     </div>
                     <div class="admin-form__group">
                         <label class="admin-label">Nueva contraseña</label>
-                        <input type="password" name="new_password" class="admin-input" placeholder="Minimo 8 caracteres" />
+                        <input type="password" name="new_password" class="admin-input" placeholder="Mínimo 8 caracteres" />
                         @error('new_password')
                             <p class="admin-error">{{ $message }}</p>
                         @enderror

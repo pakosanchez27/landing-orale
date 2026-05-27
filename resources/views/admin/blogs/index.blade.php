@@ -51,13 +51,6 @@
                                 <span><i class="fa-solid fa-eye" aria-hidden="true"></i> {{ number_format($post['view_count'] ?? 0) }} vistas</span>
                                 <span><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> {{ number_format($post['share_count'] ?? 0) }} compartidos</span>
                             </div>
-                            @if (!empty($post['share_breakdown']))
-                                <div class="admin-blog-stats">
-                                    @foreach ($post['share_breakdown'] as $network => $total)
-                                        <span>{{ ucfirst($network) }}: {{ number_format($total) }}</span>
-                                    @endforeach
-                                </div>
-                            @endif
                             <div class="admin-blog-card__footer">
                                 <span class="estado {{ $post['is_active'] ? 'estado-activo' : 'estado-inactivo' }}">
                                     {{ $post['is_active'] ? 'Publicado' : 'Oculto' }}
