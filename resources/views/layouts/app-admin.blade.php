@@ -74,6 +74,20 @@
                     <span class="admin-nav__text">Blogs</span>
                 </a>
                 <div class="admin-nav__group">
+                    <button type="button" class="admin-nav__item admin-nav__parent" id="tools-toggle"
+                        aria-expanded="{{ request()->routeIs('admin.tools*') ? 'true' : 'false' }}" aria-controls="tools-children">
+                        <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                        <span class="admin-nav__text">Tools</span>
+                        <i class="fa-solid fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                    </button>
+                    <div class="admin-nav__children" id="tools-children" @if (request()->routeIs('admin.tools*')) style="display: grid;" @endif @if (!request()->routeIs('admin.tools*')) hidden @endif>
+                        <a href="{{ route('admin.tools.generar-copys') }}" class="admin-nav__item admin-nav__child {{ request()->routeIs('admin.tools.generar-copys') ? 'is-active' : '' }}">
+                            <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                            <span class="admin-nav__text">Generar Copys</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="admin-nav__group">
                     <button type="button" class="admin-nav__item admin-nav__parent" id="crm-toggle"
                         aria-expanded="{{ request()->routeIs('admin.crm*') ? 'true' : 'false' }}" aria-controls="crm-children">
                         <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
@@ -124,6 +138,16 @@
         </aside>
 
         <div class="admin-main">
+            @php
+                $authUser = auth()->user();
+                $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
+                $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
+                $notificationsEnabled = $authUser && \Illuminate\Support\Facades\Schema::hasTable('notifications');
+                $headerNotifications = $notificationsEnabled
+                    ? $authUser->unreadNotifications()->latest()->limit(6)->get()
+                    : collect();
+                $unreadNotificationsCount = $notificationsEnabled ? $authUser->unreadNotifications()->count() : 0;
+            @endphp
             <div class="admin-navtop">
                 <div class="admin-search">
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -133,12 +157,14 @@
                     <button class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Abrir sidebar">
                         <i class="fa-solid fa-bars" aria-hidden="true"></i>
                     </button>
+                    <button class="admin-notifications" type="button" id="admin-notifications-btn" aria-label="Notificaciones"
+                        aria-expanded="false">
+                        @if ($unreadNotificationsCount > 0)
+                            <span class="admin-notifications__badge" aria-hidden="true">{{ $unreadNotificationsCount > 9 ? '9+' : $unreadNotificationsCount }}</span>
+                        @endif
+                        <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                    </button>
                     <button class="admin-user" type="button" id="admin-user-btn" aria-expanded="false">
-                        @php
-                            $authUser = auth()->user();
-                            $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
-                            $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
-                        @endphp
                         <img src="{{ $avatar }}" alt="Foto de usuario" />
                         <span class="admin-user__info">
                             <strong>{{ $firstName }}</strong>
@@ -175,6 +201,41 @@
                         </button>
                     </form>
                 </div>
+                <div class="admin-notifications-menu" id="admin-notifications-menu" hidden>
+                    <div class="admin-notifications-menu__header">
+                        <strong>Notificaciones</strong>
+                        <span>{{ $unreadNotificationsCount }} nueva{{ $unreadNotificationsCount === 1 ? '' : 's' }}</span>
+                    </div>
+                    <div class="admin-notifications-menu__list">
+                        @forelse ($headerNotifications as $notification)
+                            @php
+                                $notificationData = $notification->data ?? [];
+                                $notificationUrl = $notificationData['url'] ?? '#';
+                            @endphp
+                            <article class="admin-notification-item">
+                                <span class="admin-notification-item__icon">
+                                    <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                                </span>
+                                <div class="admin-notification-item__copy">
+                                    <strong>{{ $notificationData['title'] ?? 'Nueva notificacion' }}</strong>
+                                    <p>{{ $notificationData['message'] ?? 'Tienes una nueva actividad en el sistema.' }}</p>
+                                    <small>{{ $notification->created_at?->diffForHumans() }}</small>
+                                    <div class="admin-notification-item__actions">
+                                        <a href="{{ $notificationUrl }}" class="admin-notification-link">Ver</a>
+                                        <form action="{{ route('admin.notifications.read', $notification->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="admin-notification-read-btn">Visto</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </article>
+                        @empty
+                            <div class="admin-notifications-menu__empty">
+                                Aun no tienes notificaciones.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
             </div>
             @yield('content')
         </div>
@@ -187,10 +248,14 @@
         const sidebarToggle = document.getElementById("sidebar-toggle");
         const mobileToggle = document.getElementById("mobile-toggle");
         const overlay = document.getElementById("admin-overlay");
+        const notificationsBtn = document.getElementById("admin-notifications-btn");
+        const notificationsMenu = document.getElementById("admin-notifications-menu");
         const userBtn = document.getElementById("admin-user-btn");
         const userMenu = document.getElementById("admin-user-menu");
         const catalogosToggle = document.getElementById("catalogos-toggle");
         const catalogosChildren = document.getElementById("catalogos-children");
+        const toolsToggle = document.getElementById("tools-toggle");
+        const toolsChildren = document.getElementById("tools-children");
         const crmToggle = document.getElementById("crm-toggle");
         const crmChildren = document.getElementById("crm-children");
 
@@ -208,11 +273,27 @@
         const setUserMenu = (open) => {
             userMenu.hidden = !open;
             userBtn.setAttribute("aria-expanded", open ? "true" : "false");
+            if (open && notificationsMenu) {
+                setNotificationsMenu(false);
+            }
+        };
+
+        const setNotificationsMenu = (open) => {
+            notificationsMenu.hidden = !open;
+            notificationsBtn.setAttribute("aria-expanded", open ? "true" : "false");
+            if (open) {
+                setUserMenu(false);
+            }
         };
 
         const setCatalogosOpen = (open) => {
             catalogosChildren.hidden = !open;
             catalogosToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        };
+
+        const setToolsOpen = (open) => {
+            toolsChildren.hidden = !open;
+            toolsToggle.setAttribute("aria-expanded", open ? "true" : "false");
         };
 
         const setCrmOpen = (open) => {
@@ -231,18 +312,32 @@
             mobileToggle.addEventListener("click", () => setMobileOpen(true));
         }
         overlay.addEventListener("click", () => setMobileOpen(false));
+        if (notificationsBtn) {
+            notificationsBtn.addEventListener("click", () => setNotificationsMenu(notificationsMenu.hidden));
+        }
         userBtn.addEventListener("click", () => setUserMenu(userMenu.hidden));
         if (catalogosToggle) {
             catalogosToggle.addEventListener("click", () => setCatalogosOpen(catalogosChildren.hidden));
+        }
+        if (toolsToggle) {
+            toolsToggle.addEventListener("click", () => setToolsOpen(toolsChildren.hidden));
         }
         if (crmToggle) {
             crmToggle.addEventListener("click", () => setCrmOpen(crmChildren.hidden));
         }
 
         document.addEventListener("click", (event) => {
-            if (userMenu.hidden) return;
-            if (userBtn.contains(event.target) || userMenu.contains(event.target)) return;
-            setUserMenu(false);
+            if (!notificationsMenu.hidden) {
+                if (!notificationsBtn.contains(event.target) && !notificationsMenu.contains(event.target)) {
+                    setNotificationsMenu(false);
+                }
+            }
+
+            if (!userMenu.hidden) {
+                if (!userBtn.contains(event.target) && !userMenu.contains(event.target)) {
+                    setUserMenu(false);
+                }
+            }
         });
 
         window.addEventListener("resize", () => {

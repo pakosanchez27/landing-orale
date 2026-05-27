@@ -160,6 +160,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/blogs/{postId}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
     Route::put('/admin/blogs/{postId}', [BlogController::class, 'update'])->name('admin.blogs.update');
     Route::delete('/admin/blogs/{postId}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
+    Route::get('/admin/tools/generar-copys', function () {
+        return view('admin.tools.generar-copys');
+    })->name('admin.tools.generar-copys');
     Route::get('/admin/crm/dashboard', [LeadController::class, 'dashboard'])->name('admin.crm.dashboard');
     Route::get('/admin/crm', [LeadController::class, 'index'])->name('admin.crm');
     Route::post('/admin/crm/leads', [LeadController::class, 'store'])->name('admin.crm.leads.store');
@@ -172,4 +175,5 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/admin/crm/tareas/{task}/status', [LeadController::class, 'updateTaskStatus'])->name('admin.crm.tasks.status');
     Route::patch('/admin/crm/leads/{lead}/status', [LeadController::class, 'updateStatus'])->name('admin.crm.leads.status');
     Route::patch('/admin/crm/leads/{lead}', [LeadController::class, 'update'])->name('admin.crm.leads.update');
+    Route::post('/admin/notificaciones/{notification}/read', [AdminController::class, 'markNotificationAsRead'])->name('admin.notifications.read');
 });

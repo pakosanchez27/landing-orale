@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Notifications\LeadTaskAssignedNotification;
+use App\Notifications\LeadTaskReopenedNotification;
 use App\Models\Appointment;
 use App\Models\LeadActivity;
 use App\Models\LeadTask;
@@ -445,7 +447,11 @@ class LeadController extends Controller
             'completed_at' => ($validated['status'] ?? 'pending') === 'completed' ? now() : null,
         ]);
 
-        $task->loadMissing(['lead', 'assignedUser']);
+        $task->loadMissing(['lead', 'assignedUser', 'creator']);
+
+        if ($task->assignedUser) {
+            $task->assignedUser->notify(new LeadTaskAssignedNotification($task));
+        }
 
         $this->recordTaskActivity(
             $task,
@@ -488,7 +494,7 @@ class LeadController extends Controller
         $task->completed_at = $newStatus === 'completed' ? now() : null;
         $task->save();
 
-        $task->loadMissing(['lead', 'assignedUser']);
+        $task->loadMissing(['lead', 'assignedUser', 'creator']);
 
         if ($previousStatus !== $newStatus) {
             $this->recordTaskActivity(
@@ -507,6 +513,14 @@ class LeadController extends Controller
                     'new_status' => $newStatus,
                 ]
             );
+        }
+
+        if (
+            $previousStatus === 'completed'
+            && $newStatus === 'pending'
+            && $task->assignedUser
+        ) {
+            $task->assignedUser->notify(new LeadTaskReopenedNotification($task, auth()->user()));
         }
 
         return redirect()

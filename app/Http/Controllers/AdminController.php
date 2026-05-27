@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
@@ -31,5 +32,16 @@ class AdminController extends Controller
         }
 
         return view('admin.index', compact('metrics'));
+    }
+
+    public function markNotificationAsRead(DatabaseNotification $notification)
+    {
+        abort_unless((int) $notification->notifiable_id === (int) auth()->id(), 403);
+
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+
+        return back();
     }
 }
