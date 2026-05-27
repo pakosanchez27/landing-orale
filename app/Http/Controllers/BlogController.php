@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use App\Models\BlogPostShare;
 use App\Services\OpenAiBlogGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -70,6 +71,10 @@ class BlogController extends Controller
 
     public function registerShare(string $slug): JsonResponse
     {
+        $payload = request()->validate([
+            'network' => ['required', 'in:whatsapp,linkedin,facebook,x,copy'],
+        ]);
+
         $post = BlogPost::query()
             ->where('slug', $slug)
             ->where('is_active', true)
@@ -77,8 +82,21 @@ class BlogController extends Controller
 
         $post->increment('share_count');
 
+        if (Schema::hasTable('blog_post_shares')) {
+            BlogPostShare::create([
+                'blog_post_id' => $post->id,
+                'network' => $payload['network'],
+                'ip_address' => request()->ip(),
+                'user_agent' => substr((string) request()->userAgent(), 0, 65535),
+                'referrer_url' => request()->headers->get('referer'),
+                'shared_at' => now(),
+                'create_at' => now(),
+            ]);
+        }
+
         return response()->json([
             'share_count' => $post->fresh()->share_count,
+            'network' => $payload['network'],
         ]);
     }
 
@@ -111,6 +129,7 @@ class BlogController extends Controller
             'is_active' => $request->boolean('is_active'),
             'view_count' => 0,
             'share_count' => 0,
+            'author_id' => auth()->id(),
         ]);
 
         return redirect()
@@ -204,9 +223,38 @@ class BlogController extends Controller
         }
 
         return BlogPost::query()
+            ->with(['author.socialLinks'])
             ->orderByDesc('published_at')
             ->get()
-            ->map(fn (BlogPost $post) => $post->toArray())
+            ->map(function (BlogPost $post) {
+                $data = $post->toArray();
+
+                if (Schema::hasTable('blog_post_shares')) {
+                    $data['share_breakdown'] = BlogPostShare::query()
+                        ->selectRaw('network, COUNT(*) as total')
+                        ->where('blog_post_id', $post->id)
+                        ->groupBy('network')
+                        ->pluck('total', 'network')
+                        ->toArray();
+                } else {
+                    $data['share_breakdown'] = [];
+                }
+
+                $data['author'] = $post->author ? [
+                    'name' => $post->author->name,
+                    'role' => $post->author->cargo,
+                    'image' => $post->author->imagen ? asset($post->author->imagen) : asset('img/perfil.jpg'),
+                    'social_links' => [
+                        'facebook' => $post->author->socialLinks?->facebook_url,
+                        'instagram' => $post->author->socialLinks?->instagram_url,
+                        'linkedin' => $post->author->socialLinks?->linkedin_url,
+                        'x' => $post->author->socialLinks?->x_url,
+                        'youtube' => $post->author->socialLinks?->youtube_url,
+                    ],
+                ] : null;
+
+                return $data;
+            })
             ->values();
     }
 
