@@ -16,9 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'bot.token' => \App\Http\Middleware\EnsureBotBearerToken::class,
         ]);
 
+        // Esta es la línea que te falta para que Laravel entienda el HTTPS del Proxy
+        $middleware->trustProxies(at: '*');
+
         $middleware->redirectTo(
-        guests: '/admin/login', // Cambia esto si tu ruta de login tiene otro nombre
-    );
+            guests: '/admin/login',
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
