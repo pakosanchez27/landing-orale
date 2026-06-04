@@ -5,9 +5,13 @@
     @php
         $pageTitle = trim($__env->yieldContent('titulo'));
         $fullTitle = $pageTitle ? "Orale Web | {$pageTitle}" : 'Orale Web';
-        $metaDescription = trim($__env->yieldContent('meta_description')) ?: 'Agencia web en Mexico especializada en diseno y desarrollo de sitios rapidos, estrategicos y orientados a conversion para negocios y PyMEs.';
+        $metaDescription =
+            trim($__env->yieldContent('meta_description')) ?:
+            'Agencia web en Mexico especializada en diseno y desarrollo de sitios rapidos, estrategicos y orientados a conversion para negocios y PyMEs.';
         $canonicalUrl = trim($__env->yieldContent('canonical_url')) ?: url()->current();
-        $robots = trim($__env->yieldContent('meta_robots')) ?: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
+        $robots =
+            trim($__env->yieldContent('meta_robots')) ?:
+            'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
         $ogImage = trim($__env->yieldContent('og_image')) ?: asset('img/hero.png');
         $ogType = trim($__env->yieldContent('og_type')) ?: 'website';
         $sameAs = [
@@ -45,9 +49,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="icon" type="image/png" href="{{ asset('img/LogoBlanco.png') }}" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/LogoBlanco.png') }}" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="preload" as="style"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        media="print" onload="this.media='all'" />
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     </noscript>
@@ -101,7 +109,8 @@
                 </a>
 
                 <nav class="desktop-nav" aria-label="Principal">
-                    <a href="/" class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
+                    <a href="/"
+                        class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
                     <a href="/nosotros" class="{{ request()->is('nosotros*') ? 'is-active' : '' }}">Nosotros</a>
                     <a href="/demos" class="{{ request()->is('demos*') ? 'is-active' : '' }}">Demos</a>
                     <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Paquetes</a>
@@ -143,7 +152,8 @@
         @yield('content')
     </main>
 
-    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Escribir por WhatsApp">
+    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer" class="whatsapp-float"
+        aria-label="Escribir por WhatsApp">
         <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
     </a>
 
@@ -152,13 +162,19 @@
             <div class="footer-brand">
                 <p class="eyebrow">Orale Web</p>
                 <img src="{{ asset('img/LogoNegro.png') }}" alt="Logo de Orale Web" class="footer-brand__logo" />
-                <h2>Sitios web y landing pages dise&ntilde;adas para convertir atenci&oacute;n en oportunidades reales.</h2>
-                <p>Combinamos estrategia, dise&ntilde;o y desarrollo para construir experiencias digitales que se ven premium y venden mejor.</p>
+                <h2>Sitios web y landing pages dise&ntilde;adas para convertir atenci&oacute;n en oportunidades reales.
+                </h2>
+                <p>Combinamos estrategia, dise&ntilde;o y desarrollo para construir experiencias digitales que se ven
+                    premium y venden mejor.</p>
                 <div class="footer-social">
-                    <a href="https://www.instagram.com/orale_web/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61573463732776" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.tiktok.com/@oraleweb" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="https://youtube.com/@orale-web?si=r0vxY9H2Rx2uDXEt" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/orale_web/" target="_blank" rel="noopener noreferrer"
+                        aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61573463732776" target="_blank"
+                        rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@oraleweb" target="_blank" rel="noopener noreferrer"
+                        aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://youtube.com/@orale-web?si=r0vxY9H2Rx2uDXEt" target="_blank"
+                        rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
 
@@ -188,7 +204,8 @@
                 <h3 class="footer-title">Contacto</h3>
                 <div class="footer-links">
                     <a href="mailto:contacto@oraleweb.com">contacto@oraleweb.com</a>
-                    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer">WhatsApp +52 55 1248 0210</a>
+                    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer">WhatsApp +52 55
+                        1248 0210</a>
                     <a href="/faq">Preguntas frecuentes</a>
                 </div>
             </div>
@@ -198,6 +215,19 @@
             <p>Dise&ntilde;o estrat&eacute;gico, desarrollo veloz y presencia digital con car&aacute;cter.</p>
         </div>
     </footer>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWN5GRJ3C9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-KWN5GRJ3C9');
+    </script>
 
     @stack('page-overlays')
     @stack('page-scripts')
