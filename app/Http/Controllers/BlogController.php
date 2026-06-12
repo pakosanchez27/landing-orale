@@ -137,6 +137,45 @@ class BlogController extends Controller
             ->with('status', 'Articulo creado correctamente.');
     }
 
+    public function storeFromN8n(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'titulo' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255'],
+            'categoria' => ['required', 'string', 'max:255'],
+            'tiempo_lectura' => ['required', 'string', 'max:50'],
+            'fecha_publicacion' => ['required', 'date'],
+            'estado' => ['required', 'string'],
+            'extracto' => ['required', 'string'],
+            'imagen_portada' => ['nullable', 'string'],
+            'contenido' => ['required', 'string'],
+        ]);
+
+        $slug = $this->uniqueSlug($data['slug'] ?: Str::slug($data['titulo']));
+        $activeStates = ['1', 'activo', 'activa', 'publicado', 'publicada', 'true', 'si', 'sí'];
+
+        $blog = BlogPost::create([
+            'title' => $data['titulo'],
+            'slug' => $slug,
+            'category' => $data['categoria'],
+            'excerpt' => $data['extracto'],
+            'cover_image' => $data['imagen_portada'] ?: 'img/blog-principal.png',
+            'content_html' => $data['contenido'],
+            'reading_time' => $data['tiempo_lectura'],
+            'published_at' => $data['fecha_publicacion'],
+            'is_active' => in_array(Str::lower($data['estado']), $activeStates, true),
+            'view_count' => 0,
+            'share_count' => 0,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'id' => $blog->id,
+            'url' => url('/blog/' . $blog->slug),
+            'blog' => $blog,
+        ], 201);
+    }
+
     public function edit(string $postId): View
     {
         $post = BlogPost::query()->findOrFail($postId);

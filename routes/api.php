@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Api\CrmBotController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/blogs/n8n', [BlogController::class, 'storeFromN8n'])->name('api.blogs.n8n.store');
 
 Route::prefix('crm/bot')
     ->middleware('bot.token')
