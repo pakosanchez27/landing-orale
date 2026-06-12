@@ -149,6 +149,13 @@
                 $unreadNotificationsCount = $notificationsEnabled ? $authUser->unreadNotifications()->count() : 0;
             @endphp
             <div class="admin-navtop">
+                <div class="admin-mobile-title" aria-label="Vista actual">
+                    <img src="{{ asset('img/LogoBlanco.png') }}" alt="" aria-hidden="true" />
+                    <span>
+                        <small>Admin</small>
+                        <strong>@yield('titulo')</strong>
+                    </span>
+                </div>
                 <div class="admin-search">
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     <input type="search" placeholder="Buscar..." aria-label="Buscar" />
@@ -239,14 +246,38 @@
             </div>
             @yield('content')
         </div>
+
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
     </div>
 
-    <div class="admin-overlay" id="admin-overlay" hidden></div>
+    <nav class="admin-mobile-tabbar" aria-label="Navegacion movil">
+        <a href="{{ route('admin') }}" class="admin-mobile-tabbar__item {{ request()->routeIs('admin') ? 'is-active' : '' }}">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="{{ route('admin.crm.dashboard') }}" class="admin-mobile-tabbar__item {{ request()->routeIs('admin.crm*') ? 'is-active' : '' }}">
+            <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+            <span>CRM</span>
+        </a>
+        <a href="{{ route('admin.blogs') }}" class="admin-mobile-tabbar__item {{ request()->routeIs('admin.blogs*') ? 'is-active' : '' }}">
+            <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
+            <span>Blogs</span>
+        </a>
+        <a href="{{ route('demos') }}" class="admin-mobile-tabbar__item {{ request()->routeIs('demos*') ? 'is-active' : '' }}">
+            <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
+            <span>Demos</span>
+        </a>
+        <button class="admin-mobile-tabbar__item" id="mobile-bottom-menu" type="button" aria-label="Abrir menu">
+            <i class="fa-solid fa-grip" aria-hidden="true"></i>
+            <span>Menu</span>
+        </button>
+    </nav>
 
     <script>
         const layout = document.getElementById("admin-layout");
         const sidebarToggle = document.getElementById("sidebar-toggle");
         const mobileToggle = document.getElementById("mobile-toggle");
+        const mobileBottomMenu = document.getElementById("mobile-bottom-menu");
         const overlay = document.getElementById("admin-overlay");
         const notificationsBtn = document.getElementById("admin-notifications-btn");
         const notificationsMenu = document.getElementById("admin-notifications-menu");
@@ -310,6 +341,9 @@
 
         if (mobileToggle) {
             mobileToggle.addEventListener("click", () => setMobileOpen(true));
+        }
+        if (mobileBottomMenu) {
+            mobileBottomMenu.addEventListener("click", () => setMobileOpen(true));
         }
         overlay.addEventListener("click", () => setMobileOpen(false));
         if (notificationsBtn) {

@@ -39,14 +39,19 @@
                         $postCover = \Illuminate\Support\Str::startsWith($post['cover_image'], ['http://', 'https://']) ? $post['cover_image'] : asset($post['cover_image']);
                     @endphp
                     <article class="admin-card admin-blog-card">
-                        <img src="{{ $postCover }}" alt="{{ $post['title'] }}" class="admin-blog-card__image" />
+                        <div class="admin-blog-card__media">
+                            <img src="{{ $postCover }}" alt="{{ $post['title'] }}" class="admin-blog-card__image" />
+                            <span class="estado admin-blog-card__status {{ $post['is_active'] ? 'estado-activo' : 'estado-inactivo' }}">
+                                {{ $post['is_active'] ? 'Publicado' : 'Oculto' }}
+                            </span>
+                        </div>
                         <div class="admin-blog-card__body">
                             <div class="blog-card-modern__meta">
                                 <span>{{ \Carbon\Carbon::parse($post['published_at'])->translatedFormat('d F Y') }}</span>
                                 <span>{{ $post['category'] }}</span>
                             </div>
                             <h3 class="admin-card__title">{{ $post['title'] }}</h3>
-                            <p>{{ $post['excerpt'] }}</p>
+                            <p class="admin-blog-card__excerpt">{{ $post['excerpt'] }}</p>
                             <div class="admin-blog-stats">
                                 <span><i class="fa-solid fa-eye" aria-hidden="true"></i> {{ number_format($post['view_count'] ?? 0) }} vistas</span>
                                 <span><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> {{ number_format($post['share_count'] ?? 0) }} compartidos</span>
@@ -59,10 +64,10 @@
                                 </div>
                             @endif
                             <div class="admin-blog-card__footer">
-                                <span class="estado {{ $post['is_active'] ? 'estado-activo' : 'estado-inactivo' }}">
-                                    {{ $post['is_active'] ? 'Publicado' : 'Oculto' }}
-                                </span>
-                                <div>
+                                <a href="{{ route('blog.post', $post['slug']) }}" class="admin-blog-card__view" target="_blank" rel="noopener">
+                                    Ver articulo
+                                </a>
+                                <div class="admin-blog-card__actions">
                                     <a href="{{ route('admin.blogs.edit', $post['id']) }}" class="btn-action" title="Editar articulo">
                                         <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
                                     </a>

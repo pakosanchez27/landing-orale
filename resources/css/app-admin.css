@@ -2596,32 +2596,142 @@ button {
 
 .admin-blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
-    gap: 1.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 32rem), 1fr));
+    align-items: stretch;
+    gap: 1.6rem;
 }
 
 .admin-blog-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
     overflow: hidden;
     padding: 0;
+    min-width: 0;
+}
+
+.admin-blog-card__media {
+    position: relative;
+    overflow: hidden;
+    background: #e9eef7;
 }
 
 .admin-blog-card__image {
     width: 100%;
-    aspect-ratio: 16 / 10;
+    height: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    transition: transform 220ms ease;
+}
+
+.admin-blog-card:hover .admin-blog-card__image {
+    transform: scale(1.03);
+}
+
+.admin-blog-card__status {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    box-shadow: 0 12px 26px rgba(15, 23, 41, 0.16);
 }
 
 .admin-blog-card__body {
     display: grid;
-    gap: 1.2rem;
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 1.1rem;
     padding: 2rem;
+    min-width: 0;
+}
+
+.admin-blog-card .blog-card-modern__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.admin-blog-card .blog-card-modern__meta span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.9rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(94, 30, 211, 0.08);
+    color: var(--color-primario-fuerte);
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.admin-blog-card .admin-card__title {
+    margin: 0;
+    color: var(--negro);
+    font-size: clamp(1.9rem, 1vw + 1.4rem, 2.35rem);
+    line-height: 1.16;
+    overflow-wrap: anywhere;
+}
+
+.admin-blog-card__excerpt {
+    display: -webkit-box;
+    min-height: 6.5rem;
+    color: #5b6475;
+    font-size: 1.35rem;
+    line-height: 1.55;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.admin-blog-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.admin-blog-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 3.2rem;
+    padding: 0.65rem 0.95rem;
+    border-radius: 999px;
+    background: #f2f6fc;
+    color: #536074;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.admin-blog-stats i {
+    color: var(--color-primario-fuerte);
+    font-size: 1.1rem;
 }
 
 .admin-blog-card__footer {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
+    padding-top: 0.4rem;
+}
+
+.admin-blog-card__view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.2rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: 1.3rem;
+    background: rgba(94, 30, 211, 0.08);
+    color: var(--color-primario-fuerte);
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.admin-blog-card__actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
 }
 
 .admin-blog-preview {
@@ -2940,6 +3050,697 @@ button {
 .swal2-actions .swal2-cancel {
     font-size: 1.6rem;
     padding: 0.8rem 1.6rem;
+}
+
+/* =========================
+   ADMIN: MOBILE APP SHELL
+   ========================= */
+.admin-mobile-title,
+.admin-mobile-tabbar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 58%;
+    }
+
+    .body-admin {
+        background: #f4f7fb;
+        color: var(--negro);
+    }
+
+    .body-admin::before,
+    .body-admin::after,
+    .admin-layout::before {
+        display: none;
+    }
+
+    .admin-layout,
+    .admin-layout.is-collapsed {
+        display: block;
+        min-height: 100dvh;
+    }
+
+    .admin-main {
+        min-height: 100dvh;
+        padding: 1rem 1rem 10.8rem;
+        gap: 1.2rem;
+    }
+
+    .admin-navtop {
+        position: sticky;
+        top: 0.8rem;
+        z-index: 40;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid rgba(23, 26, 36, 0.06);
+        border-radius: 2.2rem;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 16px 36px rgba(15, 23, 41, 0.1);
+    }
+
+    .admin-mobile-title {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 1rem;
+    }
+
+    .admin-mobile-title img {
+        width: 4.2rem;
+        height: 4.2rem;
+        padding: 0.5rem;
+        border-radius: 1.4rem;
+        object-fit: contain;
+        background: linear-gradient(145deg, #15203b, #293d70);
+        box-shadow: 0 10px 24px rgba(21, 32, 59, 0.18);
+    }
+
+    .admin-mobile-title span {
+        display: grid;
+        min-width: 0;
+        gap: 0.1rem;
+    }
+
+    .admin-mobile-title small {
+        color: #697386;
+        font-size: 1.1rem;
+        font-weight: 800;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+
+    .admin-mobile-title strong {
+        color: var(--negro);
+        font-family: var(--fuente-headings);
+        font-size: 1.7rem;
+        line-height: 1.15;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .admin-search {
+        grid-column: 1 / -1;
+        order: 3;
+        display: none;
+        width: 100%;
+        min-width: 0;
+        padding: 1rem 1.2rem;
+        border-radius: 1.6rem;
+        box-shadow: none;
+    }
+
+    .admin-navtop__actions {
+        width: auto;
+        justify-content: flex-end;
+        gap: 0.7rem;
+    }
+
+    .mobile-toggle,
+    .admin-notifications,
+    .admin-user {
+        width: 4.6rem;
+        height: 4.6rem;
+        min-width: 4.6rem;
+        min-height: 4.6rem;
+        padding: 0;
+        border-radius: 1.6rem;
+        box-shadow: none;
+    }
+
+    .mobile-toggle {
+        display: none;
+    }
+
+    .admin-user {
+        justify-content: center;
+    }
+
+    .admin-user img {
+        width: 3.6rem;
+        height: 3.6rem;
+    }
+
+    .admin-user__info,
+    .admin-user__chevron {
+        display: none;
+    }
+
+    .admin-user-menu,
+    .admin-notifications-menu {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        top: 8.2rem;
+        width: auto;
+        max-height: calc(100dvh - 18rem);
+        overflow-y: auto;
+        border-radius: 2.4rem;
+        z-index: 70;
+    }
+
+    .admin-overlay {
+        z-index: 55;
+        background: rgba(15, 23, 41, 0.42);
+    }
+
+    .admin-sidebar {
+        position: fixed;
+        inset: auto 0 0;
+        width: 100%;
+        max-height: 82dvh;
+        min-height: 0;
+        padding: 1.2rem 1.2rem calc(2rem + env(safe-area-inset-bottom));
+        border-radius: 3rem 3rem 0 0;
+        transform: translateY(105%);
+        z-index: 65;
+        overflow-y: auto;
+        pointer-events: none;
+        box-shadow: 0 -28px 80px rgba(15, 23, 41, 0.28);
+    }
+
+    .admin-layout.is-mobile-open .admin-sidebar {
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .admin-sidebar::after {
+        inset: 0.8rem;
+        border-radius: 2.4rem 2.4rem 0 0;
+    }
+
+    .admin-sidebar__brand {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 0.9rem 1rem;
+        border-radius: 2rem;
+    }
+
+    .admin-sidebar__brand::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -0.7rem;
+        width: 4.8rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translateX(-50%);
+    }
+
+    .admin-brand__logo {
+        width: 4.2rem;
+        height: 4.2rem;
+    }
+
+    .admin-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+        padding-bottom: 1rem;
+    }
+
+    .admin-nav__group {
+        display: contents;
+    }
+
+    .admin-nav__item,
+    .admin-layout.is-collapsed .admin-nav__item {
+        justify-content: flex-start;
+        min-height: 5.6rem;
+        padding: 1.2rem;
+        border-radius: 1.8rem;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .admin-nav__parent {
+        grid-column: 1 / -1;
+    }
+
+    .admin-nav__children {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-left: 0;
+    }
+
+    .admin-nav__child {
+        padding-left: 1.2rem;
+    }
+
+    .admin-nav__child::before {
+        display: none;
+    }
+
+    .admin-layout.is-collapsed .admin-nav__text,
+    .admin-layout.is-collapsed .admin-brand__text {
+        width: auto;
+        opacity: 1;
+    }
+
+    .admin-sidebar__footer {
+        margin-top: 0;
+    }
+
+    .admin-mobile-tabbar {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom));
+        z-index: 50;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.4rem;
+        padding: 0.7rem;
+        border: 1px solid rgba(23, 26, 36, 0.08);
+        border-radius: 2.4rem;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 18px 42px rgba(15, 23, 41, 0.16);
+    }
+
+    .admin-mobile-tabbar__item {
+        display: grid;
+        place-items: center;
+        gap: 0.35rem;
+        min-width: 0;
+        min-height: 5.8rem;
+        border: 0;
+        border-radius: 1.7rem;
+        background: transparent;
+        color: #6b7486;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 800;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .admin-mobile-tabbar__item i {
+        font-size: 1.8rem;
+    }
+
+    .admin-mobile-tabbar__item span {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .admin-mobile-tabbar__item.is-active {
+        background: linear-gradient(135deg, rgba(94, 30, 211, 0.12), rgba(46, 143, 255, 0.12));
+        color: var(--color-primario-fuerte);
+    }
+
+    .admin-topbar {
+        align-items: stretch;
+        padding: 0.6rem 0 0.2rem;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .admin-topbar,
+    .admin-panel__header,
+    .admin-card__header {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .admin-topbar__eyebrow {
+        margin-bottom: 0.4rem;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        font-size: 1.05rem;
+    }
+
+    .admin-topbar__eyebrow::before {
+        width: 0.65rem;
+        height: 0.65rem;
+    }
+
+    .admin-topbar__title {
+        font-size: 2.7rem;
+        line-height: 1.08;
+    }
+
+    .admin-topbar__actions,
+    .admin-form__actions,
+    .admin-form__actions--split {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .admin-content,
+    .admin-section {
+        display: grid;
+        gap: 1.2rem;
+        padding-bottom: 0;
+    }
+
+    .admin-cards,
+    .crm-dashboard__cards,
+    .crm-task-metrics,
+    .crm-calendar-metrics,
+    .admin-blog-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(19rem, 74vw);
+        grid-template-columns: none;
+        gap: 1rem;
+        margin: 0 -1rem 1.2rem;
+        padding: 0 1rem 0.4rem;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .admin-cards::-webkit-scrollbar,
+    .crm-dashboard__cards::-webkit-scrollbar,
+    .crm-task-metrics::-webkit-scrollbar,
+    .crm-calendar-metrics::-webkit-scrollbar,
+    .admin-blog-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .admin-card,
+    .crm-stat-card,
+    .crm-task-metric,
+    .crm-calendar-metric,
+    .admin-blog-card {
+        scroll-snap-align: start;
+    }
+
+    .admin-card,
+    .admin-panel,
+    .table-wrap--usuarios,
+    .crm-stat-card,
+    .crm-task-card,
+    .crm-calendar-day,
+    .crm-calendar-agenda__item {
+        border-radius: 2.2rem;
+        background: #fff;
+        box-shadow: 0 12px 28px rgba(15, 23, 41, 0.07);
+    }
+
+    .admin-card,
+    .admin-panel,
+    .crm-stat-card,
+    .crm-task-card {
+        padding: 1.6rem;
+    }
+
+    .admin-card::after,
+    .admin-panel::after,
+    .table-wrap--usuarios::after {
+        display: none;
+    }
+
+    .admin-card:hover,
+    .admin-panel:hover,
+    .crm-card:hover {
+        transform: none;
+    }
+
+    .admin-card__label,
+    .admin-card__meta,
+    .admin-card__subtitle {
+        font-size: 1.15rem;
+    }
+
+    .admin-card__value,
+    .crm-stat-card__value,
+    .crm-task-metric strong,
+    .crm-calendar-metric strong {
+        font-size: 2.8rem;
+    }
+
+    .admin-panel__header {
+        align-items: stretch;
+        margin-bottom: 1.2rem;
+    }
+
+    .admin-panel__header h2 {
+        font-size: 2rem;
+    }
+
+    .admin-panel__body,
+    .admin-form {
+        gap: 1rem;
+    }
+
+    .admin-form__row,
+    .crm-modal__grid,
+    .crm-dashboard__grid,
+    .crm-calendar-page,
+    .crm-task-board {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-form__group input,
+    .admin-form__group select,
+    .admin-form__group textarea,
+    .admin-search input,
+    .table-wrap--usuarios .dataTables_length select,
+    .table-wrap--usuarios .dataTables_filter input {
+        min-height: 4.8rem;
+        font-size: 1.6rem !important;
+        border-radius: 1.5rem;
+    }
+
+    .btn-primario,
+    .admin-link,
+    .admin-kpi-pill,
+    .btn-action,
+    .crm-card__more,
+    .crm-card__dropdown-btn,
+    .admin-editor__btn {
+        min-height: 4.8rem;
+    }
+
+    .btn-primario,
+    .admin-kpi-pill {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .table-wrap,
+    .table-wrap--usuarios {
+        margin-inline: -1rem;
+        padding: 1rem;
+        border-inline: 0;
+        border-radius: 0;
+        overflow-x: auto;
+        box-shadow: none;
+    }
+
+    .table-wrap--usuarios table,
+    .table-wrap table {
+        min-width: 76rem;
+    }
+
+    .table-wrap--usuarios table.dataTable thead th,
+    .table-wrap--usuarios table.dataTable tbody td,
+    .dt-container table th,
+    .dt-container table td {
+        padding: 1.1rem !important;
+        font-size: 1.35rem !important;
+        white-space: nowrap;
+    }
+
+    .dataTables_wrapper,
+    .dt-container {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .usuarios-datatable__top,
+    .usuarios-datatable__bottom,
+    .dt-layout-row {
+        display: grid !important;
+        gap: 0.8rem;
+        align-items: stretch !important;
+    }
+
+    .crm-board {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(29rem, 88vw);
+        grid-template-columns: none;
+        margin-inline: -1rem;
+        padding: 0 1rem 1rem;
+        scroll-snap-type: x mandatory;
+    }
+
+    .crm-column {
+        scroll-snap-align: start;
+    }
+
+    .crm-column__header {
+        position: sticky;
+        top: 8.8rem;
+        z-index: 2;
+        padding: 1rem;
+        border-radius: 1.8rem;
+        background: rgba(244, 247, 251, 0.94);
+        backdrop-filter: blur(12px);
+    }
+
+    .crm-column__body {
+        padding: 0;
+    }
+
+    .crm-card {
+        border-radius: 2rem;
+        padding: 1.4rem;
+        box-shadow: 0 10px 24px rgba(15, 23, 41, 0.08);
+    }
+
+    .crm-card__title {
+        font-size: 1.9rem;
+    }
+
+    .crm-card__footer,
+    .crm-card__actions,
+    .crm-contacts-actions,
+    .crm-task-card__head,
+    .crm-task-card__actions {
+        align-items: stretch;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .crm-card__dropdown {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: calc(9rem + env(safe-area-inset-bottom));
+        top: auto;
+        z-index: 75;
+        border-radius: 2.4rem;
+    }
+
+    .crm-modal,
+    .admin-modal__dialog {
+        width: 100%;
+        max-width: none;
+        max-height: 92dvh;
+        border-radius: 2.8rem 2.8rem 0 0;
+    }
+
+    .admin-modal {
+        align-items: end;
+        padding: 0;
+    }
+
+    .admin-modal__body {
+        max-height: calc(92dvh - 8rem);
+        overflow-y: auto;
+    }
+
+    .crm-dashboard,
+    .crm-calendar-panel,
+    .crm-calendar-summary,
+    .crm-calendar-list,
+    .crm-calendar-sidebar,
+    .crm-tasks-page {
+        gap: 1.2rem;
+    }
+
+    .crm-bars {
+        min-width: 62rem;
+        min-height: 28rem;
+    }
+
+    .crm-analytics-card {
+        overflow-x: auto;
+    }
+
+    .crm-calendar-weekdays {
+        display: none;
+    }
+
+    .crm-calendar-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(18rem, 58vw);
+        grid-template-columns: none;
+        margin-inline: -1rem;
+        padding: 0 1rem 0.4rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .crm-calendar-day {
+        min-height: 15rem;
+        scroll-snap-align: start;
+    }
+
+    .crm-calendar-toolbar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .crm-calendar-agenda__item {
+        grid-template-columns: 1fr;
+    }
+
+    .crm-calendar-agenda__time {
+        justify-items: start;
+        text-align: left;
+    }
+
+    .crm-task-board {
+        gap: 1rem;
+    }
+
+    .crm-task-column {
+        padding: 1rem;
+        border-radius: 2.2rem;
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    .admin-blog-card__body {
+        padding: 1.5rem;
+    }
+
+    .admin-blog-card__footer {
+        display: grid;
+        align-items: stretch;
+    }
+
+    .admin-team-card__preview {
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-radius: 1.8rem;
+        background: #f7faff;
+    }
+
+    .admin-editor {
+        border-radius: 2rem;
+    }
+
+    .admin-editor__toolbar {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .admin-editor__surface {
+        min-height: 22rem;
+        font-size: 1.5rem;
+    }
 }
 
 /* =========================
@@ -3377,5 +4178,101 @@ button {
 @media (max-width: 768px) {
     .crm-task-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* =========================
+   ADMIN: MOBILE APP FINAL OVERRIDES
+   ========================= */
+@media (max-width: 768px) {
+    .admin-cards,
+    .crm-dashboard__cards,
+    .crm-task-metrics,
+    .crm-calendar-metrics,
+    .admin-blog-grid {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(19rem, 74vw);
+        grid-template-columns: none;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .crm-calendar-grid {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(18rem, 58vw);
+        grid-template-columns: none;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .crm-task-board,
+    .crm-calendar-page,
+    .crm-dashboard__grid,
+    .admin-form__row,
+    .crm-modal__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-main {
+        padding-bottom: 10.8rem;
+    }
+
+    .admin-mobile-tabbar {
+        display: grid;
+    }
+
+    .admin-blog-grid {
+        grid-auto-flow: row;
+        grid-auto-columns: initial;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    .admin-blog-card {
+        scroll-snap-align: initial;
+    }
+
+    .admin-blog-card__body {
+        grid-template-rows: auto auto auto auto auto;
+        padding: 1.4rem;
+    }
+
+    .admin-blog-card__footer {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .admin-blog-card__actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-blog-card__actions .btn-action,
+    .admin-blog-card__actions .admin-inline-form,
+    .admin-blog-card__actions .admin-inline-form button {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .admin-overlay {
+        background: rgba(15, 23, 41, 0.28);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .admin-layout.is-mobile-open .admin-sidebar {
+        z-index: 80;
+        filter: none;
+    }
+
+    .admin-layout.is-mobile-open .admin-overlay {
+        z-index: 55;
+    }
+
+    .admin-layout.is-mobile-open ~ .admin-mobile-tabbar {
+        z-index: 85;
     }
 }
