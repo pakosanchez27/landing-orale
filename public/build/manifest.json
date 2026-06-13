@@ -1,6 +1,6 @@
 {
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-xK9Zr5Ja.css",
+    "file": "assets/app-admin-BXa_OlD3.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true,
     "name": "app-admin",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-CVld8zSJ.css",
+    "file": "assets/app-BrOLCrdf.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -69,6 +69,15 @@
     "name": "home",
     "names": [
       "home.css"
+    ]
+  },
+  "resources/css/lead-system-pro.css": {
+    "file": "assets/lead-system-pro-4eNfuuDv.css",
+    "src": "resources/css/lead-system-pro.css",
+    "isEntry": true,
+    "name": "lead-system-pro",
+    "names": [
+      "lead-system-pro.css"
     ]
   },
   "resources/css/normalize.css": {

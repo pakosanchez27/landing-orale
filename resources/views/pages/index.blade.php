@@ -155,6 +155,102 @@
         </div>
     </section>
 
+    <section class="section lead-system-section">
+    <div class="shell">
+        <div class="lead-system-card" data-reveal>
+            <div class="lead-system-glow lead-system-glow--one"></div>
+            <div class="lead-system-glow lead-system-glow--two"></div>
+
+            <div class="lead-system-grid">
+                <div class="lead-system-copy">
+                    <span class="eyebrow lead-system-eyebrow">Nuevo producto</span>
+
+                    <h2>
+                        Convierte tu sitio en un
+                        <span class="gradient-text">sistema de captaci&oacute;n de clientes</span>
+                    </h2>
+
+                    <p>
+                        <strong>&iexcl;&Oacute;rale Lead System Pro!</strong> es una landing profesional conectada a WhatsApp,
+                        formulario y automatizaci&oacute;n para que tu negocio reciba, registre y d&eacute; seguimiento
+                        a sus prospectos sin perder oportunidades.
+                    </p>
+
+                    <div class="lead-system-actions">
+                        <a href="/orale-lead-system-pro" class="btn btn-primary">Quiero captar m&aacute;s clientes</a>
+                        <a href="/orale-lead-system-pro" class="btn btn-light-outline">Ver c&oacute;mo funciona</a>
+                    </div>
+
+                    <div class="lead-system-proof">
+                        <article>
+                            <strong>Landing</strong>
+                            <span>Dise&ntilde;ada para explicar, convencer y convertir.</span>
+                        </article>
+                        <article>
+                            <strong>WhatsApp</strong>
+                            <span>Contacto r&aacute;pido con mensajes listos para vender.</span>
+                        </article>
+                        <article>
+                            <strong>Automatizaci&oacute;n</strong>
+                            <span>Registro de leads y seguimiento inicial.</span>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="lead-system-visual" aria-label="Flujo visual de captacion de clientes">
+                    <div class="lead-device">
+                        <div class="lead-device__top">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="lead-device__hero">
+                            <span class="lead-device__tag">Landing activa</span>
+                            <h3>Tu negocio listo para recibir prospectos</h3>
+                            <p>Servicios, beneficios, ubicaci&oacute;n, horarios y contacto en un solo lugar.</p>
+                        </div>
+
+                        <div class="lead-device__form">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <button type="button">Solicitar informaci&oacute;n</button>
+                        </div>
+                    </div>
+
+                    <div class="lead-flow-card lead-flow-card--whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <div>
+                            <strong>WhatsApp</strong>
+                            <span>Nuevo prospecto recibido</span>
+                        </div>
+                    </div>
+
+                    <div class="lead-flow-card lead-flow-card--sheet">
+                        <i class="fa-solid fa-table"></i>
+                        <div>
+                            <strong>Registro autom&aacute;tico</strong>
+                            <span>Google Sheets, CRM o herramienta externa</span>
+                        </div>
+                    </div>
+
+                    <div class="lead-flow-card lead-flow-card--notify">
+                        <i class="fa-solid fa-bell"></i>
+                        <div>
+                            <strong>Seguimiento</strong>
+                            <span>Tu equipo recibe aviso y puede responder r&aacute;pido</span>
+                        </div>
+                    </div>
+
+                    <div class="lead-orbit lead-orbit--one"></div>
+                    <div class="lead-orbit lead-orbit--two"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
     <section class="section">
         <div class="shell two-col-grid">
             <div class="section-intro" data-reveal>

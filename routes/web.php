@@ -122,6 +122,8 @@ Route::get('/enviar-formulario', function () {
     return redirect('/contacto');
 });
 
+Route::view('/orale-lead-system-pro', 'pages.orale-lead-system-pro')->name('lead-system-pro');
+
 Route::post('/enviar-formulario', [FormularioController::class, 'enviar'])->name('enviar');
 
 Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.login');

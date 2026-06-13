@@ -17,6 +17,7 @@ export default defineConfig({
                 'resources/css/faqs.css',
                 'resources/css/contacto.css',
                 'resources/css/paquetes.css',
+                'resources/css/lead-system-pro.css',
                 'resources/js/app.js',
                 'resources/js/app-admin.js',
                 'resources/js/bootstrap.js',
