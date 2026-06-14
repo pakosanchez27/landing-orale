@@ -5,7 +5,7 @@
 @section('content')
     @php
         $user = $user ?? auth()->user();
-        $avatar = $user && $user->imagen ? asset($user->imagen) : asset('img/perfil.jpg');
+        $avatar = $user?->imagen_url ?? asset('img/perfil.jpg');
         $socialLinks = $user?->socialLinks;
     @endphp
 

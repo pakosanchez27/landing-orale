@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Mail\UserWelcomeSetPasswordMail;
 use App\Models\Role;
 use App\Models\User;
-use App\Support\PublicUploadPath;
+use App\Services\CloudinaryImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Throwable;
 
 class UsuariosController extends Controller
 {
-    public function __construct()
+    public function __construct(private readonly CloudinaryImageService $cloudinary)
     {
     }
 
@@ -54,15 +55,13 @@ class UsuariosController extends Controller
         $user->role_id = $validated['role_id'];
 
         if ($request->hasFile('imagen')) {
-            $dir = PublicUploadPath::make('uploads/profiles');
-            if (!is_dir($dir)) {
-                mkdir($dir, 0755, true);
+            try {
+                $user->imagen = $this->uploadProfileImage($request);
+            } catch (Throwable $exception) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['imagen' => $exception->getMessage()]);
             }
-
-            $file = $request->file('imagen');
-            $filename = uniqid('profile_', true) . '.' . $file->getClientOriginalExtension();
-            $file->move($dir, $filename);
-            $user->imagen = 'uploads/profiles/' . $filename;
         }
 
         $user->save();
@@ -103,15 +102,14 @@ class UsuariosController extends Controller
         }
 
         if ($request->hasFile('imagen')) {
-            $dir = PublicUploadPath::make('uploads/profiles');
-            if (!is_dir($dir)) {
-                mkdir($dir, 0755, true);
+            try {
+                $this->cloudinary->deleteByUrl($user->imagen);
+                $user->imagen = $this->uploadProfileImage($request);
+            } catch (Throwable $exception) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['imagen' => $exception->getMessage()]);
             }
-
-            $file = $request->file('imagen');
-            $filename = uniqid('profile_', true) . '.' . $file->getClientOriginalExtension();
-            $file->move($dir, $filename);
-            $user->imagen = 'uploads/profiles/' . $filename;
         }
 
         $user->save();
@@ -149,5 +147,14 @@ class UsuariosController extends Controller
         ]);
 
         Mail::to($user->email)->send(new UserWelcomeSetPasswordMail($user, $resetUrl));
+    }
+
+    private function uploadProfileImage(Request $request): string
+    {
+        return $this->cloudinary->uploadFile(
+            $request->file('imagen'),
+            (string) config('services.cloudinary.profile_folder', 'oraleweb/profiles'),
+            'profile'
+        );
     }
 }

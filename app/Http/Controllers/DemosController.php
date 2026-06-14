@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormularioDemosRequest;
 use App\Models\DemoModel;
 use App\Models\IndustriaModel;
+use App\Services\CloudinaryImageService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class DemosController extends Controller
 {
+    public function __construct(private readonly CloudinaryImageService $cloudinary)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -53,8 +59,14 @@ class DemosController extends Controller
         unset($data['industria']);
         $data['id_usuario'] = auth()->id();
 
-        // La imagen se guarda en storage/app/public/demos y la BD conserva la ruta relativa.
-        $storedImagePath = $this->storeDemoImage($request);
+        // La imagen se sube a Cloudinary y la BD conserva la URL segura.
+        try {
+            $storedImagePath = $this->storeDemoImage($request);
+        } catch (Throwable $exception) {
+            return back()
+                ->withInput()
+                ->withErrors(['imagen' => $exception->getMessage()]);
+        }
 
         if ($storedImagePath !== null) {
             $data['imagen'] = $storedImagePath;
@@ -103,7 +115,13 @@ class DemosController extends Controller
         $data['id_industria'] = $data['industria'];
         unset($data['industria']);
 
-        $storedImagePath = $this->storeDemoImage($request);
+        try {
+            $storedImagePath = $this->storeDemoImage($request);
+        } catch (Throwable $exception) {
+            return back()
+                ->withInput()
+                ->withErrors(['imagen' => $exception->getMessage()]);
+        }
 
         if ($storedImagePath !== null) {
             $this->deleteDemoImage($demo->imagen);
@@ -158,24 +176,21 @@ class DemosController extends Controller
             return null;
         }
 
-        $extension = strtolower($matches[1]);
-        $encoded = substr($base64Image, strpos($base64Image, ',') + 1);
-        $binary = base64_decode($encoded, true);
-
-        if ($binary === false) {
-            return null;
-        }
-
-        $filename = uniqid('demo_', true) . '.' . $extension;
-        $relativePath = 'demos/' . $filename;
-        Storage::disk('public')->put($relativePath, $binary);
-
-        return $relativePath;
+        return $this->cloudinary->uploadDataUri(
+            $base64Image,
+            (string) config('services.cloudinary.demo_folder', 'oraleweb/demos'),
+            'demo'
+        );
     }
 
     private function deleteDemoImage(?string $imagePath): void
     {
         if (!$imagePath) {
+            return;
+        }
+
+        if ($this->cloudinary->isCloudinaryUrl($imagePath)) {
+            $this->cloudinary->deleteByUrl($imagePath);
             return;
         }
 

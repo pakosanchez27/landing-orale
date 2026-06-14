@@ -165,7 +165,7 @@
 
                                     @if ($lead->assignedUser)
                                         @php
-                                            $assignedAvatar = $lead->assignedUser->imagen ? asset($lead->assignedUser->imagen) : asset('img/perfil.jpg');
+                                            $assignedAvatar = $lead->assignedUser->imagen_url;
                                         @endphp
                                         <div class="crm-card__assignee">
                                             <img src="{{ $assignedAvatar }}" alt="{{ $lead->assignedUser->name }}" class="crm-card__assignee-avatar" />

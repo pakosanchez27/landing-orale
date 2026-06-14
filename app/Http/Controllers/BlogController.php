@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use App\Models\BlogPostShare;
+use App\Services\CloudinaryImageService;
 use App\Services\OpenAiBlogGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Throwable;
 
 class BlogController extends Controller
 {
+    public function __construct(private readonly CloudinaryImageService $cloudinary)
+    {
+    }
+
     public function generateWithAi(Request $request, OpenAiBlogGenerator $generator): JsonResponse
     {
         $payload = $request->validate([
@@ -117,12 +122,20 @@ class BlogController extends Controller
         $payload = $this->validatePost($request, true);
         $slug = $this->uniqueSlug($payload['slug'] ?: Str::slug($payload['title']));
 
+        try {
+            $coverImage = $this->storeImage($request->file('cover_image'));
+        } catch (Throwable $exception) {
+            return back()
+                ->withInput()
+                ->withErrors(['cover_image' => $exception->getMessage()]);
+        }
+
         BlogPost::create([
             'title' => $payload['title'],
             'slug' => $slug,
             'category' => $payload['category'],
             'excerpt' => $payload['excerpt'],
-            'cover_image' => $this->storeImage($request->file('cover_image')),
+            'cover_image' => $coverImage,
             'content_html' => $payload['content_html'],
             'reading_time' => $payload['reading_time'],
             'published_at' => $payload['published_at'],
@@ -154,12 +167,29 @@ class BlogController extends Controller
         $slug = $this->uniqueSlug($data['slug'] ?: Str::slug($data['titulo']));
         $activeStates = ['1', 'activo', 'activa', 'publicado', 'publicada', 'true', 'si', 'sí'];
 
+        $coverImage = $data['imagen_portada'] ?: 'img/blog-principal.png';
+
+        if (Str::startsWith($coverImage, 'data:image/')) {
+            try {
+                $coverImage = $this->cloudinary->uploadDataUri(
+                    $coverImage,
+                    (string) config('services.cloudinary.blog_folder', 'oraleweb/blog'),
+                    'blog'
+                );
+            } catch (Throwable $exception) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                ], 422);
+            }
+        }
+
         $blog = BlogPost::create([
             'title' => $data['titulo'],
             'slug' => $slug,
             'category' => $data['categoria'],
             'excerpt' => $data['extracto'],
-            'cover_image' => $data['imagen_portada'] ?: 'img/blog-principal.png',
+            'cover_image' => $coverImage,
             'content_html' => $data['contenido'],
             'reading_time' => $data['tiempo_lectura'],
             'published_at' => $data['fecha_publicacion'],
@@ -209,7 +239,14 @@ class BlogController extends Controller
         $post->is_active = $request->boolean('is_active');
 
         if ($request->hasFile('cover_image')) {
-            $post->cover_image = $this->storeImage($request->file('cover_image'));
+            try {
+                $this->cloudinary->deleteByUrl($post->cover_image);
+                $post->cover_image = $this->storeImage($request->file('cover_image'));
+            } catch (Throwable $exception) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['cover_image' => $exception->getMessage()]);
+            }
         }
 
         $post->save();
@@ -224,6 +261,7 @@ class BlogController extends Controller
         $post = BlogPost::query()->find($postId);
 
         if ($post) {
+            $this->cloudinary->deleteByUrl($post->cover_image);
             $post->delete();
         }
 
@@ -282,7 +320,7 @@ class BlogController extends Controller
                 $data['author'] = $post->author ? [
                     'name' => $post->author->name,
                     'role' => $post->author->cargo,
-                    'image' => $post->author->imagen ? asset($post->author->imagen) : asset('img/perfil.jpg'),
+                    'image' => $post->author->imagen_url,
                     'social_links' => [
                         'facebook' => $post->author->socialLinks?->facebook_url,
                         'instagram' => $post->author->socialLinks?->instagram_url,
@@ -299,16 +337,11 @@ class BlogController extends Controller
 
     private function storeImage($image): string
     {
-        $directory = public_path('img/blog');
-
-        if (!File::exists($directory)) {
-            File::makeDirectory($directory, 0755, true);
-        }
-
-        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-        $image->move($directory, $filename);
-
-        return url('img/blog/' . $filename);
+        return $this->cloudinary->uploadFile(
+            $image,
+            (string) config('services.cloudinary.blog_folder', 'oraleweb/blog'),
+            'blog'
+        );
     }
 
     private function uniqueSlug(string $slug, ?int $ignoreId = null): string

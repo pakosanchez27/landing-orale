@@ -4,7 +4,7 @@
 
 @section('content')
     @php
-        $avatar = $user->imagen ? asset($user->imagen) : asset('img/perfil.jpg');
+        $avatar = $user->imagen_url;
     @endphp
 
     <section class="admin-section">

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -99,5 +100,18 @@ class User extends Authenticatable
     public function socialLinks(): HasOne
     {
         return $this->hasOne(UserSocialLink::class);
+    }
+
+    public function getImagenUrlAttribute(): string
+    {
+        if (!$this->imagen) {
+            return asset('img/perfil.jpg');
+        }
+
+        if (Str::startsWith($this->imagen, ['http://', 'https://'])) {
+            return $this->imagen;
+        }
+
+        return asset($this->imagen);
     }
 }

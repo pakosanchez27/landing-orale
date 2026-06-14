@@ -140,7 +140,7 @@
         <div class="admin-main">
             @php
                 $authUser = auth()->user();
-                $avatar = $authUser && $authUser->imagen ? asset($authUser->imagen) : asset('img/perfil.jpg');
+                $avatar = $authUser?->imagen_url ?? asset('img/perfil.jpg');
                 $firstName = $authUser && $authUser->name ? strtok(trim($authUser->name), ' ') : 'Usuario';
                 $notificationsEnabled = $authUser && \Illuminate\Support\Facades\Schema::hasTable('notifications');
                 $headerNotifications = $notificationsEnabled

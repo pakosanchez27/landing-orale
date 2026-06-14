@@ -48,4 +48,14 @@ return [
         'to' => env('LEAD_NOTIFICATION_EMAIL', 'javier.sanchezjps27@gmail.com'),
     ],
 
+    'cloudinary' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'api_key' => env('CLOUDINARY_API_KEY'),
+        'api_secret' => env('CLOUDINARY_API_SECRET'),
+        'demo_folder' => env('CLOUDINARY_DEMO_FOLDER', 'oraleweb/demos'),
+        'profile_folder' => env('CLOUDINARY_PROFILE_FOLDER', 'oraleweb/profiles'),
+        'blog_folder' => env('CLOUDINARY_BLOG_FOLDER', 'oraleweb/blog'),
+        'verify_ssl' => env('CLOUDINARY_VERIFY_SSL', true),
+    ],
+
 ];

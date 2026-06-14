@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserSocialLink;
-use App\Support\PublicUploadPath;
+use App\Services\CloudinaryImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class ProfileController extends Controller
 {
+    public function __construct(private readonly CloudinaryImageService $cloudinary)
+    {
+    }
+
     public function show()
     {
         $user = auth()->user()?->load('socialLinks');
@@ -34,16 +39,18 @@ class ProfileController extends Controller
         $user->name = $data['name'];
 
         if ($request->hasFile('imagen')) {
-            $path = PublicUploadPath::make('uploads/profiles');
-
-            if (!is_dir($path)) {
-                mkdir($path, 0755, true);
+            try {
+                $this->cloudinary->deleteByUrl($user->imagen);
+                $user->imagen = $this->cloudinary->uploadFile(
+                    $request->file('imagen'),
+                    (string) config('services.cloudinary.profile_folder', 'oraleweb/profiles'),
+                    'profile'
+                );
+            } catch (Throwable $exception) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['imagen' => $exception->getMessage()]);
             }
-
-            $file = $request->file('imagen');
-            $filename = uniqid('profile_', true) . '.' . $file->getClientOriginalExtension();
-            $file->move($path, $filename);
-            $user->imagen = 'uploads/profiles/' . $filename;
         }
 
         if (!empty($data['new_password'])) {
