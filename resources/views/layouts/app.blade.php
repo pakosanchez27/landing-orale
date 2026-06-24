@@ -111,15 +111,16 @@
                 <nav class="desktop-nav" aria-label="Principal">
                     <a href="/"
                         class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
-                    <a href="/nosotros" class="{{ request()->is('nosotros*') ? 'is-active' : '' }}">Nosotros</a>
-                    <a href="/demos" class="{{ request()->is('demos*') ? 'is-active' : '' }}">Demos</a>
-                    <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Paquetes</a>
+                    <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Sitios Web</a>
+                    <a href="/orale-lead-system-pro" class="{{ request()->is('orale-lead-system-pro*') ? 'is-active' : '' }}">Órale Lead System Pro ⭐</a>
+                    <a href="/#automatizaciones">Automatizaciones</a>
+                    <a href="/#ia-para-negocios">IA para Negocios</a>
+                    <a href="/#casos-de-exito">Casos de Éxito</a>
                     <a href="/blog" class="{{ request()->is('blog*') ? 'is-active' : '' }}">Blog</a>
-                    <a href="/faq" class="{{ request()->is('faq*') ? 'is-active' : '' }}">FAQ</a>
                 </nav>
 
                 <div class="header-actions">
-                    <a href="/contacto" class="btn btn-primary header-cta">Agenda una llamada</a>
+                    <a href="/contacto" class="btn btn-primary header-cta">Solicitar Diagnóstico</a>
                     <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu"
                         aria-expanded="false" aria-controls="mobile-menu-panel">
                         <span class="mobile-menu-btn__line"></span>
@@ -138,11 +139,12 @@
             </div>
             <div class="mobile-menu-list">
                 <a href="/" class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
-                <a href="/nosotros" class="{{ request()->is('nosotros*') ? 'is-active' : '' }}">Nosotros</a>
-                <a href="/demos" class="{{ request()->is('demos*') ? 'is-active' : '' }}">Demos</a>
-                <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Paquetes</a>
+                <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Sitios Web</a>
+                <a href="/orale-lead-system-pro" class="{{ request()->is('orale-lead-system-pro*') ? 'is-active' : '' }}">Órale Lead System Pro ⭐</a>
+                <a href="/#automatizaciones">Automatizaciones</a>
+                <a href="/#ia-para-negocios">IA para Negocios</a>
+                <a href="/#casos-de-exito">Casos de Éxito</a>
                 <a href="/blog" class="{{ request()->is('blog*') ? 'is-active' : '' }}">Blog</a>
-                <a href="/faq" class="{{ request()->is('faq*') ? 'is-active' : '' }}">FAQ</a>
                 <a href="/contacto" class="{{ request()->is('contacto*') ? 'is-active' : '' }}">Contacto</a>
             </div>
         </nav>
