@@ -110,6 +110,11 @@ Route::get('/paquetes', function () {
     return view('pages.paquetes');
 });
 
+Route::view('/sitios-web', 'pages.sitios-web')->name('sitios-web');
+Route::view('/automatizaciones', 'pages.automatizaciones')->name('automatizaciones');
+Route::view('/ia-para-negocios', 'pages.ia-para-negocios')->name('ia-para-negocios');
+Route::view('/casos-de-exito', 'pages.casos-de-exito')->name('casos-de-exito');
+
 Route::get('/linktree', function () {
     return view('pages.linktree');
 });

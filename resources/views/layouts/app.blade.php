@@ -111,11 +111,11 @@
                 <nav class="desktop-nav" aria-label="Principal">
                     <a href="/"
                         class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
-                    <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Sitios Web</a>
+                    <a href="{{ route('sitios-web') }}" class="{{ request()->routeIs('sitios-web') ? 'is-active' : '' }}">Sitios Web</a>
                     <a href="/orale-lead-system-pro" class="{{ request()->is('orale-lead-system-pro*') ? 'is-active' : '' }}">Órale Lead System Pro ⭐</a>
-                    <a href="/#automatizaciones">Automatizaciones</a>
-                    <a href="/#ia-para-negocios">IA para Negocios</a>
-                    <a href="/#casos-de-exito">Casos de Éxito</a>
+                    <a href="{{ route('automatizaciones') }}" class="{{ request()->routeIs('automatizaciones') ? 'is-active' : '' }}">Automatizaciones</a>
+                    <a href="{{ route('ia-para-negocios') }}" class="{{ request()->routeIs('ia-para-negocios') ? 'is-active' : '' }}">IA para Negocios</a>
+                    <a href="{{ route('casos-de-exito') }}" class="{{ request()->routeIs('casos-de-exito') ? 'is-active' : '' }}">Casos de Éxito</a>
                     <a href="/blog" class="{{ request()->is('blog*') ? 'is-active' : '' }}">Blog</a>
                 </nav>
 
@@ -139,11 +139,11 @@
             </div>
             <div class="mobile-menu-list">
                 <a href="/" class="{{ request()->is('/') || request()->is('') ? 'is-active' : '' }}">Inicio</a>
-                <a href="/paquetes" class="{{ request()->is('paquetes*') ? 'is-active' : '' }}">Sitios Web</a>
+                <a href="{{ route('sitios-web') }}" class="{{ request()->routeIs('sitios-web') ? 'is-active' : '' }}">Sitios Web</a>
                 <a href="/orale-lead-system-pro" class="{{ request()->is('orale-lead-system-pro*') ? 'is-active' : '' }}">Órale Lead System Pro ⭐</a>
-                <a href="/#automatizaciones">Automatizaciones</a>
-                <a href="/#ia-para-negocios">IA para Negocios</a>
-                <a href="/#casos-de-exito">Casos de Éxito</a>
+                <a href="{{ route('automatizaciones') }}" class="{{ request()->routeIs('automatizaciones') ? 'is-active' : '' }}">Automatizaciones</a>
+                <a href="{{ route('ia-para-negocios') }}" class="{{ request()->routeIs('ia-para-negocios') ? 'is-active' : '' }}">IA para Negocios</a>
+                <a href="{{ route('casos-de-exito') }}" class="{{ request()->routeIs('casos-de-exito') ? 'is-active' : '' }}">Casos de Éxito</a>
                 <a href="/blog" class="{{ request()->is('blog*') ? 'is-active' : '' }}">Blog</a>
                 <a href="/contacto" class="{{ request()->is('contacto*') ? 'is-active' : '' }}">Contacto</a>
             </div>
@@ -186,7 +186,9 @@
                     <a href="/">Inicio</a>
                     <a href="/nosotros">Nosotros</a>
                     <a href="/demos">Demos</a>
-                    <a href="/paquetes">Paquetes</a>
+                    <a href="{{ route('casos-de-exito') }}">Casos de éxito</a>
+                    <a href="{{ route('sitios-web') }}">Sitios Web</a>
+                    <a href="/paquetes">Comparar paquetes</a>
                     <a href="/blog">Blog</a>
                     <a href="/contacto">Contacto</a>
                 </div>
@@ -195,8 +197,10 @@
             <div>
                 <h3 class="footer-title">Servicios</h3>
                 <div class="footer-links">
-                    <a href="/paquetes">Sitios corporativos</a>
-                    <a href="/paquetes">Landing pages</a>
+                    <a href="{{ route('sitios-web') }}#soluciones">Sitios corporativos</a>
+                    <a href="{{ route('sitios-web') }}#soluciones">Landing pages</a>
+                    <a href="{{ route('automatizaciones') }}">Automatizaciones</a>
+                    <a href="{{ route('ia-para-negocios') }}">IA para negocios</a>
                     <a href="/demos">Demos por industria</a>
                     <a href="/contacto">Consultoria digital</a>
                 </div>

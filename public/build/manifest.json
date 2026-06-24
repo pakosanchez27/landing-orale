@@ -1,6 +1,6 @@
 {
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-BJA-IwHG.css",
+    "file": "assets/app-admin-xK9Zr5Ja.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true,
     "name": "app-admin",
@@ -9,12 +9,21 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-DG3eAvxQ.css",
+    "file": "assets/app-CbdfKY5S.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
     "names": [
       "app.css"
+    ]
+  },
+  "resources/css/automatizaciones.css": {
+    "file": "assets/automatizaciones-Dmrbd9q7.css",
+    "src": "resources/css/automatizaciones.css",
+    "isEntry": true,
+    "name": "automatizaciones",
+    "names": [
+      "automatizaciones.css"
     ]
   },
   "resources/css/blog-post.css": {
@@ -33,6 +42,15 @@
     "name": "blog",
     "names": [
       "blog.css"
+    ]
+  },
+  "resources/css/casos-de-exito.css": {
+    "file": "assets/casos-de-exito-CWRVkJv3.css",
+    "src": "resources/css/casos-de-exito.css",
+    "isEntry": true,
+    "name": "casos-de-exito",
+    "names": [
+      "casos-de-exito.css"
     ]
   },
   "resources/css/contacto.css": {
@@ -71,8 +89,17 @@
       "home.css"
     ]
   },
+  "resources/css/ia-para-negocios.css": {
+    "file": "assets/ia-para-negocios-Bt9H57O2.css",
+    "src": "resources/css/ia-para-negocios.css",
+    "isEntry": true,
+    "name": "ia-para-negocios",
+    "names": [
+      "ia-para-negocios.css"
+    ]
+  },
   "resources/css/lead-system-pro.css": {
-    "file": "assets/lead-system-pro-D8muTIL1.css",
+    "file": "assets/lead-system-pro-Ch61GgvH.css",
     "src": "resources/css/lead-system-pro.css",
     "isEntry": true,
     "name": "lead-system-pro",
@@ -105,6 +132,15 @@
     "name": "paquetes",
     "names": [
       "paquetes.css"
+    ]
+  },
+  "resources/css/sitios-web.css": {
+    "file": "assets/sitios-web-BTfJU-58.css",
+    "src": "resources/css/sitios-web.css",
+    "isEntry": true,
+    "name": "sitios-web",
+    "names": [
+      "sitios-web.css"
     ]
   },
   "resources/js/admin/catalogos.js": {

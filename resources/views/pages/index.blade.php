@@ -123,13 +123,13 @@
                     <div class="solution-card__icon"><i class="fa-solid fa-gears"></i></div>
                     <h3>Automatizaciones</h3>
                     <p>Procesos que reducen tareas manuales y mejoran la operaci&oacute;n.</p>
-                    <a href="/contacto">Automatizar proceso</a>
+                    <a href="{{ route('automatizaciones') }}">Conocer automatizaciones</a>
                 </article>
                 <article class="solution-card" id="ia-para-negocios" data-reveal>
                     <div class="solution-card__icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                     <h3>IA para Negocios</h3>
                     <p>Asistentes inteligentes para atenci&oacute;n, orientaci&oacute;n y seguimiento.</p>
-                    <a href="https://wa.me/525512480210" target="_blank" rel="noopener noreferrer">Hablar con Ali</a>
+                    <a href="{{ route('ia-para-negocios') }}">Conocer asistentes inteligentes</a>
                 </article>
             </div>
         </div>
@@ -344,7 +344,7 @@
             </div>
 
             <div class="dual-actions" style="margin-top: 2.8rem;" data-reveal>
-                <a href="/demos" class="btn btn-dark">Ver ejemplos</a>
+                <a href="{{ route('casos-de-exito') }}" class="btn btn-dark">Ver proyectos y soluciones</a>
             </div>
         </div>
     </section>
