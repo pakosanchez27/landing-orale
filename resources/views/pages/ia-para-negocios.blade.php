@@ -140,8 +140,25 @@
         <div class="shell ai-integrations" data-reveal>
             <div><span class="eyebrow">Integraciones</span><h2>La IA puede trabajar con las herramientas que ya utilizas.</h2><p>Conectamos información y procesos para que el asistente no funcione como una pieza aislada.</p></div>
             <div class="ai-tool-cloud">
-                @foreach ([['fa-whatsapp','WhatsApp','brands'],['fa-address-book','CRM'],['fa-table','Google Sheets'],['fa-a','Airtable'],['fa-n','Notion'],['fa-hubspot','HubSpot','brands'],['fa-chart-line','Pipedrive'],['fa-envelope','Gmail'],['fa-calendar-days','Google Calendar']] as $tool)
-                    <span><i class="fa-{{ ($tool[2] ?? null) === 'brands' ? 'brands' : 'solid' }} {{ $tool[0] }}"></i>{{ $tool[1] }}</span>
+                @foreach ([
+                    ['WhatsApp', 'whatsapp-icon.svg'],
+                    ['CRM', null, 'fa-address-book'],
+                    ['Google Sheets', 'google-sheets.svg'],
+                    ['Airtable', 'Airtable--Streamline-Svg-Logos.svg'],
+                    ['Notion', 'notion.svg'],
+                    ['HubSpot', 'Hubspot--Streamline-Svg-Logos.svg'],
+                    ['Pipedrive', null, 'fa-chart-line'],
+                    ['Gmail', 'Google-Gmail--Streamline-Svg-Logos.svg'],
+                    ['Google Calendar', 'Google-Calendar--Streamline-Svg-Logos.svg'],
+                ] as $tool)
+                    <span>
+                        @if ($tool[1])
+                            <img src="{{ asset('img/icons/' . $tool[1]) }}" alt="" aria-hidden="true">
+                        @else
+                            <i class="fa-solid {{ $tool[2] }}" aria-hidden="true"></i>
+                        @endif
+                        {{ $tool[0] }}
+                    </span>
                 @endforeach
             </div>
         </div>

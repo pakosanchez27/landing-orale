@@ -232,32 +232,50 @@
 
             <div class="process-flow">
                 <article data-reveal>
-                    <span>1</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-magnet" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">01</span>
+                    </div>
                     <h3>Atracci&oacute;n</h3>
                     <p>El visitante llega desde Google, redes sociales o una campa&ntilde;a.</p>
                 </article>
                 <article data-reveal>
-                    <span>2</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">02</span>
+                    </div>
                     <h3>Contacto</h3>
                     <p>Solicita informaci&oacute;n desde una landing, formulario o WhatsApp.</p>
                 </article>
                 <article data-reveal>
-                    <span>3</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-address-card" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">03</span>
+                    </div>
                     <h3>Registro</h3>
                     <p>Sus datos se guardan autom&aacute;ticamente en la herramienta correcta.</p>
                 </article>
                 <article data-reveal>
-                    <span>4</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-bell" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">04</span>
+                    </div>
                     <h3>Aviso</h3>
                     <p>Recibes una notificaci&oacute;n para responder sin dejarlo enfriar.</p>
                 </article>
                 <article data-reveal>
-                    <span>5</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">05</span>
+                    </div>
                     <h3>Seguimiento</h3>
                     <p>Tu equipo sabe qu&eacute; hacer y cu&aacute;ndo volver a contactar.</p>
                 </article>
                 <article data-reveal>
-                    <span>6</span>
+                    <div class="process-flow__top">
+                        <span class="process-flow__icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+                        <span class="process-flow__number">06</span>
+                    </div>
                     <h3>Medici&oacute;n</h3>
                     <p>Identificas qu&eacute; funciona y d&oacute;nde ajustar la estrategia.</p>
                 </article>

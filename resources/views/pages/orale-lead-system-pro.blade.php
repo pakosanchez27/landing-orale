@@ -223,11 +223,11 @@
                     <h3>Notificaciones</h3>
                     <p>Tu equipo recibe aviso cuando entra una nueva oportunidad.</p>
                 </article>
-                <article data-reveal>
+                {{-- <article data-reveal>
                     <i class="fa-solid fa-chart-pie"></i>
                     <h3>M&eacute;tricas b&aacute;sicas</h3>
                     <p>Visibilidad sobre contactos generados, canal de origen y seguimiento inicial.</p>
-                </article>
+                </article> --}}
             </div>
         </div>
     </section>
@@ -267,7 +267,6 @@
                 <div><span>Solo muestra informaci&oacute;n</span><strong>Capta y registra prospectos</strong></div>
                 <div><span>Bot&oacute;n de WhatsApp b&aacute;sico</span><strong>WhatsApp conectado al flujo</strong></div>
                 <div><span>Formulario sin seguimiento</span><strong>Registro autom&aacute;tico</strong></div>
-                <div><span>Sin visibilidad clara</span><strong>M&eacute;tricas iniciales</strong></div>
                 <div><span>Entrega una p&aacute;gina</span><strong>Entrega un sistema comercial</strong></div>
             </div>
         </div>
@@ -281,16 +280,12 @@
                 <p>Podemos conectar el registro de prospectos con herramientas simples o CRMs m&aacute;s completos, seg&uacute;n el nivel de operaci&oacute;n de tu negocio.</p>
             </div>
             <div class="integration-list" data-reveal>
-                <span>Google Sheets</span>
-                <span>Airtable</span>
-                <span>Notion</span>
-                <span>HubSpot</span>
-                <span>Pipedrive</span>
-                <span>Kommo</span>
-                <span>Zoho</span>
-                <span>Monday</span>
-                <span>WhatsApp</span>
-                <span>n8n</span>
+                <span><img src="{{ asset('img/icons/google-sheets.svg') }}" alt="" aria-hidden="true">Google Sheets</span>
+                <span><img src="{{ asset('img/icons/Airtable--Streamline-Svg-Logos.svg') }}" alt="" aria-hidden="true">Airtable</span>
+                <span><img src="{{ asset('img/icons/notion.svg') }}" alt="" aria-hidden="true">Notion</span>
+                <span><img src="{{ asset('img/icons/Hubspot--Streamline-Svg-Logos.svg') }}" alt="" aria-hidden="true">HubSpot</span>
+                <span><img src="{{ asset('img/icons/Monday-Icon--Streamline-Svg-Logos.svg') }}" alt="" aria-hidden="true">Monday</span>
+                <span><img src="{{ asset('img/icons/whatsapp-icon.svg') }}" alt="" aria-hidden="true">WhatsApp</span>
             </div>
         </div>
     </section>
@@ -343,12 +338,12 @@
             <h2>Sin humo, sin costos sorpresa y sin entregas en caja negra.</h2>
             <p>Antes de iniciar definimos el alcance, herramientas, tiempos y entregables para que sepas exactamente qu&eacute; est&aacute;s contratando.</p>
             <div class="transparency-grid">
-                <span>Alcance definido por escrito</span>
-                <span>Entrega documentada</span>
-                <span>Capacitaci&oacute;n inicial</span>
-                <span>Soporte posterior</span>
-                <span>Costos claros</span>
-                <span>Herramientas a nombre del cliente cuando aplique</span>
+                <span><i class="fa-solid fa-file-signature" aria-hidden="true"></i>Alcance definido por escrito</span>
+                <span><i class="fa-solid fa-folder-open" aria-hidden="true"></i>Entrega documentada</span>
+                <span><i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>Capacitaci&oacute;n inicial</span>
+                <span><i class="fa-solid fa-headset" aria-hidden="true"></i>Soporte posterior</span>
+                <span><i class="fa-solid fa-receipt" aria-hidden="true"></i>Costos claros</span>
+                <span><i class="fa-solid fa-user-shield" aria-hidden="true"></i>Herramientas a nombre del cliente cuando aplique</span>
             </div>
         </div>
     </section>

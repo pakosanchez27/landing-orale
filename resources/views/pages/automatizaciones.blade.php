@@ -161,8 +161,17 @@
         <div class="shell">
             <div class="section-intro auto-intro auto-intro--center" data-reveal><span class="eyebrow">Integraciones</span><h2>Trabajamos con herramientas que probablemente ya utilizas.</h2><p>Podemos adaptar la automatización a las plataformas que ya forman parte de tu operación.</p></div>
             <div class="integration-cloud" data-reveal>
-                @foreach ([['fa-whatsapp','WhatsApp','brands'],['fa-table','Google Sheets'],['fa-a','Airtable'],['fa-n','Notion'],['fa-hubspot','HubSpot','brands'],['fa-comments','Kommo'],['fa-chart-line','Pipedrive'],['fa-z','Zoho'],['fa-calendar-check','Monday'],['fa-envelope','Gmail'],['fa-calendar-days','Google Calendar']] as $tool)
-                    <span><i class="fa-{{ ($tool[2] ?? null) === 'brands' ? 'brands' : 'solid' }} {{ $tool[0] }}"></i>{{ $tool[1] }}</span>
+                @foreach ([
+                    ['WhatsApp', 'whatsapp-icon.svg'],
+                    ['Google Sheets', 'google-sheets.svg'],
+                    ['Airtable', 'Airtable--Streamline-Svg-Logos.svg'],
+                    ['Notion', 'notion.svg'],
+                    ['HubSpot', 'Hubspot--Streamline-Svg-Logos.svg'],
+                    ['Monday', 'Monday-Icon--Streamline-Svg-Logos.svg'],
+                    ['Gmail', 'Google-Gmail--Streamline-Svg-Logos.svg'],
+                    ['Google Calendar', 'Google-Calendar--Streamline-Svg-Logos.svg'],
+                ] as [$name, $icon])
+                    <span><img src="{{ asset('img/icons/' . $icon) }}" alt="" aria-hidden="true">{{ $name }}</span>
                 @endforeach
             </div>
         </div>
